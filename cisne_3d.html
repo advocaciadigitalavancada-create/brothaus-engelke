@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Cisne Brothaus Engelke — Totem 3D de Alta Precisão</title>
+  <link rel="icon" type="image/png" href="assets/cisne_totem_dourado.png">
+  
+  <!-- LLMs.txt Machine-Readable Context for AI Agents & Search Engines -->
+  <link rel="alternate" type="text/markdown" href="llms.txt" title="Brothaus Engelke LLMs Context">
+  <link rel="alternate" type="text/plain" href="llm.txt" title="Brothaus Engelke LLM Context">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-studio: #E8E6E3;
+      --bg-hearth: #0E0C0A;
+      --ink: #1B1816;
+      --ink-subtle: #7A746C;
+      --brass: #C89F56;
+      --brass-bright: #E2BC72;
+      --brass-glow: rgba(200, 159, 86, 0.4);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-quote: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Plus Jakarta Sans', sans-serif;
+      --font-condensed: 'Oswald', sans-serif;
+      --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-studio);
+      font-family: var(--font-sans);
+      color: var(--ink);
+      transition: background-color 0.8s ease, color 0.8s ease;
+      user-select: none;
+    }
+
+    body.theme-hearth {
+      background-color: var(--bg-hearth);
+      color: #F7F4EE;
+    }
+
+    #canvas-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      cursor: grab;
+    }
+
+    #canvas-container:active {
+      cursor: grabbing;
+    }
+
+    /* Subtle Architectural Floor & Grid */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.22;
+      background-image: 
+        linear-gradient(to right, rgba(27, 24, 22, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(27, 24, 22, 0.08) 1px, transparent 1px);
+      background-size: 54px 54px;
+      transition: opacity 0.8s ease;
+    }
+
+    body.theme-hearth .grid-overlay {
+      opacity: 0.06;
+      background-image: 
+        linear-gradient(to right, rgba(247, 244, 238, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(247, 244, 238, 0.2) 1px, transparent 1px);
+    }
+
+    /* Vignette & Studio Lighting Ambience */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background: radial-gradient(circle at 50% 45%, transparent 40%, rgba(20, 18, 16, 0.15) 100%);
+      transition: background 0.8s ease;
+    }
+
+    body.theme-hearth .vignette {
+      background: radial-gradient(circle at 50% 45%, transparent 35%, rgba(0, 0, 0, 0.75) 100%);
+    }
+
+    /* HUD Top Header */
+    .hud-top {
+      position: absolute;
+      top: 2rem;
+      left: 2.5rem;
+      right: 2.5rem;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+    }
+
+    .hud-brand {
+      pointer-events: auto;
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: inherit;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.65;
+    }
+
+    .brand-meta span::after {
+      content: "•";
+      margin-left: 0.75rem;
+    }
+
+    .brand-meta span:last-child::after {
+      content: "";
+      margin: 0;
+    }
+
+    .btn-return {
+      pointer-events: auto;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid rgba(27, 24, 22, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-return:hover {
+      background: var(--ink);
+      color: #FFF;
+      border-color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    body.theme-hearth .btn-return {
+      background: rgba(26, 23, 20, 0.6);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    body.theme-hearth .btn-return:hover {
+      background: var(--brass);
+      color: #0E0C0A;
+      border-color: var(--brass);
+    }
+
+    /* Story Chapters Bar (Left Side) */
+    .hud-chapters {
+      position: absolute;
+      left: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      pointer-events: auto;
+    }
+
+    .chapter-step {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: transparent;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      opacity: 0.45;
+      transition: var(--transition-smooth);
+      text-align: left;
+    }
+
+    .chapter-step:hover {
+      opacity: 0.85;
+      transform: translateX(3px);
+    }
+
+    .chapter-step.active {
+      opacity: 1;
+    }
+
+    .step-marker {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      transition: var(--transition-smooth);
+    }
+
+    .chapter-step.active .step-marker {
+      background: var(--ink);
+      color: #FFF;
+      border-color: var(--ink);
+      transform: scale(1.1);
+    }
+
+    body.theme-hearth .chapter-step.active .step-marker {
+      background: var(--brass);
+      color: #0E0C0A;
+      border-color: var(--brass);
+      font-weight: 700;
+    }
+
+    .step-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .step-name {
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .step-sub {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      opacity: 0.7;
+    }
+
+    /* Main Bottom Control Dock */
+    .hud-dock {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(27, 24, 22, 0.12);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+      transition: var(--transition-smooth);
+    }
+
+    body.theme-hearth .hud-dock {
+      background: rgba(24, 21, 18, 0.85);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    .dock-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .dock-btn:hover {
+      background: rgba(27, 24, 22, 0.06);
+      border-color: rgba(27, 24, 22, 0.14);
+    }
+
+    body.theme-hearth .dock-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .dock-btn.active {
+      background: var(--ink);
+      color: #FFF;
+      border-color: var(--ink);
+    }
+
+    body.theme-hearth .dock-btn.active {
+      background: var(--brass);
+      color: #0E0C0A;
+      border-color: var(--brass);
+      font-weight: 700;
+    }
+
+    /* Technical Callouts HUD */
+    .callout-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .callout-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .callout-tag {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(27, 24, 22, 0.92);
+      color: #FFF;
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .callout-tag b {
+      color: var(--brass-bright);
+      font-weight: 700;
+      margin-right: 0.35rem;
+    }
+
+    body.theme-hearth .callout-tag {
+      background: rgba(247, 244, 238, 0.95);
+      color: #1A1816;
+    }
+
+    body.theme-hearth .callout-tag b {
+      color: #8C6220;
+    }
+
+    /* Drag Prompt Hint */
+    .hint-drag {
+      position: absolute;
+      bottom: 5.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Chapter Floating Card */
+    .chapter-card {
+      position: absolute;
+      right: 2.5rem;
+      bottom: 2rem;
+      max-width: 310px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(27, 24, 22, 0.12);
+      border-radius: 6px;
+      padding: 1.25rem 1.4rem;
+      z-index: 10;
+      pointer-events: auto;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      transition: var(--transition-smooth);
+    }
+
+    body.theme-hearth .chapter-card {
+      background: rgba(24, 21, 18, 0.85);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--brass);
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: inherit;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 860px) {
+      .hud-chapters {
+        display: none;
+      }
+      .chapter-card {
+        display: none;
+      }
+      .hud-top {
+        left: 1.5rem;
+        right: 1.5rem;
+        top: 1.5rem;
+      }
+      .hud-dock {
+        bottom: 1.2rem;
+        padding: 0.4rem 0.6rem;
+        gap: 0.4rem;
+      }
+      .dock-btn {
+        font-size: 0.62rem;
+        padding: 0.35rem 0.7rem;
+      }
+    }
+  </style>
+
+  <!-- Three.js & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+</head>
+<body>
+  <div class="grid-overlay"></div>
+  <div class="vignette"></div>
+  <div id="canvas-container"></div>
+
+  <header class="hud-top">
+    <div class="hud-brand">
+      <h1 class="brand-title">Brothaus Engelke</h1>
+      <div class="brand-meta">
+        <span>Totem do Cisne Dourado</span>
+        <span>Rio Tavares Central</span>
+        <span>Demeter Biodinâmico</span>
+      </div>
+    </div>
+    <a href="index.html" class="btn-return">← Voltar ao Site</a>
+  </header>
+
+  <!-- Navigation by Chapters (O Método e o Pão) -->
+  <nav class="hud-chapters" aria-label="Capítulos do Totem">
+    <button class="chapter-step active" data-chapter="0">
+      <div class="step-marker">01</div>
+      <div class="step-text">
+        <span class="step-name">O Totem</span>
+        <span class="step-sub">Aro & Identidade</span>
+      </div>
+    </button>
+    <button class="chapter-step" data-chapter="1">
+      <div class="step-marker">02</div>
+      <div class="step-text">
+        <span class="step-name">Desconstrução</span>
+        <span class="step-sub">Vista Explodida 3D</span>
+      </div>
+    </button>
+    <button class="chapter-step" data-chapter="2">
+      <div class="step-marker">03</div>
+      <div class="step-text">
+        <span class="step-name">A Fornada</span>
+        <span class="step-sub">Fogo, Brasa & Calor</span>
+      </div>
+    </button>
+    <button class="chapter-step" data-chapter="3">
+      <div class="step-marker">04</div>
+      <div class="step-text">
+        <span class="step-name">Viena 1832</span>
+        <span class="step-sub">Confeitaria Imperial</span>
+      </div>
+    </button>
+    <button class="chapter-step" data-chapter="4">
+      <div class="step-marker">05</div>
+      <div class="step-text">
+        <span class="step-name">O Selo</span>
+        <span class="step-sub">Reversão & Síntese</span>
+      </div>
+    </button>
+  </nav>
+
+  <div class="chapter-card" id="chapter-card">
+    <div class="card-kicker" id="card-kicker">Capítulo 01 — O Totem Físico</div>
+    <h3 class="card-title" id="card-title">O Cisne de Latão Forjado</h3>
+    <p class="card-body" id="card-body">
+      Inspirado na placa real da Brothaus no Rio Tavares. O corpo em "E" caligráfico forma as asas do cisne, circunscrito pelo aro duplo de precisão germânica.
+    </p>
+  </div>
+
+  <div class="hint-drag">
+    <span>Arraste para orbitar 360° • Role para zoom • Clique nos capítulos</span>
+  </div>
+
+  <!-- Bottom Dock Controls -->
+  <div class="hud-dock">
+    <button class="dock-btn active" id="btn-spin">Giro Suave</button>
+    <button class="dock-btn" id="btn-explode">Explodir Peças</button>
+    <button class="dock-btn active" id="btn-particles">Poeira de Farinha</button>
+    <button class="dock-btn" id="btn-theme">Modo Noturno</button>
+    <button class="dock-btn" id="btn-front">Vista Frontal</button>
+  </div>
+
+  <!-- Technical Callouts HUD Overlay -->
+  <div class="callout-overlay">
+    <svg class="callout-svg" id="callout-svg"></svg>
+    <div class="callout-tag" id="tag-outer"><b>01. Aro Externo</b> Ø 1000 mm • Estrutura de Fixação</div>
+    <div class="callout-tag" id="tag-inner"><b>02. Aro Interno</b> Astrolábio Biodinâmico Demeter</div>
+    <div class="callout-tag" id="tag-swan"><b>03. O Cisne</b> "E" Cursivo de Engelke</div>
+    <div class="callout-tag" id="tag-knuckle"><b>04. Articulação</b> Munhão e Pino de Forja</div>
+  </div>
+
+  <script>
+    // --- EXACT CONTOUR COORDINATES EXTRACTED FROM ORTHOGRAPHIC SCHEMATIC ---
+    const swanCoords = [[-0.32432, 0.7619], [-0.2677, 0.75418], [-0.23681, 0.74389], [-0.1982, 0.72587], [-0.14672, 0.69241], [-0.09524, 0.64093], [-0.05663, 0.58172], [-0.03346, 0.52252], [-0.02059, 0.4556], [-0.02059, 0.40154], [-0.02317, 0.39897], [-0.02317, 0.38095], [-0.02831, 0.35521], [-0.05148, 0.28829], [-0.09781, 0.1982], [-0.09781, 0.19305], [-0.10553, 0.18275], [-0.10553, 0.17761], [-0.13385, 0.13127], [-0.14929, 0.09781], [-0.24968, -0.0695], [-0.35521, -0.22909], [-0.40669, -0.30116], [-0.42471, -0.33462], [-0.43501, -0.38353], [-0.43243, -0.42214], [-0.42214, -0.45817], [-0.40154, -0.49421], [-0.36036, -0.53797], [-0.33462, -0.55598], [-0.29601, -0.57658], [-0.23423, -0.59459], [-0.19305, -0.60232], [-0.17503, -0.60232], [-0.17246, -0.60489], [-0.14929, -0.60489], [-0.14672, -0.60746], [-0.05405, -0.60746], [-0.05148, -0.60489], [-0.01544, -0.60232], [-0.00257, -0.59717], [-0.0592, -0.58172], [-0.15187, -0.54826], [-0.16216, -0.53797], [-0.16474, -0.53024], [-0.16216, -0.51995], [-0.15187, -0.50965], [-0.12613, -0.51223], [-0.07465, -0.53024], [-0.04376, -0.53539], [-0.0103, -0.54569], [0.05663, -0.55598], [0.0592, -0.55856], [0.09524, -0.56113], [0.09781, -0.56371], [0.11068, -0.56371], [0.16474, -0.53539], [0.1879, -0.51737], [0.20335, -0.51223], [0.21107, -0.5148], [0.21879, -0.52252], [0.22136, -0.53282], [0.21622, -0.54569], [0.19048, -0.574], [0.19305, -0.57658], [0.25225, -0.57915], [0.25483, -0.58172], [0.38095, -0.58172], [0.38353, -0.57915], [0.43758, -0.57658], [0.53024, -0.55856], [0.58172, -0.53797], [0.60489, -0.5148], [0.60489, -0.50193], [0.59974, -0.48906], [0.574, -0.46589], [0.5148, -0.43758], [0.40927, -0.40927], [0.34492, -0.39897], [0.32947, -0.39382], [0.27027, -0.3861], [0.2677, -0.38353], [0.24968, -0.38353], [0.22651, -0.37838], [0.1982, -0.37838], [0.19562, -0.3758], [0.15187, -0.3758], [0.14929, -0.37323], [0.07465, -0.37323], [0.06178, -0.36808], [0.05148, -0.35264], [0.05148, -0.33977], [0.0592, -0.3269], [0.07465, -0.3166], [0.09266, -0.31145], [0.14157, -0.30888], [0.14414, -0.30631], [0.16731, -0.30631], [0.16988, -0.30373], [0.20077, -0.30373], [0.20335, -0.30116], [0.23166, -0.30116], [0.23423, -0.29858], [0.26255, -0.29858], [0.26512, -0.29601], [0.29086, -0.29601], [0.29344, -0.29344], [0.31918, -0.29344], [0.32175, -0.29086], [0.34749, -0.29086], [0.35006, -0.28829], [0.39125, -0.28571], [0.39382, -0.28314], [0.41184, -0.28314], [0.46589, -0.27284], [0.48134, -0.27284], [0.53024, -0.26255], [0.56113, -0.25225], [0.57915, -0.23938], [0.574, -0.23166], [0.55084, -0.21622], [0.49421, -0.19048], [0.41441, -0.16731], [0.39125, -0.16474], [0.36551, -0.15701], [0.33205, -0.15444], [0.32947, -0.15187], [0.28571, -0.14929], [0.28314, -0.14672], [0.23938, -0.14672], [0.23681, -0.14414], [0.16216, -0.14672], [0.15959, -0.14929], [0.139, -0.14929], [0.13642, -0.15187], [0.12098, -0.15187], [0.1184, -0.15444], [0.10296, -0.15444], [0.06435, -0.16216], [-0.01287, -0.18533], [-0.05148, -0.20335], [-0.06692, -0.20335], [-0.07722, -0.19562], [-0.07979, -0.17246], [-0.0695, -0.15959], [-0.02831, -0.139], [0.03604, -0.1184], [0.08752, -0.10811], [0.15187, -0.10296], [0.15444, -0.10039], [0.19305, -0.10039], [0.19562, -0.09781], [0.30373, -0.10039], [0.30631, -0.10296], [0.35779, -0.10553], [0.36036, -0.10811], [0.41699, -0.11583], [0.51737, -0.14414], [0.53797, -0.15444], [0.54569, -0.15444], [0.59202, -0.17761], [0.62033, -0.1982], [0.63835, -0.21879], [0.6435, -0.23166], [0.64093, -0.25997], [0.61519, -0.28571], [0.58945, -0.29858], [0.54569, -0.31403], [0.48906, -0.3269], [0.47362, -0.3269], [0.40669, -0.33977], [0.40927, -0.34492], [0.42214, -0.34492], [0.48906, -0.36036], [0.55856, -0.38353], [0.62033, -0.41441], [0.66152, -0.45045], [0.67181, -0.46589], [0.67439, -0.48134], [0.60746, -0.56371], [0.55341, -0.61519], [0.5148, -0.62291], [0.48134, -0.62548], [0.47876, -0.62806], [0.43501, -0.63063], [0.43243, -0.6332], [0.39125, -0.6332], [0.38867, -0.63578], [0.30116, -0.63578], [0.29858, -0.6332], [0.23166, -0.63063], [0.22909, -0.62806], [0.20849, -0.62806], [0.20592, -0.62548], [0.18533, -0.62548], [0.18275, -0.62291], [0.11068, -0.61519], [0.0695, -0.63578], [0.01287, -0.65122], [-0.00257, -0.65122], [-0.04118, -0.65894], [-0.0695, -0.65894], [-0.07207, -0.66152], [-0.13642, -0.66152], [-0.139, -0.65894], [-0.16988, -0.65894], [-0.17246, -0.65637], [-0.21364, -0.6538], [-0.2677, -0.6435], [-0.29601, -0.63578], [-0.30373, -0.63063], [-0.31145, -0.63063], [-0.35521, -0.61261], [-0.39125, -0.59202], [-0.43243, -0.56113], [-0.47362, -0.5148], [-0.5045, -0.45817], [-0.51737, -0.39897], [-0.5148, -0.34234], [-0.49936, -0.29086], [-0.47362, -0.2471], [-0.32175, -0.03089], [-0.22394, 0.12355], [-0.20077, 0.16731], [-0.18018, 0.1982], [-0.14929, 0.25483], [-0.12098, 0.31145], [-0.12098, 0.3166], [-0.11583, 0.32175], [-0.09524, 0.3758], [-0.09009, 0.40154], [-0.09009, 0.47362], [-0.09266, 0.47619], [-0.09266, 0.48906], [-0.10553, 0.53024], [-0.13127, 0.58172], [-0.14672, 0.60232], [-0.1879, 0.6435], [-0.20849, 0.65894], [-0.25225, 0.68468], [-0.29601, 0.70013], [-0.32432, 0.70013], [-0.33719, 0.68983], [-0.33719, 0.68468], [-0.31403, 0.64865], [-0.30888, 0.62806], [-0.3166, 0.58945], [-0.33462, 0.55341], [-0.36036, 0.51995], [-0.37838, 0.50193], [-0.39382, 0.49421], [-0.40154, 0.49421], [-0.41184, 0.50193], [-0.41441, 0.51223], [-0.38353, 0.56885], [-0.37838, 0.60232], [-0.3861, 0.61776], [-0.40927, 0.64093], [-0.41699, 0.65637], [-0.42214, 0.67696], [-0.35521, 0.713], [-0.35264, 0.71557], [-0.35264, 0.74903], [-0.3269, 0.75933]];
+
+    // --- SETUP SCENE, CAMERA & RENDERER ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    
+    const camera = new THREE.PerspectiveCamera(32, window.innerWidth / window.innerHeight, 0.1, 50);
+    // 3/4 Hero beauty angle as in the reference render
+    camera.position.set(-0.9, 0.05, 5.1);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.18;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxDistance = 9.0;
+    controls.minDistance = 1.8;
+    controls.target.set(0, 0, 0);
+
+    // --- PROCEDURAL STUDIO ENVIRONMENT MAP (PMREM) FOR ULTRA-REALISTIC BRASS REFLECTIONS ---
+    function createStudioEnvironment(renderer) {
+      const pmremGenerator = new THREE.PMREMGenerator(renderer);
+      pmremGenerator.compileEquirectangularShader();
+      
+      const envScene = new THREE.Scene();
+      envScene.background = new THREE.Color(0x181512);
+
+      // Studio softbox panels placed around the object
+      const panelGeom = new THREE.PlaneGeometry(1, 1);
+      
+      function addSoftbox(color, intensity, width, height, pos, targetPos) {
+        const mat = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(color).multiplyScalar(intensity),
+          side: THREE.DoubleSide
+        });
+        const mesh = new THREE.Mesh(panelGeom, mat);
+        mesh.scale.set(width, height, 1);
+        mesh.position.set(...pos);
+        mesh.lookAt(...(targetPos || [0, 0, 0]));
+        envScene.add(mesh);
+        return mesh;
+      }
+
+      // Key softbox: warm golden light from top-left
+      addSoftbox(0xFFF2D6, 3.5, 4.0, 8.0, [-5, 6, 5]);
+      // Rim softbox: cool crisp reflection on right silhouette
+      addSoftbox(0xDCEBFF, 2.8, 3.0, 9.0, [6, 4, -4]);
+      // Overhead strip: highlights the crown and top curve
+      addSoftbox(0xFFFFFF, 3.0, 8.0, 2.0, [0, 8, 2]);
+      // Bottom bounce: warm dough/hearth glow
+      addSoftbox(0xC89F56, 1.8, 5.0, 5.0, [0, -6, 4]);
+      // Back fill: subtle studio gradient
+      addSoftbox(0x403525, 1.2, 10.0, 10.0, [0, 0, -8]);
+
+      const renderTarget = pmremGenerator.fromScene(envScene, 0.04);
+      envScene.clear();
+      pmremGenerator.dispose();
+      return renderTarget.texture;
+    }
+
+    const studioEnvMap = createStudioEnvironment(renderer);
+    scene.environment = studioEnvMap;
+
+    // --- PROCEDURAL BRUSHED METAL TEXTURE ---
+    function createBrushedMetalTexture() {
+      const bCanvas = document.createElement('canvas');
+      bCanvas.width = 512;
+      bCanvas.height = 512;
+      const ctx = bCanvas.getContext('2d');
+      ctx.fillStyle = '#827E7A';
+      ctx.fillRect(0, 0, 512, 512);
+
+      const rad = 35 * Math.PI / 180;
+      const cosA = Math.cos(rad);
+      const sinA = Math.sin(rad);
+
+      for (let i = 0; i < 22000; i++) {
+        const x = Math.random() * 650 - 80;
+        const y = Math.random() * 650 - 80;
+        const len = 35 + Math.random() * 140;
+        const val = Math.floor(Math.random() * 110 + 90);
+        const alpha = 0.05 + Math.random() * 0.14;
+        ctx.strokeStyle = `rgba(${val}, ${val}, ${val}, ${alpha})`;
+        ctx.lineWidth = Math.random() > 0.85 ? 1.5 : 0.75;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + cosA * len, y + sinA * len);
+        ctx.stroke();
+      }
+      const tex = new THREE.CanvasTexture(bCanvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(2.5, 2.5);
+      return tex;
+    }
+    const brushedTexture = createBrushedMetalTexture();
+
+    // --- PBR PHYSICAL AGED BRUSHED BRASS MATERIAL (media_1789220525323.jpg) ---
+    const brassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x94603B,
+      emissive: 0x1E1006,
+      metalness: 0.88,
+      roughness: 0.38,
+      bumpMap: brushedTexture,
+      bumpScale: 0.008,
+      roughnessMap: brushedTexture,
+      clearcoat: 0.22,
+      clearcoatRoughness: 0.28,
+      reflectivity: 0.88,
+      envMapIntensity: 1.25,
+      side: THREE.DoubleSide
+    });
+
+    const darkSteelMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x3E3832,
+      metalness: 0.88,
+      roughness: 0.42,
+      clearcoat: 0.12,
+      envMapIntensity: 1.0
+    });
+
+    // Master Hierarchy
+    const totemGroup = new THREE.Group();
+    // Default 3/4 heroic orientation matching the attached 3D image
+    totemGroup.rotation.set(0.08, -0.42, 0);
+    scene.add(totemGroup);
+
+    // --- 1. THE SWAN (Extruded Beveled Geometry with Sub-Millimetric Precision) ---
+    const swanShape = new THREE.Shape();
+    swanShape.moveTo(swanCoords[0][0], swanCoords[0][1]);
+    for (let i = 1; i < swanCoords.length; i++) {
+      swanShape.lineTo(swanCoords[i][0], swanCoords[i][1]);
+    }
+    swanShape.closePath();
+
+    const swanExtrudeSettings = {
+      steps: 1,
+      depth: 0.052,
+      bevelEnabled: true,
+      bevelThickness: 0.007,
+      bevelSize: 0.006,
+      bevelOffset: -0.002,
+      bevelSegments: 4
+    };
+
+    const swanGeometry = new THREE.ExtrudeGeometry(swanShape, swanExtrudeSettings);
+    swanGeometry.center();
+    const swanMesh = new THREE.Mesh(swanGeometry, brassMaterial);
+    swanMesh.castShadow = true;
+    swanMesh.receiveShadow = true;
+    swanMesh.position.set(0.01, 0.068, 0);
+
+    const swanPivot = new THREE.Group();
+    swanPivot.add(swanMesh);
+    totemGroup.add(swanPivot);
+
+    // --- 2. THE INNER RING (Beveled Extruded Toroid) ---
+    function createBeveledRing(rInner, rOuter, depth, bevel) {
+      const shape = new THREE.Shape();
+      shape.absarc(0, 0, rOuter, 0, Math.PI * 2, false);
+      const hole = new THREE.Path();
+      hole.absarc(0, 0, rInner, 0, Math.PI * 2, true);
+      shape.holes.push(hole);
+
+      const geom = new THREE.ExtrudeGeometry(shape, {
+        depth: depth,
+        bevelEnabled: true,
+        bevelThickness: bevel,
+        bevelSize: bevel,
+        bevelSegments: 3,
+        curveSegments: 96
+      });
+      geom.center();
+      return geom;
+    }
+
+    const innerRingGeom = createBeveledRing(0.835, 0.893, 0.052, 0.006);
+    const innerRingMesh = new THREE.Mesh(innerRingGeom, brassMaterial);
+    innerRingMesh.castShadow = true;
+    innerRingMesh.receiveShadow = true;
+
+    const innerRingPivot = new THREE.Group();
+    innerRingPivot.add(innerRingMesh);
+    totemGroup.add(innerRingPivot);
+
+    // --- 3. THE OUTER RING ---
+    const outerRingGeom = createBeveledRing(0.963, 1.037, 0.058, 0.006);
+    const outerRingMesh = new THREE.Mesh(outerRingGeom, brassMaterial);
+    outerRingMesh.castShadow = true;
+    outerRingMesh.receiveShadow = true;
+
+    const outerRingPivot = new THREE.Group();
+    outerRingPivot.add(outerRingMesh);
+    totemGroup.add(outerRingPivot);
+
+    // --- 4. HARDWARE: SPACERS, PINS & ARTICULATION KNUCKLE ---
+    const hardwareGroup = new THREE.Group();
+    totemGroup.add(hardwareGroup);
+
+    // Top spacer pin at 12 o'clock
+    const topPinGeom = new THREE.CylinderGeometry(0.016, 0.016, 0.072, 24);
+    const topPin = new THREE.Mesh(topPinGeom, brassMaterial);
+    topPin.position.set(0, 0.928, 0);
+    hardwareGroup.add(topPin);
+
+    // Bottom pin connecting inner ring to pedestal/knuckle
+    const botPinGeom = new THREE.CylinderGeometry(0.018, 0.018, 0.12, 24);
+    const botPin = new THREE.Mesh(botPinGeom, brassMaterial);
+    botPin.position.set(0, -0.895, 0);
+    hardwareGroup.add(botPin);
+
+    // Circular pedestal disc / flange
+    const discGeom = new THREE.CylinderGeometry(0.19, 0.19, 0.032, 48);
+    const disc = new THREE.Mesh(discGeom, brassMaterial);
+    disc.position.set(0, -1.025, 0);
+    hardwareGroup.add(disc);
+
+    // Knuckle Joint Ears (bracket with 2 ears)
+    const earGeom = new THREE.BoxGeometry(0.024, 0.16, 0.08);
+    const leftEar = new THREE.Mesh(earGeom, brassMaterial);
+    leftEar.position.set(-0.065, -1.13, 0);
+    const rightEar = leftEar.clone();
+    rightEar.position.set(0.065, -1.13, 0);
+    hardwareGroup.add(leftEar, rightEar);
+
+    // Knuckle Center Pivot Tongue
+    const tongueGeom = new THREE.CylinderGeometry(0.055, 0.055, 0.09, 32);
+    tongueGeom.rotateZ(Math.PI / 2);
+    const tongue = new THREE.Mesh(tongueGeom, brassMaterial);
+    tongue.position.set(0, -1.14, 0);
+    hardwareGroup.add(tongue);
+
+    // Horizontal pivot bolt & rounded caps
+    const boltGeom = new THREE.CylinderGeometry(0.022, 0.022, 0.18, 24);
+    boltGeom.rotateZ(Math.PI / 2);
+    const bolt = new THREE.Mesh(boltGeom, darkSteelMaterial);
+    bolt.position.set(0, -1.14, 0);
+    hardwareGroup.add(bolt);
+
+    const capGeom = new THREE.SphereGeometry(0.032, 24, 16);
+    capGeom.scale(0.35, 1, 1);
+    const leftCap = new THREE.Mesh(capGeom, brassMaterial);
+    leftCap.position.set(-0.09, -1.14, 0);
+    const rightCap = leftCap.clone();
+    rightCap.position.set(0.09, -1.14, 0);
+    hardwareGroup.add(leftCap, rightCap);
+
+    // Knuckle Lower Collar
+    const collarGeom = new THREE.CylinderGeometry(0.062, 0.048, 0.06, 32);
+    const collar = new THREE.Mesh(collarGeom, brassMaterial);
+    collar.position.set(0, -1.23, 0);
+    hardwareGroup.add(collar);
+
+    // Vertical Support Mast
+    const mastGeom = new THREE.CylinderGeometry(0.048, 0.048, 1.35, 32);
+    const mast = new THREE.Mesh(mastGeom, brassMaterial);
+    mast.position.set(0, -1.93, 0);
+    hardwareGroup.add(mast);
+
+    // Soft Ground / Pedestal Contact Shadow
+    const shadowCanvas = document.createElement('canvas');
+    shadowCanvas.width = shadowCanvas.height = 256;
+    const sCtx = shadowCanvas.getContext('2d');
+    const sGrad = sCtx.createRadialGradient(128, 128, 10, 128, 128, 120);
+    sGrad.addColorStop(0, 'rgba(0, 0, 0, 0.45)');
+    sGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.15)');
+    sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    sCtx.fillStyle = sGrad;
+    sCtx.fillRect(0, 0, 256, 256);
+
+    const shadowTex = new THREE.CanvasTexture(shadowCanvas);
+    const shadowPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(3.2, 3.2),
+      new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, opacity: 0.5, depthWrite: false })
+    );
+    shadowPlane.rotation.x = -Math.PI / 2;
+    shadowPlane.position.set(0, -1.8, -0.4);
+    scene.add(shadowPlane);
+
+    // --- 5. CINEMATIC 3-POINT STUDIO LIGHTING ---
+    const keyLight = new THREE.SpotLight(0xFFF2DB, 3.4, 18, Math.PI / 3.5, 0.4, 1.2);
+    keyLight.position.set(3.2, 4.8, 4.2);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 2048;
+    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.bias = -0.0001;
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0xDCEBFF, 1.8);
+    rimLight.position.set(-4.0, 3.0, -3.5);
+    scene.add(rimLight);
+
+    const fillLight = new THREE.DirectionalLight(0xD8A254, 1.2);
+    fillLight.position.set(0, -3.5, 3.5);
+    scene.add(fillLight);
+
+    const ambientLight = new THREE.AmbientLight(0xFFF9F0, 0.7);
+    scene.add(ambientLight);
+
+    // --- 6. PARTICLES: SOFT ORGANIC FLOUR & HEARTH EMBERS (BOKEH TEXTURE) ---
+    function createBokehParticleTexture() {
+      const pCanvas = document.createElement('canvas');
+      pCanvas.width = pCanvas.height = 64;
+      const ctx = pCanvas.getContext('2d');
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+      grad.addColorStop(0.4, 'rgba(255, 240, 210, 0.6)');
+      grad.addColorStop(1, 'rgba(255, 240, 210, 0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(pCanvas);
+    }
+
+    const particleCount = 340;
+    const particleGeo = new THREE.BufferGeometry();
+    const posArray = new Float32Array(particleCount * 3);
+    const speedArray = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount; i++) {
+      posArray[i * 3] = (Math.random() - 0.5) * 6.0;
+      posArray[i * 3 + 1] = (Math.random() - 0.5) * 5.0;
+      posArray[i * 3 + 2] = (Math.random() - 0.5) * 4.0;
+      speedArray[i * 3] = (Math.random() - 0.5) * 0.0015;
+      speedArray[i * 3 + 1] = Math.random() * 0.0035 + 0.0008; // gentle thermal rise
+      speedArray[i * 3 + 2] = (Math.random() - 0.5) * 0.0015;
+    }
+
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particleMat = new THREE.PointsMaterial({
+      map: createBokehParticleTexture(),
+      size: 0.08,
+      transparent: true,
+      opacity: 0.55,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // --- INTERACTIVE STORYTELLING DATA ---
+    const chaptersData = [
+      {
+        kicker: "Capítulo 01 — O Totem Físico",
+        title: "O Cisne de Latão Forjado",
+        body: "A escultura em metal dourado da fachada no Rio Tavares. As curvas formam as penas e o dorso em forma do 'E' cursivo de Engelke, envolto pelo aro duplo.",
+        explode: 0.0,
+        hearth: false,
+        camPos: [-0.9, 0.05, 5.1],
+        totemRot: [0.08, -0.42, 0]
+      },
+      {
+        kicker: "Capítulo 02 — Desconstrução & Geometria",
+        title: "Vista Explodida do Astrolábio",
+        body: "Os dois anéis concêntricos se separam da ave. O aro interno evoca os ciclos astronômicos e agrícolas da certificação biodinâmica Demeter.",
+        explode: 1.0,
+        hearth: false,
+        camPos: [-0.8, 0.15, 5.3],
+        totemRot: [0.15, -0.35, 0]
+      },
+      {
+        kicker: "Capítulo 03 — O Fogo & A Fornada",
+        title: "O Tempo da Fornada",
+        body: "O calor exato envolve os pães enquanto a fermentação lenta de 36 horas se revela em crosta dourada e miolo aromático.",
+        explode: 0.0,
+        hearth: true,
+        camPos: [-0.7, 0.05, 4.7],
+        totemRot: [0.04, -0.28, 0]
+      },
+      {
+        kicker: "Capítulo 04 — Viena, 1832",
+        title: "Confeitaria Imperial & Sachertorte",
+        body: "Aproximação macro nas nuances do metal e no bico do cisne. A herança austríaca da Sachertorte original de Viena mantida viva na ilha.",
+        explode: 0.25,
+        hearth: true,
+        camPos: [0.35, 0.35, 2.5],
+        totemRot: [0.1, 0.25, 0]
+      },
+      {
+        kicker: "Capítulo 05 — O Selo de Síntese",
+        title: "O Pão Pronto na Mesa Posta",
+        body: "Todas as peças convergem em perfeita harmonia. O cisne atua como um selo de cera e garantia de fermentação natural de 36 horas.",
+        explode: 0.0,
+        hearth: false,
+        camPos: [0, 0.05, 5.0],
+        totemRot: [0, 0, 0]
+      }
+    ];
+
+    // State Variables
+    let currentChapter = 0;
+    let isSpinning = false; // Start static in hero pose for maximum elegance
+    let isExploded = false;
+    let showParticles = true;
+    let isHearthMode = false;
+    let explodeProgress = 0.0;
+
+    // UI Elements
+    const btnSpin = document.getElementById('btn-spin');
+    const btnExplode = document.getElementById('btn-explode');
+    const btnParticles = document.getElementById('btn-particles');
+    const btnTheme = document.getElementById('btn-theme');
+    const btnFront = document.getElementById('btn-front');
+
+    const cardKicker = document.getElementById('card-kicker');
+    const cardTitle = document.getElementById('card-title');
+    const cardBody = document.getElementById('card-body');
+    const chapterButtons = document.querySelectorAll('.chapter-step');
+
+    function applyHearthTheme(enable) {
+      isHearthMode = enable;
+      document.body.classList.toggle('theme-hearth', isHearthMode);
+      btnTheme.textContent = isHearthMode ? "Modo Estúdio" : "Modo Noturno";
+      btnTheme.classList.toggle('active', isHearthMode);
+
+      if (isHearthMode) {
+        keyLight.color.setHex(0xFFAA44);
+        keyLight.intensity = 4.6;
+        rimLight.color.setHex(0x5599FF);
+        rimLight.intensity = 2.2;
+        fillLight.color.setHex(0xDD6611);
+        fillLight.intensity = 2.0;
+        ambientLight.color.setHex(0x281A0E);
+        particleMat.color.setHex(0xFFAA55);
+        particleMat.opacity = 0.85;
+        particleMat.size = 0.095;
+      } else {
+        keyLight.color.setHex(0xFFF2DB);
+        keyLight.intensity = 3.4;
+        rimLight.color.setHex(0xDCEBFF);
+        rimLight.intensity = 1.8;
+        fillLight.color.setHex(0xD8A254);
+        fillLight.intensity = 1.2;
+        ambientLight.color.setHex(0xFFF9F0);
+        particleMat.color.setHex(0xFFFFFF);
+        particleMat.opacity = 0.55;
+        particleMat.size = 0.08;
+      }
+    }
+
+    function goToChapter(idx) {
+      currentChapter = idx;
+      const data = chaptersData[idx];
+
+      chapterButtons.forEach((btn, i) => btn.classList.toggle('active', i === idx));
+
+      cardKicker.textContent = data.kicker;
+      cardTitle.textContent = data.title;
+      cardBody.textContent = data.body;
+
+      isExploded = data.explode > 0.05;
+      btnExplode.classList.toggle('active', isExploded);
+      btnExplode.textContent = isExploded ? "Montar Peças" : "Explodir Peças";
+
+      applyHearthTheme(data.hearth);
+
+      // Smooth Camera & Totem Orientation transition
+      const targetCam = new THREE.Vector3(...data.camPos);
+      const targetRot = new THREE.Euler(...data.totemRot);
+      
+      const startCam = camera.position.clone();
+      const startRot = totemGroup.rotation.clone();
+      let t = 0;
+
+      function stepCam() {
+        t += 0.04;
+        camera.position.lerpVectors(startCam, targetCam, Math.min(1, t));
+        totemGroup.rotation.x = THREE.MathUtils.lerp(startRot.x, targetRot.x, Math.min(1, t));
+        totemGroup.rotation.y = THREE.MathUtils.lerp(startRot.y, targetRot.y, Math.min(1, t));
+        totemGroup.rotation.z = THREE.MathUtils.lerp(startRot.z, targetRot.z, Math.min(1, t));
+        controls.target.set(0, 0, 0);
+        if (t < 1) requestAnimationFrame(stepCam);
+      }
+      stepCam();
+    }
+
+    chapterButtons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => goToChapter(idx));
+    });
+
+    btnSpin.addEventListener('click', () => {
+      isSpinning = !isSpinning;
+      btnSpin.classList.toggle('active', isSpinning);
+    });
+
+    btnExplode.addEventListener('click', () => {
+      isExploded = !isExploded;
+      btnExplode.classList.toggle('active', isExploded);
+      btnExplode.textContent = isExploded ? "Montar Peças" : "Explodir Peças";
+    });
+
+    btnParticles.addEventListener('click', () => {
+      showParticles = !showParticles;
+      particles.visible = showParticles;
+      btnParticles.classList.toggle('active', showParticles);
+    });
+
+    btnTheme.addEventListener('click', () => {
+      applyHearthTheme(!isHearthMode);
+    });
+
+    btnFront.addEventListener('click', () => {
+      isSpinning = false;
+      btnSpin.classList.remove('active');
+      camera.position.set(0, 0.05, 5.0);
+      totemGroup.rotation.set(0, 0, 0);
+      controls.target.set(0, 0, 0);
+    });
+
+    // --- HUD CALLOUT ANNOTATIONS & LINES ---
+    const tagOuter = document.getElementById('tag-outer');
+    const tagInner = document.getElementById('tag-inner');
+    const tagSwan = document.getElementById('tag-swan');
+    const tagKnuckle = document.getElementById('tag-knuckle');
+    const calloutSvg = document.getElementById('callout-svg');
+
+    const tempV = new THREE.Vector3();
+    function projectToScreen(pos3D) {
+      tempV.copy(pos3D).project(camera);
+      return {
+        x: (tempV.x * 0.5 + 0.5) * window.innerWidth,
+        y: (-tempV.y * 0.5 + 0.5) * window.innerHeight,
+        visible: tempV.z < 1.0
+      };
+    }
+
+    function updateCalloutPositions() {
+      if (explodeProgress < 0.12) {
+        calloutSvg.innerHTML = '';
+        tagOuter.style.opacity = '0';
+        tagInner.style.opacity = '0';
+        tagSwan.style.opacity = '0';
+        tagKnuckle.style.opacity = '0';
+        return;
+      }
+
+      // 3D Anchor coordinates
+      const swanPos = new THREE.Vector3(0.25, 0.1, swanPivot.position.z);
+      const innerPos = new THREE.Vector3(-0.75, 0.45, innerRingPivot.position.z);
+      const outerPos = new THREE.Vector3(0.85, 0.65, outerRingPivot.position.z);
+      const knucklePos = new THREE.Vector3(0, -1.14 + hardwareGroup.position.y, 0);
+
+      totemGroup.localToWorld(swanPos);
+      totemGroup.localToWorld(innerPos);
+      totemGroup.localToWorld(outerPos);
+      totemGroup.localToWorld(knucklePos);
+
+      const sSwan = projectToScreen(swanPos);
+      const sInner = projectToScreen(innerPos);
+      const sOuter = projectToScreen(outerPos);
+      const sKnuckle = projectToScreen(knucklePos);
+
+      let lines = '';
+      const lineStroke = isHearthMode ? "rgba(226, 188, 114, 0.65)" : "rgba(200, 159, 86, 0.75)";
+      const dotFill = isHearthMode ? "#E2BC72" : "#C89F56";
+
+      function placeTag(tagEl, screenPos, offsetX, offsetY) {
+        if (!screenPos.visible) {
+          tagEl.style.opacity = '0';
+          return;
+        }
+        const targetX = screenPos.x + offsetX;
+        const targetY = screenPos.y + offsetY;
+        tagEl.style.left = `${targetX}px`;
+        tagEl.style.top = `${targetY}px`;
+        tagEl.style.opacity = explodeProgress;
+
+        lines += `<line x1="${screenPos.x}" y1="${screenPos.y}" x2="${targetX}" y2="${targetY}" stroke="${lineStroke}" stroke-width="1.2" stroke-dasharray="3,3" />`;
+        lines += `<circle cx="${screenPos.x}" cy="${screenPos.y}" r="3.5" fill="${dotFill}" />`;
+      }
+
+      placeTag(tagSwan, sSwan, 110, -40);
+      placeTag(tagInner, sInner, -130, -50);
+      placeTag(tagOuter, sOuter, 130, -60);
+      placeTag(tagKnuckle, sKnuckle, 110, 40);
+
+      calloutSvg.innerHTML = lines;
+    }
+
+    
+    // --- LOAD HIGH-PRECISION CAD STL MESH (208,990 Triangles) ---
+    const stlGroup = new THREE.Group();
+    totemGroup.add(stlGroup);
+
+    let realStlMesh = null;
+    const stlLoader = new THREE.STLLoader();
+    
+    // We try both relative paths for file:// and web server compatibility
+    const stlPaths = ['assets/totem_cisne.stl', 'f0870dcc-6fdc-473e-8d6b-5cfd534392d8_20260912_101301.p80.stl'];
+    
+    function tryLoadStl(index) {
+      if (index >= stlPaths.length) {
+        console.warn('Could not load STL from local paths, falling back to procedural CAD model.');
+        return;
+      }
+      stlLoader.load(stlPaths[index], function (geom) {
+        geom.center();
+        geom.computeVertexNormals();
+        
+        realStlMesh = new THREE.Mesh(geom, brassMaterial);
+        realStlMesh.castShadow = true;
+        realStlMesh.receiveShadow = true;
+        // STL is oriented Z-up in CAD; rotate to Three.js Y-up
+        realStlMesh.rotation.x = -Math.PI / 2;
+        // Scale to match scene units (height ~2.1)
+        const scaleFactor = 2.12 / 98.9;
+        realStlMesh.scale.setScalar(scaleFactor);
+        realStlMesh.position.set(0, -0.05, 0);
+
+        stlGroup.add(realStlMesh);
+        console.log('High-precision STL mesh loaded successfully!');
+
+        // Update kicker to reflect real CAD model
+        const kicker = document.getElementById('card-kicker');
+        if (kicker && kicker.textContent.includes('01')) {
+          kicker.textContent = 'Capítulo 01 — Geometria CAD Original (208k Triângulos)';
+        }
+      }, undefined, function (err) {
+        console.log('Trying next STL path...', err);
+        tryLoadStl(index + 1);
+      });
+    }
+
+    tryLoadStl(0);
+
+    // --- ANIMATION CLOCK LOOP ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const elapsed = clock.getElapsedTime();
+
+      // Continuous Idle Spin
+      if (isSpinning) {
+        totemGroup.rotation.y += delta * 0.4;
+      }
+
+
+      // Explode Lerp Interpolation
+      const targetExplode = isExploded ? 1.0 : 0.0;
+      explodeProgress += (targetExplode - explodeProgress) * 0.08;
+
+      // When not exploded, show the high-precision solid STL mesh
+      if (realStlMesh) {
+        realStlMesh.visible = explodeProgress < 0.95;
+        swanPivot.visible = explodeProgress > 0.02;
+        innerRingPivot.visible = explodeProgress > 0.02;
+        outerRingPivot.visible = explodeProgress > 0.02;
+        hardwareGroup.visible = explodeProgress > 0.02;
+      }
+
+
+      swanPivot.position.z = explodeProgress * 0.72;
+      outerRingPivot.position.z = -explodeProgress * 0.85;
+      innerRingPivot.position.z = -explodeProgress * 0.18;
+      hardwareGroup.position.y = -explodeProgress * 0.38;
+
+      // Gentle floating breathing animation
+      totemGroup.position.y = Math.sin(elapsed * 1.4) * 0.032;
+
+      // Particle Drift
+      if (showParticles) {
+        const pos = particleGeo.attributes.position.array;
+        for (let i = 0; i < particleCount; i++) {
+          pos[i * 3 + 1] += speedArray[i * 3 + 1];
+          pos[i * 3] += Math.sin(elapsed * 0.8 + i) * 0.001;
+          if (pos[i * 3 + 1] > 2.8) {
+            pos[i * 3 + 1] = -2.8;
+            pos[i * 3] = (Math.random() - 0.5) * 6.0;
+          }
+        }
+        particleGeo.attributes.position.needsUpdate = true;
+      }
+
+      controls.update();
+      updateCalloutPositions();
+      renderer.render(scene, camera);
+    }
+
+    
+    // URL Parameter deep linking
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('chapter')) {
+      const ch = parseInt(urlParams.get('chapter'));
+      if (!isNaN(ch) && ch >= 0 && ch < chaptersData.length) {
+        goToChapter(ch);
+      }
+    }
+    if (urlParams.has('hearth')) {
+      applyHearthTheme(true);
+    }
+    if (urlParams.has('explode')) {
+      isExploded = true;
+      btnExplode.classList.add('active');
+      btnExplode.textContent = "Montar Peças";
+    }
+
+    animate();
+
+
+    // --- RESIZE HANDLER ---
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
