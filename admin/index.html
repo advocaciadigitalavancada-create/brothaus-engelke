@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Brothaus Engelke • Fornadas</title>
+  
+  <!-- Configurações PWA & Web App -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#161311">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fornadas Engelke">
+  <link rel="apple-touch-icon" href="../assets/cisne_totem_dourado.png">
+  <link rel="icon" type="image/png" href="../assets/cisne_totem_dourado.png">
+
+  <!-- Tipografia Engelke -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Configuração Compartilhada & Gerador de Stories -->
+  <script src="../config.js"></script>
+  <script src="story-generator.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #161311;
+      --bg-card: #201C19;
+      --bg-card-elevated: #2A2521;
+      --bg-input: #12100E;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: #C89B58;
+
+      --ink-pure: #FFFFFF;
+      --ink-secondary: #B5AEA4;
+      --ink-muted: #7A7268;
+
+      --gold: #C89B58;
+      --gold-light: #E0BA7E;
+      --gold-subtle: rgba(200, 155, 88, 0.15);
+
+      --demeter: #425B46;
+      --demeter-glow: #5C7F62;
+
+      --alert-red: #D63D33;
+      --alert-amber: #D97706;
+      --alert-green: #10B981;
+
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-condensed: 'Oswald', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--ink-pure);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: var(--safe-top);
+      padding-bottom: calc(var(--safe-bottom) + 84px);
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Bar Mobile */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(22, 19, 17, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--gold-subtle);
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .brand-icon img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-family: var(--font-condensed);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-pure);
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icon-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-secondary);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:active {
+      background: var(--bg-card-elevated);
+      transform: scale(0.94);
+    }
+
+    /* Container Principal */
+    .app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Indicador de Status da Conexão */
+    .status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      padding: 0.6rem 0.9rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.78rem;
+    }
+
+    .status-dot-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--alert-green);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      animation: pulseDot 2s infinite;
+    }
+
+    .status-dot.offline {
+      background: var(--alert-amber);
+      box-shadow: 0 0 8px rgba(217, 119, 6, 0.6);
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    /* Seções e Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-family: var(--font-condensed);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-pure);
+    }
+
+    .card-badge {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      background: var(--gold-subtle);
+      color: var(--gold-light);
+      border: 1px solid rgba(200, 155, 88, 0.3);
+    }
+
+    /* Botoes de Status do Forno (Touch Ultra-Ergonomico) */
+    .forno-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .status-btn {
+      background: var(--bg-card-elevated);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.9rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .status-btn .icon-emoji {
+      font-size: 1.6rem;
+    }
+
+    .status-btn .status-text {
+      font-family: var(--font-condensed);
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-pure);
+    }
+
+    .status-btn .status-sub {
+      font-size: 0.65rem;
+      color: var(--ink-muted);
+    }
+
+    .status-btn:active {
+      transform: scale(0.96);
+    }
+
+    .status-btn.active[data-val="saindo_agora"] {
+      background: rgba(214, 61, 51, 0.15);
+      border-color: var(--alert-red);
+      box-shadow: 0 0 16px rgba(214, 61, 51, 0.3);
+    }
+    .status-btn.active[data-val="saindo_agora"] .status-text {
+      color: #FF7B73;
+    }
+
+    .status-btn.active[data-val="ativo"] {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--alert-green);
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+    }
+    .status-btn.active[data-val="ativo"] .status-text {
+      color: #34D399;
+    }
+
+    .status-btn.active[data-val="preparando"] {
+      background: rgba(200, 155, 88, 0.15);
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(200, 155, 88, 0.3);
+    }
+    .status-btn.active[data-val="preparando"] .status-text {
+      color: var(--gold-light);
+    }
+
+    .status-btn.active[data-val="pausado"] {
+      background: rgba(122, 114, 104, 0.2);
+      border-color: var(--ink-muted);
+    }
+    .status-btn.active[data-val="pausado"] .status-text {
+      color: var(--ink-secondary);
+    }
+
+    /* Form Inputs */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .text-input, .text-area {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.8rem 0.9rem;
+      color: var(--ink-pure);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .text-input:focus, .text-area:focus {
+      border-color: var(--gold);
+    }
+
+    .text-area {
+      resize: vertical;
+      min-height: 64px;
+      line-height: 1.4;
+    }
+
+    /* Switch iOS Style */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.25rem 0;
+    }
+
+    .toggle-label-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .toggle-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink-pure);
+    }
+
+    .toggle-sub {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      transition: .3s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #8C857B;
+      transition: .3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--demeter);
+      border-color: var(--demeter-glow);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+      background-color: #FFFFFF;
+    }
+
+    /* Preset Chips */
+    .preset-chips-scroll {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      scrollbar-width: none;
+    }
+    .preset-chips-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .quick-chip {
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-secondary);
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .quick-chip:active {
+      background: var(--gold-subtle);
+      color: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    /* Editor do Cronograma Semanal */
+    .crono-tabs {
+      display: flex;
+      background: var(--bg-input);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .crono-tab-btn {
+      flex: 1;
+      min-width: 65px;
+      padding: 0.5rem 0.4rem;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: var(--ink-muted);
+      font-family: var(--font-condensed);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .crono-tab-btn.active {
+      background: var(--bg-card-elevated);
+      color: var(--gold-light);
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .crono-editor-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      padding-top: 0.5rem;
+    }
+
+    .status-select-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .status-pill-opt {
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-muted);
+      cursor: pointer;
+    }
+
+    .status-pill-opt.selected[data-st="saindo_agora"] {
+      background: rgba(214, 61, 51, 0.2);
+      border-color: var(--alert-red);
+      color: #FF7B73;
+    }
+    .status-pill-opt.selected[data-st="disponivel"] {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--alert-green);
+      color: #34D399;
+    }
+    .status-pill-opt.selected[data-st="ultimas_unidades"] {
+      background: rgba(217, 119, 6, 0.2);
+      border-color: var(--alert-amber);
+      color: #FBBF24;
+    }
+    .status-pill-opt.selected[data-st="esgotado"] {
+      background: rgba(122, 114, 104, 0.25);
+      border-color: var(--ink-muted);
+      color: var(--ink-secondary);
+    }
+
+    /* Barra Fixa Inferior de Publicação */
+    .publish-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(22, 19, 17, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem calc(var(--safe-bottom) + 0.75rem) 1.25rem;
+      z-index: 60;
+      display: flex;
+      justify-content: center;
+    }
+
+    .publish-inner {
+      max-width: 480px;
+      width: 100%;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn-publish {
+      flex: 1;
+      background: linear-gradient(135deg, #C89B58 0%, #A67C3B 100%);
+      color: #161311;
+      border: none;
+      border-radius: 14px;
+      padding: 0.95rem 1.5rem;
+      font-family: var(--font-condensed);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(200, 155, 88, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-publish:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 10px rgba(200, 155, 88, 0.2);
+    }
+
+    .btn-publish.loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* Tela de Bloqueio por PIN */
+    .lock-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-dark);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .lock-overlay.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .lock-box {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.25rem;
+    }
+
+    .lock-totem {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--gold-subtle);
+      border: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-input {
+      width: 100%;
+      max-width: 220px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.85rem;
+      font-size: 1.6rem;
+      letter-spacing: 0.4em;
+      text-align: center;
+      color: var(--gold-light);
+      outline: none;
+    }
+
+    .pin-input:focus {
+      border-color: var(--gold);
+    }
+
+    .btn-unlock {
+      width: 100%;
+      max-width: 220px;
+      background: var(--gold);
+      color: var(--bg-dark);
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem;
+      font-family: var(--font-condensed);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    /* Modal de Configurações ⚙️ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 90;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-sheet {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-width: 480px;
+      padding: 1.5rem 1.25rem calc(var(--safe-bottom) + 1.5rem) 1.25rem;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .modal-overlay.open .modal-sheet {
+      transform: translateY(0);
+    }
+
+    /* Toast de Notificação */
+    .toast {
+      position: fixed;
+      top: calc(var(--safe-top) + 60px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(32, 28, 25, 0.95);
+      border: 1px solid var(--gold);
+      color: var(--ink-pure);
+      padding: 0.75rem 1.25rem;
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       TELA DE BLOQUEIO POR PIN (Segurança Simples para o Celular)
+       ========================================================================= -->
+  <div class="lock-overlay" id="lock-screen">
+    <div class="lock-box">
+      <div class="lock-totem">
+        <img src="../assets/cisne_totem_dourado.png" alt="Brothaus Engelke" style="width:38px;height:38px;object-fit:contain;">
+      </div>
+      <div>
+        <h2 style="font-family:var(--font-condensed); font-size:1.35rem; letter-spacing:0.06em; text-transform:uppercase;">
+          Brothaus Engelke
+        </h2>
+        <p style="font-size:0.8rem; color:var(--ink-secondary); margin-top:0.25rem;">
+          Painel do Forno • Digite o PIN de 4 dígitos
+        </p>
+      </div>
+
+      <input type="password" id="input-pin" class="pin-input" maxlength="6" inputmode="numeric" placeholder="••••" autocomplete="off">
+      
+      <button class="btn-unlock" id="btn-unlock">Desbloquear</button>
+
+      <p style="font-size:0.72rem; color:var(--ink-muted);">
+        Dica: PIN padrão de fábrica: <strong style="color:var(--gold);">1832</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       TOP BAR (Mobile App Header)
+       ========================================================================= -->
+  <header class="top-bar">
+    <div class="brand-group">
+      <div class="brand-icon">
+        <img src="../assets/cisne_totem_dourado.png" alt="Cisne Engelke">
+      </div>
+      <div>
+        <div class="brand-title">Brothaus Engelke</div>
+        <div class="brand-sub">Painel das Fornadas</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <a href="../index.html" target="_blank" class="icon-btn" title="Ver Site Oficial">
+        <i data-lucide="external-link" style="width:18px;height:18px;"></i>
+      </a>
+      <button class="icon-btn" id="btn-open-settings" title="Configurações">
+        <i data-lucide="settings" style="width:18px;height:18px;"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       CONTEÚDO PRINCIPAL
+       ========================================================================= -->
+  <main class="app-container">
+
+    <!-- Status da Sincronização -->
+    <div class="status-strip">
+      <div class="status-dot-group">
+        <div class="status-dot" id="conn-dot"></div>
+        <span id="conn-text" style="color:var(--ink-secondary);">Conectando à planilha...</span>
+      </div>
+      <span id="last-sync-time" style="color:var(--ink-muted); font-size:0.72rem;"></span>
+    </div>
+
+    <!-- CARD 1: Status Imediato do Forno -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <i data-lucide="flame" style="width:18px;height:18px; color:var(--gold);"></i>
+          <h2 class="card-title">Status do Forno em Tempo Real</h2>
+        </div>
+        <span class="card-badge">1 Toque</span>
+      </div>
+
+      <div class="forno-status-grid">
+        <div class="status-btn active" data-val="saindo_agora" onclick="setFornoStatus('saindo_agora')">
+          <span class="icon-emoji">🔥</span>
+          <span class="status-text">Saindo Agora</span>
+          <span class="status-sub">Fornada no forno</span>
+        </div>
+
+        <div class="status-btn" data-val="ativo" onclick="setFornoStatus('ativo')">
+          <span class="icon-emoji">🥖</span>
+          <span class="status-text">No Balcão</span>
+          <span class="status-sub">Pães frescos prontos</span>
+        </div>
+
+        <div class="status-btn" data-val="preparando" onclick="setFornoStatus('preparando')">
+          <span class="icon-emoji">⏳</span>
+          <span class="status-text">No Forno</span>
+          <span class="status-sub">Assando agora</span>
+        </div>
+
+        <div class="status-btn" data-val="pausado" onclick="setFornoStatus('pausado')">
+          <span class="icon-emoji">🌙</span>
+          <span class="status-text">Descanso</span>
+          <span class="status-sub">Próxima fornada breve</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">
+          <span>Próxima Fornada / Horário Previsto</span>
+        </label>
+        <input type="text" id="input-proxima-fornada" class="text-input" placeholder="Ex: Hoje às 15h30 ou Amanhã 07h30">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">
+          <span>Pão em Destaque do Momento</span>
+        </label>
+        <input type="text" id="input-pao-destaque" class="text-input" placeholder="Ex: Sourdough Tradicional Demeter & Baguetes">
+      </div>
+    </section>
+
+    <!-- CARD 2: Alerta ao Vivo no Topo do Site -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <i data-lucide="bell" style="width:18px;height:18px; color:var(--alert-amber);"></i>
+          <h2 class="card-title">Faixa ao Vivo no Site</h2>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="switch-alerta" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <p style="font-size:0.78rem; color:var(--ink-secondary); line-height:1.4;">
+        Quando ativado, exibe uma tarja dourada piscante com o aviso da fornada no topo do site para os clientes.
+      </p>
+
+      <div class="field-group">
+        <label class="field-label">
+          <span>Mensagem da Faixa</span>
+        </label>
+        <textarea id="input-alerta-texto" class="text-area" placeholder="Digite a mensagem do padeiro..."></textarea>
+      </div>
+
+      <div class="preset-chips-scroll">
+        <button class="quick-chip" onclick="aplicarPresetAlerta('🔥 Fornada de Sourdough Demeter acabou de sair do forno!')">🔥 Sourdough Quente</button>
+        <button class="quick-chip" onclick="aplicarPresetAlerta('🥖 Baguetes parisienses crocantes saindo às 15h30!')">🥖 Baguetes 15h30</button>
+        <button class="quick-chip" onclick="aplicarPresetAlerta('🎂 Sachertorte Vienense de 1832 disponível em fatias hoje!')">🎂 Sachertorte</button>
+        <button class="quick-chip" onclick="aplicarPresetAlerta('⚠️ Poucas unidades de Pão de Centeio 100% Roggenbrot!')">⚠️ Centeio Esgotando</button>
+      </div>
+    </section>
+
+    <!-- CARD 3: Cronograma Semanal de Fornadas -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <i data-lucide="calendar" style="width:18px;height:18px; color:var(--gold);"></i>
+          <h2 class="card-title">Cronograma Semanal</h2>
+        </div>
+        <span class="card-badge">Tabela</span>
+      </div>
+
+      <div class="crono-tabs" id="crono-tabs-container">
+        <button class="crono-tab-btn active" data-id="qua" onclick="selecionarDiaCrono('qua')">Qua</button>
+        <button class="crono-tab-btn" data-id="qui" onclick="selecionarDiaCrono('qui')">Qui</button>
+        <button class="crono-tab-btn" data-id="sex" onclick="selecionarDiaCrono('sex')">Sex</button>
+        <button class="crono-tab-btn" data-id="fim" onclick="selecionarDiaCrono('fim')">Sáb/Dom</button>
+      </div>
+
+      <div class="crono-editor-body">
+        <div class="field-group">
+          <label class="field-label">Status da Fornada Deste Dia</label>
+          <div class="status-select-row" id="crono-status-options">
+            <button class="status-pill-opt selected" data-st="saindo_agora" onclick="setDiaStatus('saindo_agora')">🔥 Saindo Agora</button>
+            <button class="status-pill-opt" data-st="disponivel" onclick="setDiaStatus('disponivel')">✅ Disponível</button>
+            <button class="status-pill-opt" data-st="ultimas_unidades" onclick="setDiaStatus('ultimas_unidades')">⚠️ Poucos</button>
+            <button class="status-pill-opt" data-st="esgotado" onclick="setDiaStatus('esgotado')">🚫 Esgotado</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Horários das Fornadas</label>
+          <input type="text" id="input-crono-horarios" class="text-input" placeholder="Ex: 07h30 • 15h30">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Pães & Itens em Produção</label>
+          <textarea id="input-crono-paes" class="text-area" placeholder="Ex: Sourdough Tradicional Demeter & Ciabatta..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD 4: Instagram Stories Automatizado (1080x1920) -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <i data-lucide="instagram" style="width:18px;height:18px; color:var(--gold);"></i>
+          <h2 class="card-title">Story para Instagram (9:16)</h2>
+        </div>
+        <span class="card-badge">1080×1920</span>
+      </div>
+
+      <p style="font-size:0.78rem; color:var(--ink-secondary); line-height:1.4;">
+        Gera automaticamente uma imagem em alta resolução com a tipografia oficial (Playfair/Oswald), cores e o totem do Cisne Dourado para postar nos Stories.
+      </p>
+
+      <div class="toggle-row">
+        <div class="toggle-label-group">
+          <span class="toggle-title">Baixar Story ao publicar</span>
+          <span class="toggle-sub">Salva direto nas fotos do celular</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="switch-auto-story" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <button class="icon-btn" style="width:100%; height:auto; padding:0.8rem 1rem; border-radius:12px; gap:0.5rem; color:var(--gold-light); font-weight:600; font-size:0.85rem; background:var(--bg-card-elevated); border-color:rgba(200, 155, 88, 0.4);" onclick="gerarEVisualizarStory(false)">
+        <i data-lucide="sparkles" style="width:16px;height:16px; color:var(--gold);"></i>
+        <span>Visualizar & Baixar Story Agora</span>
+      </button>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       BARRA FIXA DE PUBLICAÇÃO (Ação Rápida no Polegar)
+       ========================================================================= -->
+  <div class="publish-bar">
+    <div class="publish-inner">
+      <button class="btn-publish" id="btn-publish" onclick="publicarAlteracoes()">
+        <i data-lucide="send" style="width:20px;height:20px;"></i>
+        <span>Publicar Fornada no Site</span>
+      </button>
+      <button class="icon-btn" style="width:52px; height:52px; border-radius:14px; background:var(--bg-card-elevated); border:1.5px solid var(--gold); flex-shrink:0;" onclick="gerarEVisualizarStory(false)" title="Gerar Story do Instagram">
+        <i data-lucide="instagram" style="width:22px;height:22px; color:var(--gold-light);"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL DE PRÉVIA DO STORY (Instagram Stories)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-story">
+    <div class="modal-sheet" style="max-height:92vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h3 style="font-family:var(--font-condensed); font-size:1.2rem; text-transform:uppercase;">
+            Story da Fornada
+          </h3>
+          <p style="font-size:0.75rem; color:var(--gold);">1080 × 1920 px • Pronto para Instagram</p>
+        </div>
+        <button class="icon-btn" onclick="fecharModalStory()">
+          <i data-lucide="x" style="width:18px;height:18px;"></i>
+        </button>
+      </div>
+
+      <!-- Pré-visualização da Imagem Gerada -->
+      <div id="story-preview-container" style="display:flex; justify-content:center; background:#0B0A09; padding:0.75rem; border-radius:14px; border:1px solid var(--border-subtle); min-height:200px; align-items:center;">
+        <img id="story-preview-img" style="max-width:220px; height:auto; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.7); display:none;" alt="Story Preview">
+        <div id="story-loading" style="color:var(--gold); font-size:0.85rem; display:flex; align-items:center; gap:0.5rem;">
+          <i data-lucide="loader-2" class="animate-spin" style="width:18px;height:18px;"></i>
+          <span>Desenhando arte em alta resolução...</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.6rem;">
+        <button class="btn-publish" style="padding:0.85rem; font-size:1rem;" id="btn-share-story" onclick="compartilharStoryAtual()">
+          <i data-lucide="share-2" style="width:18px;height:18px;"></i>
+          <span>Compartilhar nos Stories</span>
+        </button>
+        
+        <button class="icon-btn" style="width:100%; height:auto; padding:0.8rem; border-radius:12px; font-size:0.85rem; color:var(--ink-pure);" onclick="baixarStoryAtual()">
+          <i data-lucide="download" style="width:16px;height:16px;"></i>
+          <span>Baixar Imagem Novamente (PNG)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL DE CONFIGURAÇÕES (URL do Google Apps Script & PIN)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-settings">
+    <div class="modal-sheet">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-family:var(--font-condensed); font-size:1.2rem; text-transform:uppercase;">
+          Configurações da Conexão
+        </h3>
+        <button class="icon-btn" onclick="fecharModalSettings()">
+          <i data-lucide="x" style="width:18px;height:18px;"></i>
+        </button>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">URL do Google Apps Script (Web App)</label>
+        <input type="url" id="settings-api-url" class="text-input" placeholder="https://script.google.com/macros/s/.../exec">
+        <p style="font-size:0.7rem; color:var(--ink-muted); margin-top:0.25rem;">
+          Cole a URL gerada ao publicar o script no Google Drive (terminada em <code>/exec</code>).
+        </p>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">PIN de Autorização</label>
+        <input type="password" id="settings-pin" class="text-input" placeholder="1832" maxlength="6">
+      </div>
+
+      <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+        <button class="btn-unlock" style="flex:1;" onclick="salvarConfiguracoes()">Salvar Configurações</button>
+        <button class="icon-btn" style="width:auto; padding:0 1rem; font-size:0.8rem;" onclick="testarConexao()">Testar</button>
+      </div>
+
+      <button style="background:transparent; border:none; color:var(--alert-red); font-size:0.75rem; text-align:center; padding:0.5rem; cursor:pointer;" onclick="bloquearNovamente()">
+        🔒 Bloquear painel agora
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i data-lucide="check-circle-2" style="width:18px;height:18px; color:var(--alert-green);"></i>
+    <span id="toast-text">Fornadas publicadas com sucesso!</span>
+  </div>
+
+  <!-- =========================================================================
+       LÓGICA JAVASCRIPT REATIVA & ERGONÔMICA
+       ========================================================================= -->
+  <script>
+    // Registro do Service Worker para PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW falhou:', err));
+      });
+    }
+
+    // Estado Local da Aplicação
+    let currentPin = localStorage.getItem('engelke_admin_pin') || "1832";
+    let state = JSON.parse(JSON.stringify(window.ENGELKE_CONFIG.DEFAULT_DATA));
+    let diaSelecionadoId = 'qua';
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      verificarAutenticacao();
+      carregarEstadoInicial();
+    });
+
+    // -------------------------------------------------------------
+    // Autenticação por PIN
+    // -------------------------------------------------------------
+    function verificarAutenticacao() {
+      const pinSalvo = localStorage.getItem('engelke_admin_pin');
+      const lockScreen = document.getElementById('lock-screen');
+      if (pinSalvo) {
+        lockScreen.classList.add('unlocked');
+      } else {
+        lockScreen.classList.remove('unlocked');
+      }
+    }
+
+    document.getElementById('btn-unlock').addEventListener('click', () => {
+      const pinInput = document.getElementById('input-pin').value.trim();
+      if (!pinInput) {
+        mostrarToast('Digite o PIN de 4 dígitos', 'warning');
+        return;
+      }
+      currentPin = pinInput;
+      localStorage.setItem('engelke_admin_pin', currentPin);
+      document.getElementById('lock-screen').classList.add('unlocked');
+      if (navigator.vibrate) navigator.vibrate(50);
+      mostrarToast('Acesso liberado!', 'success');
+      carregarDadosDoServidor();
+    });
+
+    function bloquearNovamente() {
+      localStorage.removeItem('engelke_admin_pin');
+      fecharModalSettings();
+      document.getElementById('lock-screen').classList.remove('unlocked');
+      document.getElementById('input-pin').value = '';
+    }
+
+    // -------------------------------------------------------------
+    // Carregamento de Estado (Stale-While-Revalidate)
+    // -------------------------------------------------------------
+    function carregarEstadoInicial() {
+      const cached = window.ENGELKE_CONFIG.getCachedData();
+      if (cached) {
+        state = cached;
+      }
+      atualizarCamposInterface();
+      carregarDadosDoServidor();
+    }
+
+    async function carregarDadosDoServidor() {
+      const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
+      const connDot = document.getElementById('conn-dot');
+      const connText = document.getElementById('conn-text');
+
+      if (!apiUrl) {
+        connDot.className = 'status-dot offline';
+        connText.textContent = 'Modo Local (Configure a URL)';
+        return;
+      }
+
+      try {
+        connText.textContent = 'Sincronizando...';
+        const res = await fetch(`${apiUrl}?action=get`, { redirect: 'follow' });
+        const json = await res.json();
+
+        if (json.success && json.data) {
+          state = json.data;
+          window.ENGELKE_CONFIG.setCachedData(state);
+          atualizarCamposInterface();
+          connDot.className = 'status-dot';
+          connText.textContent = 'Google Sheets Conectado';
+          
+          if (state.config.ultima_atualizacao) {
+            document.getElementById('last-sync-time').textContent = 'Sinc: ' + formatarHora(state.config.ultima_atualizacao);
+          }
+        }
+      } catch (err) {
+        console.warn('Erro ao sincronizar com Google Apps Script:', err);
+        connDot.className = 'status-dot offline';
+        connText.textContent = 'Offline (Usando cache local)';
+      }
+    }
+
+    function atualizarCamposInterface() {
+      // 1. Status do Forno
+      const statusVal = state.config.status_forno || 'ativo';
+      document.querySelectorAll('.status-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-val') === statusVal);
+      });
+
+      document.getElementById('input-proxima-fornada').value = state.config.proxima_fornada || '';
+      document.getElementById('input-pao-destaque').value = state.config.pao_destaque_hoje || '';
+
+      // 2. Alerta
+      document.getElementById('switch-alerta').checked = !!state.config.alerta_ativo;
+      document.getElementById('input-alerta-texto').value = state.config.alerta_texto || '';
+
+      // 3. Cronograma
+      renderizarDiaCrono();
+    }
+
+    // -------------------------------------------------------------
+    // Manipulação dos Controles
+    // -------------------------------------------------------------
+    function setFornoStatus(val) {
+      state.config.status_forno = val;
+      document.querySelectorAll('.status-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-val') === val);
+      });
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+
+    function aplicarPresetAlerta(texto) {
+      document.getElementById('input-alerta-texto').value = texto;
+      document.getElementById('switch-alerta').checked = true;
+      state.config.alerta_texto = texto;
+      state.config.alerta_ativo = true;
+      if (navigator.vibrate) navigator.vibrate(20);
+      mostrarToast('Preset aplicado!');
+    }
+
+    function selecionarDiaCrono(id) {
+      salvarDiaCronoAtual();
+      diaSelecionadoId = id;
+      document.querySelectorAll('.crono-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-id') === id);
+      });
+      renderizarDiaCrono();
+    }
+
+    function renderizarDiaCrono() {
+      const item = state.cronograma.find(c => c.id === diaSelecionadoId);
+      if (!item) return;
+
+      document.getElementById('input-crono-horarios').value = item.horarios || '';
+      document.getElementById('input-crono-paes').value = item.paes || '';
+
+      document.querySelectorAll('.status-pill-opt').forEach(pill => {
+        pill.classList.toggle('selected', pill.getAttribute('data-st') === item.status);
+      });
+    }
+
+    function setDiaStatus(st) {
+      const item = state.cronograma.find(c => c.id === diaSelecionadoId);
+      if (item) {
+        item.status = st;
+      }
+      document.querySelectorAll('.status-pill-opt').forEach(pill => {
+        pill.classList.toggle('selected', pill.getAttribute('data-st') === st);
+      });
+      if (navigator.vibrate) navigator.vibrate(20);
+    }
+
+    function salvarDiaCronoAtual() {
+      const item = state.cronograma.find(c => c.id === diaSelecionadoId);
+      if (!item) return;
+
+      item.horarios = document.getElementById('input-crono-horarios').value;
+      item.paes = document.getElementById('input-crono-paes').value;
+    }
+
+    // -------------------------------------------------------------
+    // Publicação dos Dados (POST / GET Fallback)
+    // -------------------------------------------------------------
+    async function publicarAlteracoes() {
+      salvarDiaCronoAtual();
+
+      // Atualiza valores da config
+      state.config.proxima_fornada = document.getElementById('input-proxima-fornada').value;
+      state.config.pao_destaque_hoje = document.getElementById('input-pao-destaque').value;
+      state.config.alerta_ativo = document.getElementById('switch-alerta').checked;
+      state.config.alerta_texto = document.getElementById('input-alerta-texto').value;
+      state.config.ultima_atualizacao = new Date().toISOString();
+
+      // Salva imediatamente no cache local do dispositivo
+      window.ENGELKE_CONFIG.setCachedData(state);
+
+      const btn = document.getElementById('btn-publish');
+      btn.classList.add('loading');
+      btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin" style="width:20px;height:20px;"></i> <span>Publicando...</span>';
+      lucide.createIcons();
+
+      const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
+
+      if (!apiUrl) {
+        setTimeout(() => {
+          btn.classList.remove('loading');
+          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar Fornada no Site</span>';
+          lucide.createIcons();
+          if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+          mostrarToast('Salvo no dispositivo (Modo Local)', 'info');
+
+          // Disparo automático do Story do Instagram
+          const autoStory = document.getElementById('switch-auto-story');
+          if (autoStory && autoStory.checked) {
+            setTimeout(() => {
+              gerarEVisualizarStory(true);
+            }, 500);
+          }
+        }, 400);
+        return;
+      }
+
+      try {
+        const payload = {
+          pin: currentPin,
+          config: state.config,
+          cronograma: state.cronograma
+        };
+
+        // Usa GET com payload em JSON para 100% de confiabilidade em Web Apps do Google
+        const encoded = encodeURIComponent(JSON.stringify(payload));
+        const updateUrl = `${apiUrl}?action=update&pin=${encodeURIComponent(currentPin)}&payload=${encoded}`;
+        
+        const res = await fetch(updateUrl, { redirect: 'follow' });
+        const json = await res.json();
+
+        btn.classList.remove('loading');
+        btn.innerHTML = '<i data-lucide="check" style="width:20px;height:20px;"></i> <span>Publicado com Sucesso!</span>';
+        lucide.createIcons();
+
+        if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+
+        if (json.success) {
+          mostrarToast('✅ Fornadas publicadas no site da Brothaus!');
+          document.getElementById('last-sync-time').textContent = 'Sinc: ' + formatarHora(new Date().toISOString());
+
+          // Disparo automático do Story do Instagram para os Stories do celular
+          const autoStory = document.getElementById('switch-auto-story');
+          if (autoStory && autoStory.checked) {
+            setTimeout(() => {
+              gerarEVisualizarStory(true);
+            }, 600);
+          }
+        } else {
+          mostrarToast('Erro: ' + (json.error || 'Falha ao salvar'), 'warning');
+        }
+
+        setTimeout(() => {
+          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar Fornada no Site</span>';
+          lucide.createIcons();
+        }, 2200);
+
+      } catch (err) {
+        console.error('Falha na requisição:', err);
+        btn.classList.remove('loading');
+        btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar Fornada no Site</span>';
+        lucide.createIcons();
+        mostrarToast('Erro de rede. Dados salvos localmente.', 'warning');
+
+        // Mesmo offline, se configurado, gera e baixa a arte para o padeiro postar nos stories
+        const autoStory = document.getElementById('switch-auto-story');
+        if (autoStory && autoStory.checked) {
+          setTimeout(() => {
+            gerarEVisualizarStory(true);
+          }, 600);
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Modal de Configurações
+    // -------------------------------------------------------------
+    document.getElementById('btn-open-settings').addEventListener('click', () => {
+      document.getElementById('settings-api-url').value = window.ENGELKE_CONFIG.getApiUrl();
+      document.getElementById('settings-pin').value = currentPin;
+      document.getElementById('modal-settings').classList.add('open');
+    });
+
+    function fecharModalSettings() {
+      document.getElementById('modal-settings').classList.remove('open');
+    }
+
+    function salvarConfiguracoes() {
+      const url = document.getElementById('settings-api-url').value.trim();
+      const pin = document.getElementById('settings-pin').value.trim();
+
+      window.ENGELKE_CONFIG.setApiUrl(url);
+      if (pin) {
+        currentPin = pin;
+        localStorage.setItem('engelke_admin_pin', pin);
+      }
+
+      fecharModalSettings();
+      mostrarToast('Configurações salvas!');
+      carregarDadosDoServidor();
+    }
+
+    async function testarConexao() {
+      const url = document.getElementById('settings-api-url').value.trim();
+      if (!url) {
+        alert('Por favor, informe a URL do Google Apps Script.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${url}?action=get`, { redirect: 'follow' });
+        const json = await res.json();
+        if (json.success) {
+          alert('🟢 Conexão com Google Sheets efetuada com sucesso!');
+        } else {
+          alert('⚠️ Erro retornado pelo script: ' + json.error);
+        }
+      } catch (e) {
+        alert('❌ Falha ao conectar: Verifique se o Web App foi implantado como "Qualquer pessoa" e se a URL termina com /exec.');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Instagram Stories Generator & Share
+    // -------------------------------------------------------------
+    let storyCanvasAtual = null;
+
+    async function gerarEVisualizarStory(autoDownload = false) {
+      salvarDiaCronoAtual();
+
+      // Sincroniza campos do formulário no estado local
+      state.config.proxima_fornada = document.getElementById('input-proxima-fornada').value;
+      state.config.pao_destaque_hoje = document.getElementById('input-pao-destaque').value;
+      state.config.alerta_texto = document.getElementById('input-alerta-texto').value;
+
+      const modal = document.getElementById('modal-story');
+      const img = document.getElementById('story-preview-img');
+      const loading = document.getElementById('story-loading');
+
+      modal.classList.add('open');
+      img.style.display = 'none';
+      loading.style.display = 'flex';
+      loading.innerHTML = '<i data-lucide="loader-2" class="animate-spin" style="width:18px;height:18px;"></i> <span>Desenhando arte em alta resolução...</span>';
+      lucide.createIcons();
+
+      try {
+        const canvas = await window.EngelkeStoryGenerator.gerarCanvasStory(state);
+        storyCanvasAtual = canvas;
+        const dataUrl = canvas.toDataURL('image/png');
+
+        img.src = dataUrl;
+        img.style.display = 'block';
+        loading.style.display = 'none';
+
+        if (autoDownload) {
+          window.EngelkeStoryGenerator.baixarStoryPNG(state, `story-fornada-${Date.now()}.png`);
+          mostrarToast('📸 Imagem do Story baixada para o seu celular!');
+        }
+      } catch (err) {
+        console.error('Erro ao gerar Story:', err);
+        loading.innerHTML = '<span style="color:var(--alert-red); font-size:0.8rem;">Falha ao desenhar arte do Story.</span>';
+      }
+    }
+
+    function fecharModalStory() {
+      document.getElementById('modal-story').classList.remove('open');
+    }
+
+    async function compartilharStoryAtual() {
+      try {
+        await window.EngelkeStoryGenerator.compartilharStoryNativo(state);
+      } catch (err) {
+        window.EngelkeStoryGenerator.baixarStoryPNG(state);
+      }
+    }
+
+    function baixarStoryAtual() {
+      window.EngelkeStoryGenerator.baixarStoryPNG(state);
+      mostrarToast('📥 Download do Story iniciado!');
+    }
+
+    // -------------------------------------------------------------
+    // Utilitários de UI
+    // -------------------------------------------------------------
+    function mostrarToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function formatarHora(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      } catch (e) {
+        return '';
+      }
+    }
+  </script>
+</body>
+</html>

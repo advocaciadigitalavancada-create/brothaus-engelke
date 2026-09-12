@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="lenis lenis-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Brothaus Engelke • O Astrolábio do Pão Vivo (Protótipo 3D Escultural)</title>
+  <link rel="icon" type="image/png" href="assets/cisne_totem_dourado.png">
+
+  <!-- LLMs.txt Machine-Readable Context for AI Agents & Search Engines -->
+  <link rel="alternate" type="text/markdown" href="llms.txt" title="Brothaus Engelke LLMs Context">
+  <link rel="alternate" type="text/plain" href="llm.txt" title="Brothaus Engelke LLM Context">
+
+  <!-- Google Fonts: A Tríade Tipográfica de Ouro Engelke (Editorial Vienense + Bauhaus Condensada + Suíça Grotesca) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Dynamic Fornadas Config -->
+  <script src="config.js"></script>
+
+  <!-- Three.js + Lenis + Lucide + STLLoader -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg-paper: #F7F5F0;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #EFECE4;
+      --border-hairline: rgba(27, 25, 23, 0.12);
+      --border-strong: rgba(27, 25, 23, 0.28);
+      
+      --ink-primary: #1A1816;
+      --ink-secondary: #57524C;
+      --ink-tertiary: #8C857B;
+      
+      --brass-metal: #9E7A3E;
+      --brass-subtle: rgba(158, 122, 62, 0.15);
+      --demeter-green: #334436;
+      --demeter-badge: #E8EDE8;
+      --crust-warm: #8C5B28;
+
+      /* Detalhe da Costura em Linha Vermelha Artesanal do Cardápio */
+      --stitch-red: #C83E36;
+      --stitch-red-bright: #D63D33;
+      --stitch-red-subtle: rgba(200, 62, 54, 0.12);
+
+      /* ==========================================================================
+         A TRÍADE TIPOGRÁFICA DEFINITIVA (MÜLLER-BROCKMANN & TSCHICHOLD)
+         Eixo 1 - Editorial / Literário: 'Playfair Display' (Viena 1832, Confeitaria Imperial)
+         Eixo 2 - Arquitetônico / Selo Real: 'Oswald' (Bauhaus Dessau, Cardápio Físico ENGELKE)
+         Eixo 3 - Funcional & Precisão Suíça: 'Plus Jakarta Sans' (Corpo, UI, Micro-rotulagem)
+         ========================================================================== */
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-quote: 'Playfair Display', Georgia, serif;
+      --font-condensed: 'Oswald', -apple-system, 'Arial Narrow', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; /* Grotesca Suíça com micro-kerning */
+
+      --transition-pure: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      background-color: var(--bg-paper);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Fixed Three.js WebGL Canvas */
+    #sculpture-canvas {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Architectural Paper Texture & Subtle Grid */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.25;
+      background-image: 
+        linear-gradient(to right, rgba(27, 25, 23, 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(27, 25, 23, 0.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* Top Navigation */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(247, 245, 240, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 1.1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--ink-primary);
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      font-feature-settings: "lnum" 1;
+    }
+
+    .brand-sub {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--ink-tertiary);
+      text-transform: uppercase;
+      margin-top: 3px;
+      display: block;
+      font-variant-numeric: lining-nums;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.35rem 0.85rem;
+      background: var(--demeter-badge);
+      border: 1px solid rgba(51, 68, 54, 0.2);
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--demeter-green);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--demeter-green);
+    }
+
+    .btn-primary-dark {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #FFFFFF;
+      background: var(--ink-primary);
+      border: 1px solid var(--ink-primary);
+      padding: 0.6rem 1.35rem;
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-pure);
+    }
+
+    .btn-primary-dark:hover {
+      background: #33302C;
+      transform: translateY(-1px);
+    }
+
+    /* Mechanical Compass HUD Indicator (Bottom Left) */
+    .hud-compass {
+      position: fixed;
+      bottom: 2rem;
+      left: 2.5rem;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      background: rgba(247, 245, 240, 0.85);
+      border: 1px solid var(--border-hairline);
+      padding: 0.5rem 0.9rem;
+      backdrop-filter: blur(8px);
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--ink-tertiary);
+      text-transform: uppercase;
+    }
+
+    .hud-compass-dial {
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--brass-metal);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .hud-compass-needle {
+      position: absolute;
+      top: 2px;
+      left: 6px;
+      width: 1px;
+      height: 10px;
+      background: var(--brass-metal);
+      transform-origin: bottom center;
+      transition: transform 0.1s linear;
+    }
+
+    /* Main Container */
+    main {
+      position: relative;
+      z-index: 10;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .section-block {
+      min-height: 95vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7rem 0;
+      position: relative;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .section-block:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Half-grid layout: Content on the Left, 3D Astrolabe sculpture on the Right */
+    .half-layout {
+      width: 45%;
+      max-width: 500px;
+    }
+
+    .section-kicker {
+      font-family: var(--font-condensed);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brass-metal);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .section-kicker::before {
+      content: "";
+      display: inline-block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--brass-metal);
+    }
+
+    .display-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.6rem, 4.8vw, 4rem);
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.08;
+      letter-spacing: -0.018em;
+      margin-bottom: 1.75rem;
+      font-feature-settings: "lnum" 1, "liga" 1;
+      font-variant-numeric: lining-nums;
+    }
+
+    .display-lead {
+      font-family: var(--font-quote);
+      font-size: clamp(1.2rem, 1.8vw, 1.38rem);
+      color: var(--ink-secondary);
+      line-height: 1.58;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+      font-variant-numeric: lining-nums proportional-nums;
+      font-feature-settings: "lnum" 1, "liga" 1;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      padding: 1.35rem 0;
+      border-top: 1px solid var(--border-hairline);
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .meta-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .meta-label {
+      font-family: var(--font-sans);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+      line-height: 1;
+    }
+
+    .meta-val {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      font-variant-numeric: lining-nums tabular-nums;
+      font-feature-settings: "lnum" 1;
+    }
+
+    /* Principles List */
+    .principles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .principle-entry {
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .principle-entry:last-child {
+      border-bottom: none;
+    }
+
+    .principle-num {
+      font-family: var(--font-condensed);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--brass-metal);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      font-variant-numeric: lining-nums;
+    }
+
+    .principle-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      margin-bottom: 0.45rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .principle-text {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--ink-secondary);
+      line-height: 1.68;
+      letter-spacing: -0.005em;
+    }
+
+    
+    /* ==========================================================================
+       CARD REPORTAGEM EDITORIAL ABDSUL (SÉRIE ESPECIAL #01)
+       ========================================================================== */
+    .abdsul-feature-card {
+      margin-top: 2.25rem;
+      background: #FAF8F5;
+      border: 1px solid rgba(51, 68, 54, 0.22);
+      border-left: 3px solid var(--demeter-green);
+      padding: 1.65rem 1.85rem;
+      border-radius: 4px;
+      box-shadow: 0 6px 22px rgba(27, 25, 23, 0.04);
+      position: relative;
+      transition: var(--transition-pure);
+    }
+
+    .abdsul-feature-card:hover {
+      border-color: rgba(51, 68, 54, 0.38);
+      box-shadow: 0 10px 30px rgba(27, 25, 23, 0.08);
+    }
+
+    .abdsul-feature-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px dashed rgba(51, 68, 54, 0.16);
+    }
+
+    .abdsul-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .abdsul-pill {
+      font-family: var(--font-condensed);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--demeter-green);
+      color: #F7F5F0;
+      padding: 0.25rem 0.65rem;
+      border-radius: 2px;
+      line-height: 1.2;
+    }
+
+    .abdsul-cert-tag {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--demeter-green);
+      letter-spacing: 0.03em;
+    }
+
+    .abdsul-date {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--ink-tertiary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .abdsul-quote-lead {
+      font-family: var(--font-quote);
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--ink-primary);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+      font-variant-numeric: lining-nums;
+      font-feature-settings: 'lnum' 1;
+    }
+
+    .abdsul-feature-desc {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--ink-secondary);
+      line-height: 1.65;
+      margin-bottom: 1.35rem;
+    }
+
+    .abdsul-footer-cta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(27, 25, 23, 0.08);
+    }
+
+    .abdsul-btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--demeter-green);
+      background: rgba(51, 68, 54, 0.07);
+      border: 1px solid rgba(51, 68, 54, 0.28);
+      padding: 0.55rem 1.15rem;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: var(--transition-pure);
+    }
+
+    .abdsul-btn-link:hover {
+      background: var(--demeter-green);
+      color: #F7F5F0;
+      border-color: var(--demeter-green);
+      transform: translateY(-1px);
+    }
+
+    .abdsul-authority {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      color: var(--ink-tertiary);
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 768px) {
+      .abdsul-feature-card {
+        padding: 1.25rem;
+      }
+      .abdsul-footer-cta {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .abdsul-btn-link {
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* Sachertorte Section Box */
+    .sacher-clean-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-hairline);
+      padding: 3rem;
+      margin-top: 2rem;
+    }
+
+    /* Table for Fornadas */
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .calendar-table th,
+    .calendar-table td {
+      padding: 1.2rem 1rem;
+      border-bottom: 1px solid var(--border-hairline);
+      text-align: left;
+    }
+
+    .calendar-table th {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-tertiary);
+      border-top: 1px solid var(--border-hairline);
+    }
+
+    .table-day {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .table-time {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--brass-metal);
+      font-variant-numeric: tabular-nums lining-nums;
+      letter-spacing: 0.04em;
+    }
+
+    .table-breads {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      color: var(--ink-secondary);
+    }
+
+    /* Minimal WhatsApp Direct Box */
+    .order-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      padding: 3rem;
+      margin-top: 2rem;
+    }
+
+    .preset-chip {
+      padding: 0.8rem 1.1rem;
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-paper);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--ink-primary);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+      transition: var(--transition-pure);
+    }
+
+    .preset-chip:hover, .preset-chip.active {
+      border-color: var(--ink-primary);
+      background: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(27, 25, 23, 0.05);
+    }
+
+    .preset-chip.active {
+      border-left: 3px solid var(--brass-metal);
+    }
+
+    /* Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(26, 24, 22, 0.45);
+      backdrop-filter: blur(8px);
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .drawer-backdrop.open {
+      display: flex;
+      opacity: 1;
+      justify-content: flex-end;
+    }
+
+    .drawer-panel {
+      width: 100%;
+      max-width: 520px;
+      height: 100%;
+      background: var(--bg-paper);
+      border-left: 1px solid var(--border-strong);
+      padding: 3rem 2.5rem;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-backdrop.open .drawer-panel {
+      transform: translateX(0);
+    }
+
+    /* Costura de Linha Vermelha Artesanal (#C83E36 / #D63D33) */
+    .hand-stitched-spine {
+      position: relative;
+    }
+
+    .hand-stitched-spine::before {
+      content: "";
+      position: absolute;
+      top: 1.5rem;
+      bottom: 1.5rem;
+      left: 10px;
+      width: 2px;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        var(--stitch-red) 0px,
+        var(--stitch-red) 8px,
+        transparent 8px,
+        transparent 14px
+      );
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hand-stitched-spine::after {
+      content: "";
+      position: absolute;
+      top: 1.1rem;
+      left: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--stitch-red);
+      box-shadow: 0 0 0 2px var(--bg-paper);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .stitch-divider {
+      position: relative;
+      width: 100%;
+      height: 1px;
+      margin: 2rem 0;
+      background-image: repeating-linear-gradient(
+        to right,
+        var(--stitch-red) 0px,
+        var(--stitch-red) 6px,
+        transparent 6px,
+        transparent 12px
+      );
+      opacity: 0.75;
+    }
+
+    .stitch-divider::after {
+      content: "✦";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 8px;
+      color: var(--stitch-red);
+      background: var(--bg-paper);
+      padding-left: 6px;
+    }
+
+    /* Selo Oficial Histórico do Cardápio Físico */
+    .engelke-seal-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: transparent;
+      padding: 1.5rem 1rem 1rem 1rem;
+      width: 100%;
+      max-width: 290px;
+      margin: 0 auto 1.5rem auto;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .seal-frame {
+      position: relative;
+      width: 100%;
+      padding: 1.75rem 1rem 1.25rem 1rem;
+      border: 1.5px solid var(--ink-primary);
+      border-top: none;
+      box-sizing: border-box;
+    }
+
+    .seal-frame::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(50% - 48px);
+      height: 1.5px;
+      background: var(--ink-primary);
+    }
+
+    .seal-frame::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: calc(50% - 48px);
+      height: 1.5px;
+      background: var(--ink-primary);
+    }
+
+    .seal-head-slot {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--bg-paper);
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+
+    .seal-badge-label {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .seal-brand-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .seal-footer-manifesto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+      margin-top: 1.15rem;
+    }
+
+    .manifesto-line {
+      font-family: var(--font-sans);
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--ink-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .manifesto-plus {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--stitch-red);
+      line-height: 1.1;
+    }
+
+    .item-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .item-name {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .item-desc {
+      font-size: 0.82rem;
+      color: var(--ink-secondary);
+      margin-top: 3px;
+    }
+
+    .item-price {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    footer.clean-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-hairline);
+      padding: 4rem 2.5rem 3rem 2.5rem;
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    @media (max-width: 900px) {
+      .top-bar {
+        padding: 0.75rem 1.25rem;
+      }
+      .brand-name {
+        font-size: 1.05rem;
+        letter-spacing: 0.06em;
+      }
+      .brand-sub {
+        display: none !important;
+      }
+      .status-badge {
+        display: none !important;
+      }
+      .btn-text-desktop {
+        display: none !important;
+      }
+      .btn-text-mobile {
+        display: inline !important;
+      }
+      .btn-primary-dark {
+        padding: 0.45rem 0.85rem !important;
+        font-size: 0.74rem !important;
+        white-space: nowrap !important;
+      }
+      .half-layout {
+        width: 100%;
+        max-width: 100%;
+      }
+      #cap-1 {
+        justify-content: flex-start !important;
+        padding-top: 300px !important;
+      }
+      #sculpture-canvas {
+        opacity: 0.88; /* Presença volumétrica do latão no mobile sem sumir */
+        pointer-events: none;
+      }
+      .meta-row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.25rem 1rem !important;
+        padding: 1.25rem 0 !important;
+      }
+      .display-title {
+        font-size: clamp(2.1rem, 7.5vw, 2.75rem) !important;
+        line-height: 1.1 !important;
+        margin-bottom: 1.25rem !important;
+      }
+      .display-lead {
+        font-size: 1.15rem !important;
+        line-height: 1.52 !important;
+        margin-bottom: 2rem !important;
+      }
+      .hud-compass {
+        display: none;
+      }
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+    @media (min-width: 901px) {
+      .btn-text-mobile {
+        display: none !important;
+      }
+      .btn-text-desktop {
+        display: inline !important;
+      }
+    }
+  
+    /* ==========================================================================
+       AO VIVO: FAIXA DINÂMICA DE FORNADAS (Telemetria Direta do Forno)
+       ========================================================================== */
+    .live-fornada-banner {
+      background: #1A1816;
+      color: #F7F5F0;
+      border: 1px solid rgba(200, 155, 88, 0.4);
+      border-radius: 4px;
+      padding: 0.85rem 1.4rem;
+      margin-top: 5.5rem;
+      margin-bottom: -4rem;
+      position: relative;
+      z-index: 20;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      animation: bannerFadeIn 0.5s ease;
+    }
+
+    @keyframes bannerFadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .live-banner-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .live-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .ticker-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #D63D33;
+      box-shadow: 0 0 10px #D63D33;
+      animation: pulseTicker 1.8s infinite;
+      display: inline-block;
+    }
+
+    @keyframes pulseTicker {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    .live-banner-label {
+      font-family: var(--font-condensed);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #E0BA7E;
+    }
+
+    .live-banner-sep {
+      color: rgba(247, 245, 240, 0.4);
+    }
+
+    .live-banner-text {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: #F7F5F0;
+      font-weight: 500;
+    }
+
+    .live-banner-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #E0BA7E;
+      text-decoration: none;
+      border: 1px solid rgba(224, 186, 126, 0.4);
+      padding: 0.4rem 0.85rem;
+      border-radius: 3px;
+      transition: var(--transition-pure);
+    }
+
+    .live-banner-cta:hover {
+      background: #E0BA7E;
+      color: #1A1816;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Three.js Canvas: O Astrolábio Escultural de Latão -->
+  <canvas id="sculpture-canvas"></canvas>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <a href="#" class="brand-group">
+      <img src="assets/selo_oficial_desde2017.svg" alt="Brothaus Engelke Selo Oficial Desde 2017" style="width:48px; height:48px; flex-shrink:0; filter:drop-shadow(0 2px 6px rgba(148,96,59,0.18));">
+      <div>
+        <span class="brand-name">Brothaus Engelke</span>
+        <span class="brand-sub">Rio Tavares Central • Desde 2017</span>
+      </div>
+    </a>
+
+    <a href="https://www.abdsul.org.br/post/01-engelke-caf%C3%A9-s%C3%A9rie-especial-organismos-certificados-demeter-e-org%C3%A2nicos-do-spg-opac-abdsul" 
+       target="_blank" rel="noopener noreferrer" 
+       class="status-badge" 
+       style="display:flex; align-items:center; gap:0.65rem; text-decoration:none; cursor:pointer;"
+       title="Reportagem Oficial na ABDSul: Brothaus Engelke Certificada SPG/OPAC Demeter">
+      <img src="assets/selo_organico_2017.svg" alt="Certificado Orgânico Desde 2017" style="width:22px; height:22px; flex-shrink:0;">
+      <div class="status-dot"></div>
+      <span>CERTIFICADO ORGÂNICO DESDE 2017 • SPG/OPAC ABDSUL • DEMETER ↗</span>
+    </a>
+
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <button id="btn-open-menu" style="background:none; border:none; font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; cursor:pointer; color:var(--ink-secondary);">Cardápio</button>
+      <a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke%20e%20Gustavo!%20Gostaria%20de%20consultar%20as%20fornadas%20da%20Brothaus." 
+         target="_blank" rel="noopener noreferrer" class="btn-primary-dark">
+        <span class="btn-text-desktop">WhatsApp (48) 99830-1122</span>
+        <span class="btn-text-mobile">Reservar</span>
+        <i data-lucide="arrow-up-right" style="width:14px;height:14px;"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Mechanical Compass HUD Indicator -->
+  <div class="hud-compass">
+    <div class="hud-compass-dial">
+      <div class="hud-compass-needle" id="compass-needle"></div>
+    </div>
+    <span id="hud-chapter-label">Cap. 01 / O Totem</span>
+  </div>
+
+  <main>
+
+    <!-- LIVE FORNADA BANNER (Telemetria do Forno em Tempo Real) -->
+    <div id="live-fornada-ticker" class="live-fornada-banner" style="display:none; max-width:1240px; margin: 5.5rem auto -3.5rem auto;">
+      <div class="live-banner-inner">
+        <div class="live-banner-left">
+          <span class="ticker-pulse"></span>
+          <span class="live-banner-label">FORNO EM TEMPO REAL</span>
+          <span class="live-banner-sep">•</span>
+          <span id="ticker-text" class="live-banner-text">Fornada fresca de Sourdough Demeter saindo agora do forno!</span>
+        </div>
+        <a href="#cap-4" class="live-banner-cta">
+          <span>Ver Fornadas da Semana</span>
+          <i data-lucide="arrow-down" style="width:13px;height:13px;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- CHAPTER 01: O PROÊMIO & O TOTEM -->
+    <section class="section-block" id="cap-1" data-chapter="1">
+      <div class="half-layout">
+        <div class="section-kicker">Brothaus Engelke • Rio Tavares</div>
+        <h1 class="display-title">Boutique de<br>Pães Vivos.</h1>
+        <p class="display-lead">
+          O pão verdadeiro não aceita pressa. Grãos biodinâmicos puros, fermentação natural de 36 horas e o respeito absoluto ao solo e ao tempo das coisas bem feitas.
+        </p>
+
+        <div class="meta-row">
+          <div class="meta-col">
+            <span class="meta-label">Fundação</span>
+            <span class="meta-val">Maio de 2013</span>
+          </div>
+          <div class="meta-col">
+            <span class="meta-label">Mestres</span>
+            <span class="meta-val">Engelke & Gustavo</span>
+          </div>
+          <div class="meta-col">
+            <span class="meta-label">Certificação</span>
+            <span class="meta-val" style="color:var(--demeter-green); display:flex; align-items:center; gap:0.35rem;">
+              <span>Orgânico Desde 2017</span>
+            </span>
+          </div>
+          <div class="meta-col">
+            <span class="meta-label">Local</span>
+            <span class="meta-val">Rio Tavares • Floripa</span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+          <a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke%20e%20Gustavo!%20Gostaria%20de%20reservar%20p%C3%A3es%20da%20fornada." 
+             target="_blank" rel="noopener noreferrer" class="btn-primary-dark" style="padding:0.85rem 1.85rem;">
+            <span>Reservar no WhatsApp</span>
+            <i data-lucide="arrow-up-right" style="width:15px;height:15px;"></i>
+          </a>
+          <a href="#cap-4" style="font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.1em; color:var(--ink-secondary); text-decoration:none; border:1px solid var(--border-hairline); padding:0.85rem 1.5rem;">
+            Ver Fornadas da Semana ↓
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 02: A TERRA & O ASTROLÁBIO BIODINÂMICO -->
+    <section class="section-block" id="cap-2" data-chapter="2">
+      <div class="half-layout">
+        <div class="section-kicker">02 / A Aliança Demeter</div>
+        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; line-height:1.2; margin-bottom:1.5rem;">
+          O ritmo dos astros e a regeneração do solo.
+        </h2>
+        <p style="font-family:var(--font-quote); font-size:1.35rem; font-style:italic; color:var(--ink-secondary); line-height:1.6; border-left:2px solid var(--brass-metal); padding-left:1.5rem; margin-bottom:2rem; font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1, 'liga' 1;">
+          Assim como o astrolábio orienta o navegador pelas constelações, a agricultura biodinâmica respeita os ciclos da lua e do sol para colher grãos com vitalidade pura.
+        </p>
+
+        <div class="principles-list">
+          <div class="principle-entry">
+            <div class="principle-num">SPG / OPAC ABDSul</div>
+            <h3 class="principle-title">Certificação de Confiança Coletiva</h3>
+            <p class="principle-text">
+              Auditoria de pares entre agricultores e padeiros do Litoral Catarinense, garantindo trigo limpo de adubos químicos e livre de agrotóxicos.
+            </p>
+          </div>
+          <div class="principle-entry">
+            <div class="principle-num">Antroposofia de Rudolf Steiner</div>
+            <h3 class="principle-title">Alimento que Conecta Campo e Cidade</h3>
+            <p class="principle-text">
+              Resgate do vínculo entre o homem e a terra, transformando o ato diário de comer pão em um gesto de saúde e consciência.
+            </p>
+          </div>
+        </div>
+
+        <!-- DESTAQUE EDITORIAL & REPORTAGEM OFICIAL ABDSUL -->
+        <div class="abdsul-feature-card">
+          <div class="abdsul-feature-top">
+            <div class="abdsul-badge-group">
+              <span class="abdsul-pill">ABDSul • Série Especial #01</span>
+              <span class="abdsul-cert-tag">Demeter & Orgânicos SPG/OPAC</span>
+            </div>
+            <span class="abdsul-date">Publicação Oficial</span>
+          </div>
+
+          <div class="abdsul-quote-lead">
+            “A Engelke representa um exemplo de como a certificação participativa ultrapassa a dimensão burocrática e se transforma em compromisso ético compartilhado (...) restaurando vínculos entre campo e cidade, produtor e consumidor, economia e cuidado.”
+          </div>
+
+          <p class="abdsul-feature-desc">
+            Na matéria inaugural que celebra os organismos pioneiros da <strong>Associação de Agricultura Biodinâmica do Sul (ABDSul)</strong>, a Brothaus Engelke no Rio Tavares foi homenageada pelo rigor com fermentações lentas de 36 horas, grãos limpos de adubos químicos e compromisso vivo com a terra.
+          </p>
+
+          <div class="abdsul-footer-cta">
+            <a href="https://www.abdsul.org.br/post/01-engelke-caf%C3%A9-s%C3%A9rie-especial-organismos-certificados-demeter-e-org%C3%A2nicos-do-spg-opac-abdsul"
+               target="_blank" rel="noopener noreferrer" class="abdsul-btn-link">
+              <span>Ler Reportagem Oficial na ABDSul</span>
+              <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+            </a>
+            <span class="abdsul-authority">Associação de Agricultura Biodinâmica do Sul • SPG Litoral</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 03: O TEMPO & A FERMENTAÇÃO LENTA -->
+    <section class="section-block" id="cap-3" data-chapter="3">
+      <div class="half-layout">
+        <div class="section-kicker">03 / O Tempo & O Ofício</div>
+        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; line-height:1.2; margin-bottom:1.5rem;">
+          36 Horas de Fermentação Lenta.
+        </h2>
+        <p class="display-lead">
+          Quatro matérias puras: farinha biodinâmica, água cristalina, sal marinho e colônias selvagens de leveduras cuidadas dia a dia com a paciência dos mestres.
+        </p>
+
+        <div class="principles-list">
+          <div class="principle-entry">
+            <div class="principle-num">Maturação a Frio</div>
+            <h3 class="principle-title">Digestibilidade Perfeita</h3>
+            <p class="principle-text">
+              A fermentação lenta degrada o glúten naturalmente, eliminando o inchaço e criando notas aromáticas amendoadas que a panificação rápida jamais alcança.
+            </p>
+          </div>
+          <div class="principle-entry">
+            <div class="principle-num">Assamento Artesanal</div>
+            <h3 class="principle-title">A Crosta Caramelizada</h3>
+            <p class="principle-text">
+              Na temperatura exata do forno, os açúcares naturais do trigo caramelizam em tons dourados e âmbar, selando a crocância da crosta e a umidade do miolo aerado.
+            </p>
+          </div>
+
+          <div class="principle-entry" style="border-bottom:none; padding-bottom:0; margin-top:0.5rem;">
+            <div style="background:var(--bg-surface); border:1px solid var(--border-hairline); padding:0.75rem; box-shadow:0 8px 24px rgba(27,25,23,0.04);">
+              <div style="aspect-ratio:16/9; width:100%; height:auto; overflow:hidden; position:relative; border-radius:4px;">
+                <img src="assets/fornada_baguetes_wide_4k.jpg" alt="Fornada de Pães Vivos Brothaus Engelke com cortes diagonais e farinha viva" style="width:100%; height:100%; object-fit:cover; object-position:center 50%; filter:contrast(1.06) brightness(0.98);">
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem; font-family:var(--font-sans); font-size:0.68rem; font-weight:600; color:var(--ink-tertiary); letter-spacing:0.12em; text-transform:uppercase;">
+                <span>Cortes Rítmicos 42°</span>
+                <span style="color:var(--stitch-red);">✦ Fornada Viva</span>
+                <span>Farinha Demeter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 04: A CONFEITARIA VIENENSE & A SACHERTORE -->
+    <section class="section-block" id="cap-4" data-chapter="4">
+      <div class="half-layout">
+        <div class="section-kicker">04 / Confeitaria Imperial</div>
+        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; line-height:1.2; margin-bottom:1.5rem;">
+          A Lendária Sachertorte de 1832.
+        </h2>
+        
+        <div class="sacher-clean-box">
+          <p style="font-family:var(--font-quote); font-size:1.35rem; font-style:italic; color:var(--ink-secondary); line-height:1.6; margin-bottom:1.5rem; font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1, 'liga' 1;">
+            Criada em Viena por Franz Sacher sob encomenda do príncipe Metternich. Massa nobre de cacau puro, entremeada por compota artesanal de damascos frescos e ganache espelhada.
+          </p>
+
+          <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px solid var(--border-hairline); padding-top:1.25rem;">
+            <div>
+              <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-tertiary); text-transform:uppercase;">ENCOMENDA DE FIM DE SEMANA</span>
+              <div style="font-family:var(--font-sans); font-size:1.1rem; font-weight:600; color:var(--ink-primary); margin-top:2px;">Torta Inteira (1,6kg)</div>
+            </div>
+            <div style="font-family:var(--font-mono); font-size:1.1rem; font-weight:700; color:var(--ink-primary);">R$ 145,00</div>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem;">
+          <a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke!%20Gostaria%20de%20encomendar%201%20Sachertorte%20inteira%20para%20o%20fim%20de%20semana." 
+             target="_blank" rel="noopener noreferrer" class="btn-primary-dark">
+            <span>Encomendar Sachertorte no WhatsApp</span>
+            <i data-lucide="arrow-up-right" style="width:15px;height:15px;"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 05: O SINETE FINAL & O LIVRO DE FORNADAS -->
+    <section class="section-block" id="cap-5" data-chapter="5">
+      <div class="half-layout">
+        <div class="section-kicker">05 / O Livro de Fornadas</div>
+        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; color:var(--ink-primary);">
+          Fornadas & Reservas
+        </h2>
+        <p style="font-size:0.92rem; color:var(--ink-secondary); margin-top:0.5rem;">
+          Como os pães têm fermentação de 36 horas, as fornadas são pontuais e limitadas. Reserve sua fornada antes que esgote.
+        </p>
+
+        <table class="calendar-table">
+          <thead>
+            <tr>
+              <th>Dia</th>
+              <th>Horários</th>
+              <th>Fornada</th>
+              <th style="text-align:right;">Reserva</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="table-day">Quarta</td>
+              <td class="table-time">07h30 • 15h30</td>
+              <td class="table-breads">Sourdough Demeter & Ciabattas</td>
+              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20p%C3%A3es%20de%20quarta." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
+            </tr>
+            <tr>
+              <td class="table-day">Quinta</td>
+              <td class="table-time">07h30 • 15h30</td>
+              <td class="table-breads">100% Centeio Roggenbrot & Grãos</td>
+              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20o%20p%C3%A3o%20de%20centeio." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
+            </tr>
+            <tr>
+              <td class="table-day">Sexta</td>
+              <td class="table-time">07h30 • 15h30</td>
+              <td class="table-breads">Pão de Nozes com Figos & Baguetes</td>
+              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20p%C3%A3es%20de%20sexta." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
+            </tr>
+            <tr>
+              <td class="table-day">Sáb / Dom</td>
+              <td class="table-time">08h00 Especial</td>
+              <td class="table-breads">Sachertorte, Cestas & Cinnamon Rolls</td>
+              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20o%20caf%C3%A9%20do%20fim%20de%20semana." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Direct Dialogue with Baker -->
+        <div class="order-box">
+          <span style="font-family:var(--font-mono); font-size:0.68rem; color:var(--brass-metal); letter-spacing:0.18em; text-transform:uppercase;">DIRETAMENTE AO FORNO</span>
+          <h3 style="font-family:var(--font-serif); font-size:1.6rem; font-weight:600; color:var(--ink-primary); margin:0.4rem 0 0.8rem 0;">
+            Falar com Engelke & Gustavo
+          </h3>
+          <p style="font-size:0.88rem; color:var(--ink-secondary); margin-bottom:1.5rem;">
+            Selecione o item abaixo para abrir a conversa no WhatsApp já com seu pedido formulado:
+          </p>
+
+          <div class="preset-chip active" data-msg="Olá Engelke e Gustavo! Gostaria de encomendar 1 Sachertorte inteira para o fim de semana.">
+            <span>🎂 1 Sachertorte Inteira (1,6kg)</span>
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">R$ 145</span>
+          </div>
+          <div class="preset-chip" data-msg="Olá! Gostaria de reservar 2 Pães de Fermentação Natural Demeter da fornada de hoje.">
+            <span>🥖 2 Pães Fermentação Natural Demeter</span>
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">R$ 52</span>
+          </div>
+          <div class="preset-chip" data-msg="Olá! Gostaria de encomendar 1 Cesta de Café da Manhã especial para presente.">
+            <span>🧺 1 Cesta Especial de Café da Manhã</span>
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">R$ 185</span>
+          </div>
+
+          <a id="order-link-dynamic" 
+             href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke%20e%20Gustavo!%20Gostaria%20de%20encomendar%201%20Sachertorte%20inteira%20para%20o%20fim%20de%20semana." 
+             target="_blank" rel="noopener noreferrer" class="btn-primary-dark" style="margin-top:1.25rem; width:100%; justify-content:center; padding:0.9rem;">
+            <span>Falar no WhatsApp (48) 99830-1122</span>
+            <i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Drawer Menu (Encadernação com Costura de Linha Vermelha & Selo Oficial) -->
+  <div class="drawer-backdrop" id="menu-drawer">
+    <div class="drawer-panel hand-stitched-spine">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-hairline); padding-bottom:1.25rem; margin-bottom:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.85rem;">
+          <img src="assets/selo_oficial_desde2017.svg" alt="Selo Oficial" style="width:42px; height:42px;">
+          <div>
+            <span style="font-family:var(--font-condensed); font-size:1.35rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-primary); line-height:1;">Brothaus Engelke</span>
+            <span style="font-family:var(--font-sans); font-size:0.68rem; color:var(--crust-warm); font-weight:600; letter-spacing:0.12em; display:block; margin-top:2px;">PÃES E DOCES • DESDE 2017</span>
+          </div>
+        </div>
+        <button id="btn-close-menu" style="background:none; border:none; cursor:pointer; color:var(--ink-primary); padding:0.4rem;" aria-label="Fechar Cardápio">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+
+      <!-- Selo Histórico Oficial Brothaus Engelke -->
+      <div class="engelke-seal-box" style="margin-bottom:1.25rem;">
+        <div class="seal-frame">
+          <div class="seal-head-slot">
+            <span class="seal-badge-label">Pães e Cia.</span>
+          </div>
+          <div class="seal-brand-title">ENGELKE</div>
+        </div>
+        <div class="seal-footer-manifesto">
+          <span class="manifesto-line">Produtos Artesanais</span>
+          <span class="manifesto-plus">+</span>
+          <span class="manifesto-line">Ingredientes Orgânicos</span>
+        </div>
+      </div>
+
+      <!-- Banner de Certificação Orgânica Oficial Desde 2017 -->
+      <div style="background:var(--demeter-badge); border:1px solid rgba(51,68,54,0.2); border-radius:4px; padding:0.75rem 1rem; display:flex; align-items:center; gap:0.75rem; margin-bottom:1.75rem;">
+        <img src="assets/selo_organico_2017.svg" alt="Certificado Orgânico" style="width:34px; height:34px; flex-shrink:0;">
+        <div style="font-size:0.75rem; line-height:1.35; color:var(--demeter-green); width:100%;">
+          <strong style="font-family:var(--font-condensed); letter-spacing:0.06em; text-transform:uppercase; font-size:0.82rem; display:block;">Certificados Orgânicos Desde 2017</strong>
+          <span>Farinhas limpas, grãos biodinâmicos Demeter e fermentação selvagem.</span>
+          <div style="margin-top:0.45rem; padding-top:0.35rem; border-top:1px dashed rgba(51,68,54,0.18);">
+            <a href="https://www.abdsul.org.br/post/01-engelke-caf%C3%A9-s%C3%A9rie-especial-organismos-certificados-demeter-e-org%C3%A2nicos-do-spg-opac-abdsul"
+               target="_blank" rel="noopener noreferrer"
+               style="color:var(--demeter-green); font-weight:600; text-decoration:underline; text-underline-offset:2px; display:inline-flex; align-items:center; gap:0.25rem;">
+              <span>Reportagem Oficial ABDSul (Série Especial #01)</span>
+              <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stitch-divider"></div>
+
+      <!-- SEÇÃO 1: PÃES ARTESANAIS VIVOS -->
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span style="font-family:var(--font-condensed); font-size:1.05rem; font-weight:700; color:var(--brass-metal); letter-spacing:0.16em; text-transform:uppercase;">PÃES</span>
+          <span style="font-family:var(--font-sans); font-size:0.68rem; color:var(--ink-tertiary);">FERMENTAÇÃO NATURAL</span>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão Alemão (500g)</div>
+            <div class="item-desc">Nosso primeiro pão, adoramos. Azedinho, com um toque caramelizado, 100% integral e somente fermentação natural. Água, 75% centeio, 25% trigo integral, linhaça, gergelim, girassol, fermento natural e sal.</div>
+          </div>
+          <div class="item-price">R$ 27,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão 100% Centeio (500g)</div>
+            <div class="item-desc">Mais indicado pelas nutricionistas. 100% integral e somente fermentação natural. Tem sabor azedinho da fermentação do centeio. Água mineral, centeio, girassol, fermento natural e sal.</div>
+          </div>
+          <div class="item-price">R$ 27,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão de 3 Grãos (420g)</div>
+            <div class="item-desc">O queridinho da galera, mais vendido. São só 3 tipos de grãos, mas em bastante grão. 100% trigo integral. Água, farinha de trigo integral, linhaça, girassol, semente de abóbora, fermento natural, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 27,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão de Aveia (420g)</div>
+            <div class="item-desc">O sabor é bem suave, para quem está começando no mundo dos pães integrais. Nossas filhas adoram! 100% trigo integral. Água, farinha de trigo integral, aveia em flocos, fermento natural, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 27,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Ciabata Tradicional (200g)</div>
+            <div class="item-desc">Só com bastante azeite na massa, combina bem com doces também. Água, farinha de trigo branca, azeite de oliva, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 17,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Ciabata Azeitonas Pretas (200g)</div>
+            <div class="item-desc">Só precisa uma manteiguinha e pronto. Água, farinha de trigo branca, azeitonas pretas, azeite de oliva, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 19,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão Rústico</div>
+            <div class="item-desc">Combina com tudo, de sopa a churrasco, café da manhã, lanche da tarde... 50% integral. Água, farinha de trigo integral, farinha de trigo branca, fermento natural, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 27,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão Frutado</div>
+            <div class="item-desc">Especial! A gente adora comer ele com manteiga e um bom salame. 50% integral. Tâmaras, damascos, uvas passa e nozes, fermento natural e biológico.</div>
+          </div>
+          <div class="item-price">R$ 27,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Baguete</div>
+            <div class="item-desc">A baguete! E se gostar de brusqueta, achou seu pão preferido. Água, farinha de trigo branca, fermento natural, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 21,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Croissant de Queijo Colonial</div>
+            <div class="item-desc">Tradicional delícia, com muito queijo colonial. Farinha de trigo branca, manteiga de cupuaçu, queijo colonial, água, açúcar, sal e fermento biológico.</div>
+          </div>
+          <div class="item-price">R$ 169/kg <span style="font-size:0.75rem; color:var(--ink-tertiary); font-weight:normal;">(~R$ 13/un)</span></div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Croissant Vegano</div>
+            <div class="item-desc">Se algum dia você provar com creamcheese e geleia, nunca mais vai conseguir parar. Farinha de trigo branca, manteiga de cupuaçu pura, água, açúcar e sal.</div>
+          </div>
+          <div class="item-price">R$ 152/kg <span style="font-size:0.75rem; color:var(--ink-tertiary); font-weight:normal;">(~R$ 12/un)</span></div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Croissant de Chocolate Vegano</div>
+            <div class="item-desc">Se lambuze com essa delícia, sugestão com um bom café com leite. Manteiga de cupuaçu e chocolate meio amargo.</div>
+          </div>
+          <div class="item-price">R$ 169/kg <span style="font-size:0.75rem; color:var(--ink-tertiary); font-weight:normal;">(~R$ 13/un)</span></div>
+        </div>
+      </div>
+
+      <div class="stitch-divider"></div>
+
+      <!-- SEÇÃO 2: ACOMPANHAMENTOS ARTESANAIS -->
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span style="font-family:var(--font-condensed); font-size:1.05rem; font-weight:700; color:var(--brass-metal); letter-spacing:0.16em; text-transform:uppercase;">ACOMPANHAMENTOS</span>
+          <span style="font-family:var(--font-sans); font-size:0.68rem; color:var(--ink-tertiary);">RECEITAS DA CASA</span>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Geléias Artesanais (210g)</div>
+            <div class="item-desc">Framboesa, Amora ou Morango. Frutas puras cozidas lentamente.</div>
+          </div>
+          <div class="item-price">R$ 34,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Caponata (210g)</div>
+            <div class="item-desc">Berinjela ou Abobrinha temperada no azeite de oliva e ervas finas.</div>
+          </div>
+          <div class="item-price">R$ 34,00</div>
+        </div>
+      </div>
+
+      <div class="stitch-divider"></div>
+
+      <!-- SEÇÃO 3: SALGADOS ESPECIAIS -->
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span style="font-family:var(--font-condensed); font-size:1.05rem; font-weight:700; color:var(--brass-metal); letter-spacing:0.16em; text-transform:uppercase;">SALGADOS</span>
+          <span style="font-family:var(--font-sans); font-size:0.68rem; color:var(--ink-tertiary);">FORNO & CONGELADOS</span>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Massa de Pizza 50% Integral (28cm)</div>
+            <div class="item-desc">Com ou sem raspa de limão. Massa pré-assada de fermentação natural com molho de tomate e queijo colonial... não precisa mais nada!</div>
+          </div>
+          <div class="item-price">R$ 18,00</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão de Queijo Colonial (70g)</div>
+            <div class="item-desc">Cru ou congelado. Elogiado por mineiros e goianos. Queijo colonial, polvilho doce orgânico, água mineral, ovo, óleo de soja orgânico e sal.</div>
+          </div>
+          <div class="item-price">R$ 9,50</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Pão de Queijo c/ Azeitonas Pretas (70g)</div>
+            <div class="item-desc">Cru ou congelado. Deixe-se conquistar! Queijo colonial, polvilho orgânico e azeitonas pretas fatiadas.</div>
+          </div>
+          <div class="item-price">R$ 10,50</div>
+        </div>
+
+        <div class="item-line">
+          <div>
+            <div class="item-name">Enroladinho Artesanal</div>
+            <div class="item-desc">Combinação perfeita e bem recheada. Massa de pão trançada, recheada com creamcheese, queijo colonial e alho poró.</div>
+          </div>
+          <div class="item-price">R$ 169/kg <span style="font-size:0.75rem; color:var(--ink-tertiary); font-weight:normal;">(~R$ 12/un)</span></div>
+        </div>
+      </div>
+
+      <!-- Endereço Oficial e Reservas -->
+      <div style="border-top:1px solid var(--border-hairline); padding-top:1.5rem; margin-top:1.5rem; text-align:center;">
+        <span style="font-family:var(--font-serif); font-size:0.85rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-secondary); display:block; margin-bottom:1rem;">
+          SERVIDÃO ELPÍDIO DA ROCHA, 105 – RIO TAVARES
+        </span>
+        <a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke!%20Gostaria%20de%20fazer%20um%20pedido%20do%20card%C3%A1pio." 
+           target="_blank" rel="noopener noreferrer" class="btn-primary-dark" style="width:100%; justify-content:center; padding:0.95rem;">
+          <span>Pedir no WhatsApp (48) 99830-1122</span>
+          <i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="clean-footer">
+    <div class="footer-inner">
+      <div>
+        <div style="font-family:var(--font-serif); font-size:1.05rem; font-weight:600; text-transform:uppercase; margin-bottom:0.75rem;">Brothaus Engelke</div>
+        <p style="font-size:0.88rem; color:var(--ink-secondary); line-height:1.7;">
+          Boutique de pães vivos de fermentação natural e confeitaria vienense no Rio Tavares Central. Organismo certificado SPG/OPAC ABDSul — <a href="https://www.abdsul.org.br/post/01-engelke-caf%C3%A9-s%C3%A9rie-especial-organismos-certificados-demeter-e-org%C3%A2nicos-do-spg-opac-abdsul" target="_blank" rel="noopener noreferrer" style="color:var(--crust-warm); font-weight:600; text-decoration:underline; text-underline-offset:2px;">Ler matéria na ABDSul ↗</a>.
+        </p>
+      </div>
+      <div>
+        <div style="font-family:var(--font-serif); font-size:1.05rem; font-weight:600; text-transform:uppercase; margin-bottom:0.75rem;">Endereço</div>
+        <p style="font-size:0.88rem; color:var(--ink-secondary); line-height:1.7;">
+          Servidão Elpídio da Rocha, 105<br>Rio Tavares, Florianópolis - SC<br>CEP 88048-403
+        </p>
+      </div>
+      <div>
+        <div style="font-family:var(--font-serif); font-size:1.05rem; font-weight:600; text-transform:uppercase; margin-bottom:0.75rem;">Atendimento</div>
+        <p style="font-size:0.88rem; color:var(--ink-secondary); line-height:1.7;">
+          WhatsApp: (48) 99830-1122<br>Instagram: @engelke_cafe<br>Terça a Sábado: 07h30 às 19h30
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       THREE.JS: O ASTROLÁBIO ESCULTURAL DE LATÃO
+       ========================================================================= -->
+  <script>
+    lucide.createIcons();
+
+    // 1. Lenis Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.2,
+    });
+    window.lenis = lenis;
+
+    let currentScroll = 0;
+    let maxScroll = 1;
+    let scrollProgress = 0;
+
+    function handleScrollUpdate(scrollVal) {
+      currentScroll = scrollVal;
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      scrollProgress = Math.min(1, Math.max(0, currentScroll / maxScroll));
+      window.scrollProgress = scrollProgress;
+
+      // Update Compass needle rotation in HUD
+      const needle = document.getElementById('compass-needle');
+      if (needle) {
+        needle.style.transform = `rotate(${scrollProgress * 360}deg)`;
+      }
+
+      // Update HUD Chapter Label
+      const hudLabel = document.getElementById('hud-chapter-label');
+      if (hudLabel) {
+        if (scrollProgress < 0.22) hudLabel.innerText = "Cap. 01 / O Totem";
+        else if (scrollProgress < 0.44) hudLabel.innerText = "Cap. 02 / A Terra Demeter";
+        else if (scrollProgress < 0.68) hudLabel.innerText = "Cap. 03 / O Tempo & Ofício";
+        else if (scrollProgress < 0.88) hudLabel.innerText = "Cap. 04 / Sachertorte 1832";
+        else hudLabel.innerText = "Cap. 05 / O Sinete Final";
+      }
+    }
+
+    lenis.on('scroll', (e) => {
+      handleScrollUpdate(e.scroll);
+    });
+
+    window.addEventListener('scroll', () => {
+      handleScrollUpdate(window.scrollY || document.documentElement.scrollTop);
+    }, { passive: true });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // 2. Three.js Engine Setup
+    const canvas = document.getElementById('sculpture-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.10;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 16);
+
+    // --- PROCEDURAL BRUSHED METAL TEXTURE (Idêntico à Referência Real media_1789220525323.jpg) ---
+    function createBrushedMetalTexture() {
+      const bCanvas = document.createElement('canvas');
+      bCanvas.width = 512;
+      bCanvas.height = 512;
+      const ctx = bCanvas.getContext('2d');
+      ctx.fillStyle = '#827E7A';
+      ctx.fillRect(0, 0, 512, 512);
+
+      const rad = 35 * Math.PI / 180;
+      const cosA = Math.cos(rad);
+      const sinA = Math.sin(rad);
+
+      for (let i = 0; i < 22000; i++) {
+        const x = Math.random() * 650 - 80;
+        const y = Math.random() * 650 - 80;
+        const len = 35 + Math.random() * 140;
+        const val = Math.floor(Math.random() * 110 + 90);
+        const alpha = 0.05 + Math.random() * 0.14;
+        ctx.strokeStyle = `rgba(${val}, ${val}, ${val}, ${alpha})`;
+        ctx.lineWidth = Math.random() > 0.85 ? 1.5 : 0.75;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + cosA * len, y + sinA * len);
+        ctx.stroke();
+      }
+      const tex = new THREE.CanvasTexture(bCanvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(2.5, 2.5);
+      return tex;
+    }
+    const brushedTexture = createBrushedMetalTexture();
+
+    // --- PROCEDURAL STUDIO ENVIRONMENT MAP (PMREM) ---
+    function createStudioEnvironment(renderer) {
+      const pmremGenerator = new THREE.PMREMGenerator(renderer);
+      pmremGenerator.compileEquirectangularShader();
+      
+      const envScene = new THREE.Scene();
+      envScene.background = new THREE.Color(0x181512);
+
+      const panelGeom = new THREE.PlaneGeometry(1, 1);
+      
+      function addSoftbox(color, intensity, width, height, pos, targetPos) {
+        const mat = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(color).multiplyScalar(intensity),
+          side: THREE.DoubleSide
+        });
+        const mesh = new THREE.Mesh(panelGeom, mat);
+        mesh.scale.set(width, height, 1);
+        mesh.position.set(...pos);
+        mesh.lookAt(...(targetPos || [0, 0, 0]));
+        envScene.add(mesh);
+        return mesh;
+      }
+
+      // Key softbox: warm golden light from top-left
+      addSoftbox(0xFFE3B8, 4.0, 4.0, 8.0, [-5, 7, 5]);
+      // Rim softbox: cool crisp reflection on right silhouette
+      addSoftbox(0xD4E6FF, 2.4, 3.0, 9.0, [6, 4, -4]);
+      // Overhead strip: highlights the crown and top curve
+      addSoftbox(0xFDE5BE, 3.2, 8.0, 2.0, [0, 8, 2]);
+      // Bottom bounce: warm dough/hearth glow
+      addSoftbox(0x783D18, 2.4, 5.0, 5.0, [0, -6, 4]);
+      // Back fill: dark ambient tone
+      addSoftbox(0x2B170B, 1.4, 10.0, 10.0, [0, 0, -8]);
+
+      const renderTarget = pmremGenerator.fromScene(envScene, 0.04);
+      envScene.clear();
+      pmremGenerator.dispose();
+      return renderTarget.texture;
+    }
+
+    const studioEnvMap = createStudioEnvironment(renderer);
+    scene.environment = studioEnvMap;
+
+    // --- MATERIAL DE LATÃO/BRONZE ESCOVADO ESCURECIDO (PBR FÍSICO COM TEXTURA REAL) ---
+    // Calibrado fielmente à nova imagem de referência (media_1789220525323.jpg)
+    const brassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x94603B,        // Bronze-latão envelhecido aquecido (adeus ao dourado pálido)
+      emissive: 0x1E1006,     // Brilho quente de forno e forja
+      metalness: 0.88,
+      roughness: 0.38,
+      bumpMap: brushedTexture,
+      bumpScale: 0.008,
+      roughnessMap: brushedTexture,
+      clearcoat: 0.22,
+      clearcoatRoughness: 0.28,
+      reflectivity: 0.88,
+      envMapIntensity: 1.25,
+      side: THREE.DoubleSide
+    });
+
+    const darkSteelMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x322A24,
+      metalness: 0.90,
+      roughness: 0.45,
+      bumpMap: brushedTexture,
+      bumpScale: 0.005,
+      clearcoat: 0.12,
+      envMapIntensity: 1.0
+    });
+
+    // Astrolabe Master Group
+    const astrolabeGroup = new THREE.Group();
+    scene.add(astrolabeGroup);
+
+    // Posicionamento inteligente: Baia direita no desktop / Coroa superior no mobile
+    function updateLayoutPositions() {
+      if (window.innerWidth < 900) {
+        // Enquadramento perfeito na coroa superior do mobile
+        astrolabeGroup.position.set(0, 3.25, 0);
+        astrolabeGroup.scale.set(0.60, 0.60, 0.60);
+      } else {
+        astrolabeGroup.position.set(4.4, 0, 0);
+        astrolabeGroup.scale.set(1.0, 1.0, 1.0);
+      }
+    }
+    updateLayoutPositions();
+
+    // Helper para anéis chanfrados e extrudados com espessura sólida de forja
+    function createBeveledRing(rInner, rOuter, depth, bevel) {
+      const shape = new THREE.Shape();
+      shape.absarc(0, 0, rOuter, 0, Math.PI * 2, false);
+      const hole = new THREE.Path();
+      hole.absarc(0, 0, rInner, 0, Math.PI * 2, true);
+      shape.holes.push(hole);
+
+      const geom = new THREE.ExtrudeGeometry(shape, {
+        depth: depth,
+        bevelEnabled: true,
+        bevelThickness: bevel,
+        bevelSize: bevel,
+        bevelSegments: 3,
+        curveSegments: 96
+      });
+      geom.center();
+      return geom;
+    }
+
+    // --- Componente A: Anel Externo (Outer Gimbal - Eixo X) ---
+    const outerGimbalGroup = new THREE.Group();
+    astrolabeGroup.add(outerGimbalGroup);
+
+    const outerRingMesh = new THREE.Mesh(createBeveledRing(2.62, 2.82, 0.16, 0.016), brassMaterial);
+    outerRingMesh.castShadow = true;
+    outerRingMesh.receiveShadow = true;
+    outerGimbalGroup.add(outerRingMesh);
+
+    // Parafusos e pinos do eixo no aro externo
+    const pivotTop = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.32, 24), darkSteelMaterial);
+    pivotTop.position.set(0, 2.76, 0);
+    outerGimbalGroup.add(pivotTop);
+
+    const pivotBottom = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.32, 24), darkSteelMaterial);
+    pivotBottom.position.set(0, -2.76, 0);
+    outerGimbalGroup.add(pivotBottom);
+
+    // Flange de Apoio na Base Inferior do Totem
+    const flangeDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.48, 0.08, 48), brassMaterial);
+    flangeDisc.position.set(0, -2.88, 0);
+    outerGimbalGroup.add(flangeDisc);
+
+    // --- Componente B: Anel Interno (Inner Gimbal - Eixo Y Desacoplado) ---
+    const innerGimbalGroup = new THREE.Group();
+    astrolabeGroup.add(innerGimbalGroup);
+
+    const innerRingMesh = new THREE.Mesh(createBeveledRing(2.26, 2.42, 0.14, 0.015), brassMaterial);
+    innerRingMesh.castShadow = true;
+    innerRingMesh.receiveShadow = true;
+    innerGimbalGroup.add(innerRingMesh);
+
+    // --- Componente C: O CISNE CENTRAL 3D DE ALTA PRECISÃO (Extrusão Sólida Chanfrada) ---
+    const swanCoords = [[-0.32432, 0.7619], [-0.2677, 0.75418], [-0.23681, 0.74389], [-0.1982, 0.72587], [-0.14672, 0.69241], [-0.09524, 0.64093], [-0.05663, 0.58172], [-0.03346, 0.52252], [-0.02059, 0.4556], [-0.02059, 0.40154], [-0.02317, 0.39897], [-0.02317, 0.38095], [-0.02831, 0.35521], [-0.05148, 0.28829], [-0.09781, 0.1982], [-0.09781, 0.19305], [-0.10553, 0.18275], [-0.10553, 0.17761], [-0.13385, 0.13127], [-0.14929, 0.09781], [-0.24968, -0.0695], [-0.35521, -0.22909], [-0.40669, -0.30116], [-0.42471, -0.33462], [-0.43501, -0.38353], [-0.43243, -0.42214], [-0.42214, -0.45817], [-0.40154, -0.49421], [-0.36036, -0.53797], [-0.33462, -0.55598], [-0.29601, -0.57658], [-0.23423, -0.59459], [-0.19305, -0.60232], [-0.17503, -0.60232], [-0.17246, -0.60489], [-0.14929, -0.60489], [-0.14672, -0.60746], [-0.05405, -0.60746], [-0.05148, -0.60489], [-0.01544, -0.60232], [-0.00257, -0.59717], [-0.0592, -0.58172], [-0.15187, -0.54826], [-0.16216, -0.53797], [-0.16474, -0.53024], [-0.16216, -0.51995], [-0.15187, -0.50965], [-0.12613, -0.51223], [-0.07465, -0.53024], [-0.04376, -0.53539], [-0.0103, -0.54569], [0.05663, -0.55598], [0.0592, -0.55856], [0.09524, -0.56113], [0.09781, -0.56371], [0.11068, -0.56371], [0.16474, -0.53539], [0.1879, -0.51737], [0.20335, -0.51223], [0.21107, -0.5148], [0.21879, -0.52252], [0.22136, -0.53282], [0.21622, -0.54569], [0.19048, -0.574], [0.19305, -0.57658], [0.25225, -0.57915], [0.25483, -0.58172], [0.38095, -0.58172], [0.38353, -0.57915], [0.43758, -0.57658], [0.53024, -0.55856], [0.58172, -0.53797], [0.60489, -0.5148], [0.60489, -0.50193], [0.59974, -0.48906], [0.574, -0.46589], [0.5148, -0.43758], [0.40927, -0.40927], [0.34492, -0.39897], [0.32947, -0.39382], [0.27027, -0.3861], [0.2677, -0.38353], [0.24968, -0.38353], [0.22651, -0.37838], [0.1982, -0.37838], [0.19562, -0.3758], [0.15187, -0.3758], [0.14929, -0.37323], [0.07465, -0.37323], [0.06178, -0.36808], [0.05148, -0.35264], [0.05148, -0.33977], [0.0592, -0.3269], [0.07465, -0.3166], [0.09266, -0.31145], [0.14157, -0.30888], [0.14414, -0.30631], [0.16731, -0.30631], [0.16988, -0.30373], [0.20077, -0.30373], [0.20335, -0.30116], [0.23166, -0.30116], [0.23423, -0.29858], [0.26255, -0.29858], [0.26512, -0.29601], [0.29086, -0.29601], [0.29344, -0.29344], [0.31918, -0.29344], [0.32175, -0.29086], [0.34749, -0.29086], [0.35006, -0.28829], [0.39125, -0.28571], [0.39382, -0.28314], [0.41184, -0.28314], [0.46589, -0.27284], [0.48134, -0.27284], [0.53024, -0.26255], [0.56113, -0.25225], [0.57915, -0.23938], [0.574, -0.23166], [0.55084, -0.21622], [0.49421, -0.19048], [0.41441, -0.16731], [0.39125, -0.16474], [0.36551, -0.15701], [0.33205, -0.15444], [0.32947, -0.15187], [0.28571, -0.14929], [0.28314, -0.14672], [0.23938, -0.14672], [0.23681, -0.14414], [0.16216, -0.14672], [0.15959, -0.14929], [0.139, -0.14929], [0.13642, -0.15187], [0.12098, -0.15187], [0.1184, -0.15444], [0.10296, -0.15444], [0.06435, -0.16216], [-0.01287, -0.18533], [-0.05148, -0.20335], [-0.06692, -0.20335], [-0.07722, -0.19562], [-0.07979, -0.17246], [-0.0695, -0.15959], [-0.02831, -0.139], [0.03604, -0.1184], [0.08752, -0.10811], [0.15187, -0.10296], [0.15444, -0.10039], [0.19305, -0.10039], [0.19562, -0.09781], [0.30373, -0.10039], [0.30631, -0.10296], [0.35779, -0.10553], [0.36036, -0.10811], [0.41699, -0.11583], [0.51737, -0.14414], [0.53797, -0.15444], [0.54569, -0.15444], [0.59202, -0.17761], [0.62033, -0.1982], [0.63835, -0.21879], [0.6435, -0.23166], [0.64093, -0.25997], [0.61519, -0.28571], [0.58945, -0.29858], [0.54569, -0.31403], [0.48906, -0.3269], [0.47362, -0.3269], [0.40669, -0.33977], [0.40927, -0.34492], [0.42214, -0.34492], [0.48906, -0.36036], [0.55856, -0.38353], [0.62033, -0.41441], [0.66152, -0.45045], [0.67181, -0.46589], [0.67439, -0.48134], [0.60746, -0.56371], [0.55341, -0.61519], [0.5148, -0.62291], [0.48134, -0.62548], [0.47876, -0.62806], [0.43501, -0.63063], [0.43243, -0.6332], [0.39125, -0.6332], [0.38867, -0.63578], [0.30116, -0.63578], [0.29858, -0.6332], [0.23166, -0.63063], [0.22909, -0.62806], [0.20849, -0.62806], [0.20592, -0.62548], [0.18533, -0.62548], [0.18275, -0.62291], [0.11068, -0.61519], [0.0695, -0.63578], [0.01287, -0.65122], [-0.00257, -0.65122], [-0.04118, -0.65894], [-0.0695, -0.65894], [-0.07207, -0.66152], [-0.13642, -0.66152], [-0.139, -0.65894], [-0.16988, -0.65894], [-0.17246, -0.65637], [-0.21364, -0.6538], [-0.2677, -0.6435], [-0.29601, -0.63578], [-0.30373, -0.63063], [-0.31145, -0.63063], [-0.35521, -0.61261], [-0.39125, -0.59202], [-0.43243, -0.56113], [-0.47362, -0.5148], [-0.5045, -0.45817], [-0.51737, -0.39897], [-0.5148, -0.34234], [-0.49936, -0.29086], [-0.47362, -0.2471], [-0.32175, -0.03089], [-0.22394, 0.12355], [-0.20077, 0.16731], [-0.18018, 0.1982], [-0.14929, 0.25483], [-0.12098, 0.31145], [-0.12098, 0.3166], [-0.11583, 0.32175], [-0.09524, 0.3758], [-0.09009, 0.40154], [-0.09009, 0.47362], [-0.09266, 0.47619], [-0.09266, 0.48906], [-0.10553, 0.53024], [-0.13127, 0.58172], [-0.14672, 0.60232], [-0.1879, 0.6435], [-0.20849, 0.65894], [-0.25225, 0.68468], [-0.29601, 0.70013], [-0.32432, 0.70013], [-0.33719, 0.68983], [-0.33719, 0.68468], [-0.31403, 0.64865], [-0.30888, 0.62806], [-0.3166, 0.58945], [-0.33462, 0.55341], [-0.36036, 0.51995], [-0.37838, 0.50193], [-0.39382, 0.49421], [-0.40154, 0.49421], [-0.41184, 0.50193], [-0.41441, 0.51223], [-0.38353, 0.56885], [-0.37838, 0.60232], [-0.3861, 0.61776], [-0.40927, 0.64093], [-0.41699, 0.65637], [-0.42214, 0.67696], [-0.35521, 0.713], [-0.35264, 0.71557], [-0.35264, 0.74903], [-0.3269, 0.75933]];
+
+    const swanGroup = new THREE.Group();
+    astrolabeGroup.add(swanGroup);
+
+    const swanShape = new THREE.Shape();
+    swanShape.moveTo(swanCoords[0][0], swanCoords[0][1]);
+    for (let i = 1; i < swanCoords.length; i++) {
+      swanShape.lineTo(swanCoords[i][0], swanCoords[i][1]);
+    }
+    swanShape.closePath();
+
+    const swanExtrudeSettings = {
+      steps: 1,
+      depth: 0.052,
+      bevelEnabled: true,
+      bevelThickness: 0.007,
+      bevelSize: 0.006,
+      bevelOffset: -0.002,
+      bevelSegments: 4
+    };
+
+    const swanGeometry = new THREE.ExtrudeGeometry(swanShape, swanExtrudeSettings);
+    swanGeometry.center();
+    const swanMesh = new THREE.Mesh(swanGeometry, brassMaterial);
+    swanMesh.castShadow = true;
+    swanMesh.receiveShadow = true;
+    swanMesh.scale.set(2.55, 2.55, 2.55);
+    swanMesh.position.set(0.02, 0.14, 0);
+    swanGroup.add(swanMesh);
+
+    // --- Partículas Finas de Farinha Orgânica & Trigo em Suspensão ---
+    const dustCount = 180;
+    const dustGeo = new THREE.BufferGeometry();
+    const dustPositions = new Float32Array(dustCount * 3);
+
+    for (let i = 0; i < dustCount; i++) {
+      dustPositions[i * 3 + 0] = (Math.random() - 0.5) * 14;
+      dustPositions[i * 3 + 1] = (Math.random() - 0.5) * 14;
+      dustPositions[i * 3 + 2] = (Math.random() - 0.5) * 8;
+    }
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+
+    const dustMaterial = new THREE.PointsMaterial({
+      color: 0x94603B,
+      size: 0.08,
+      transparent: true,
+      opacity: 0.45
+    });
+    const dustPoints = new THREE.Points(dustGeo, dustMaterial);
+    scene.add(dustPoints);
+
+    // --- Iluminação Cênica de Estúdio ---
+    const ambientLight = new THREE.AmbientLight(0xFFF9F0, 1.2);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xFFE3B8, 2.4);
+    keyLight.position.set(5, 8, 10);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0xD4E6FF, 1.5);
+    rimLight.position.set(-6, 4, -4);
+    scene.add(rimLight);
+
+    // Luz âmbar de brasa de forno
+    const ovenLight = new THREE.PointLight(0xD46A27, 0.3, 30);
+    ovenLight.position.set(2, -5, 6);
+    scene.add(ovenLight);
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      updateLayoutPositions();
+    });
+
+    // Mouse & Touch Tracking para Paralaxe Suave
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    // 3. CINEMÁTICA CONTÍNUA DE ALTA RELOJOARIA (INSPIRADA NO RELÓGIO DE PRECISÃO)
+    // Sem recuo retrógrado: rotação estritamente contínua e progressiva ao longo do scroll
+    let targetGroupRotX = 0;
+    let targetGroupRotY = 0;
+    let targetGroupRotZ = 0;
+    let targetOuterRotX = 0;
+    let targetInnerRotY = 0;
+    let targetSwanRotY = 0;
+    let clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      // --- CINEMÁTICA SINCRONIZADA DE ALTA RELOJOARIA & CONVERGÊNCIA NO SINETE FINAL ---
+      // p: 0.0 (Hero) a 1.0 (Fim da Página)
+      const p = scrollProgress;
+
+      // Ponto de Convergência Perfeita (Ponto da Foto: Seção "Falar com Engelke & Gustavo"):
+      // Exatamente no ponto da foto (p >= pLock), todos os componentes atingem múltiplos inteiros de 2*PI,
+      // alinhando o anel externo, anel interno e o cisne rigorosamente de frente ("certinho de novo").
+      const pLock = 0.93;
+      const u = Math.min(1.0, Math.max(0.0, p / pLock));
+
+      // 1. Envelope Tridimensional do Grupo Mestre:
+      // O grupo se inclina suavemente durante os capítulos centrais (revelando relevo, profundidade e reflexos de latão),
+      // e retorna harmonicamente para 0 (frontal absoluto) ao chegar na seção final do pedido.
+      const orbitEnvelope = Math.sin(Math.PI * u);
+      targetGroupRotX = orbitEnvelope * 0.42; // Até ~24° de inclinação escultural no Cap 2/3
+      targetGroupRotY = orbitEnvelope * 0.58; // Até ~33° de órbita lateral suave
+      targetGroupRotZ = orbitEnvelope * 0.12; // Sutil inclinação axial
+
+      // 2. Gimbal Externo (Eixo X): Exatamente 1 volta completa contínua (2*PI = 360° = 0° relativo)
+      targetOuterRotX = u * Math.PI * 2.0;
+
+      // 3. Gimbal Interno (Eixo Y): Exatamente 2 voltas completas em contragiro (-4*PI = -720° = 0° relativo)
+      targetInnerRotY = -u * Math.PI * 4.0;
+
+      // 4. Cisne Central (Eixo Y): Exatamente 3 voltas completas de turbilhão (6*PI = 1080° = 0° relativo)
+      // + Pulso vivo de escapamento mecânico suave (4 Hz)
+      const escapementPulse = Math.sin(time * 6.0) * 0.015;
+      targetSwanRotY = (u * Math.PI * 6.0) + escapementPulse;
+
+      // Intensidade do calor do forno (ápice térmico no Cap. 3)
+      if (p >= 0.36 && p <= 0.72) {
+        const hearthP = 1.0 - Math.abs(p - 0.54) / 0.18;
+        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.4 + hearthP * 3.8, 0.08);
+      } else {
+        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.3, 0.05);
+      }
+
+      // Interpolação ágil e suave
+      const isMob = window.innerWidth < 900;
+      const lerpSpd = isMob ? 0.16 : 0.12;
+
+      astrolabeGroup.rotation.x = THREE.MathUtils.lerp(astrolabeGroup.rotation.x, targetGroupRotX + (mouseY * 0.12), lerpSpd);
+      astrolabeGroup.rotation.y = THREE.MathUtils.lerp(astrolabeGroup.rotation.y, targetGroupRotY + (mouseX * 0.15), lerpSpd);
+      astrolabeGroup.rotation.z = THREE.MathUtils.lerp(astrolabeGroup.rotation.z, targetGroupRotZ, lerpSpd);
+
+      outerGimbalGroup.rotation.x = THREE.MathUtils.lerp(outerGimbalGroup.rotation.x, targetOuterRotX, lerpSpd);
+      innerGimbalGroup.rotation.y = THREE.MathUtils.lerp(innerGimbalGroup.rotation.y, targetInnerRotY, lerpSpd);
+      swanGroup.rotation.y = THREE.MathUtils.lerp(swanGroup.rotation.y, targetSwanRotY, lerpSpd);
+
+      // Micro levitação do astrolábio (mantendo o palco superior no mobile)
+      astrolabeGroup.position.y = (isMob ? 3.25 : 0) + Math.sin(time * 1.5) * 0.05;
+
+      // Atenuação dinâmica de opacidade no mobile para leitura cristalina
+      if (isMob) {
+        // No topo absoluto (hero), presença escultural nítida (0.85).
+        // Assim que começa a rolar para baixo (0 a 180px), o texto sobe sobre o astrolábio;
+        // atenua suavemente para 0.28 (marca d'água etérea), garantindo legibilidade e contraste impecáveis.
+        const scrollFade = Math.min(1.0, Math.max(0.0, currentScroll / 180));
+        const targetCanvasOpacity = 0.85 - (scrollFade * 0.57); // 0.85 -> 0.28
+        const currentCanvasOpacity = parseFloat(canvas.style.opacity) || 0.85;
+        canvas.style.opacity = THREE.MathUtils.lerp(currentCanvasOpacity, targetCanvasOpacity, 0.15).toFixed(3);
+      } else {
+        if (canvas.style.opacity !== '1') canvas.style.opacity = '1';
+      }
+
+      // Partículas de farinha orgânica flutuando
+      const pArr = dustGeo.attributes.position.array;
+      for (let i = 0; i < dustCount; i++) {
+        pArr[i * 3 + 1] += 0.0035;
+        if (pArr[i * 3 + 1] > 7) pArr[i * 3 + 1] = -7;
+      }
+      dustGeo.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Drawer Controls
+    const drawer = document.getElementById('menu-drawer');
+    const btnOpen = document.getElementById('btn-open-menu');
+    const btnClose = document.getElementById('btn-close-menu');
+    if (btnOpen) btnOpen.addEventListener('click', () => drawer.classList.add('open'));
+    if (btnClose) btnClose.addEventListener('click', () => drawer.classList.remove('open'));
+    drawer.addEventListener('click', (e) => { if (e.target === drawer) drawer.classList.remove('open'); });
+
+    // Preset Chip Order Selector
+    const chips = document.querySelectorAll('.preset-chip');
+    const orderLink = document.getElementById('order-link-dynamic');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const msg = chip.getAttribute('data-msg');
+        orderLink.href = `https://api.whatsapp.com/send?phone=5548998301122&text=${encodeURIComponent(msg)}`;
+      });
+    });
+  
+    // =========================================================================
+    // BROTHAUS ENGELKE • SINCRONIZAÇÃO DINÂMICA DE FORNADAS (Stale-While-Revalidate)
+    // =========================================================================
+    (function() {
+      const STATUS_MAP = {
+        'saindo_agora': { text: '🔥 Saindo Agora', class: 'saindo_agora' },
+        'ativo': { text: '🥖 No Balcão', class: 'disponivel' },
+        'disponivel': { text: '✅ Disponível', class: 'disponivel' },
+        'preparando': { text: '⏳ No Forno', class: 'ultimas_unidades' },
+        'ultimas_unidades': { text: '⚠️ Poucos', class: 'ultimas_unidades' },
+        'esgotado': { text: '🚫 Esgotado', class: 'esgotado' },
+        'pausado': { text: '🌙 Em Breve', class: 'esgotado' }
+      };
+
+      function renderizarFornadas(data) {
+        if (!data) return;
+
+        // 1. Alerta ao Vivo no Topo do Site
+        const ticker = document.getElementById('live-fornada-ticker');
+        const tickerText = document.getElementById('ticker-text');
+        if (ticker && tickerText && data.config) {
+          if (data.config.alerta_ativo && data.config.alerta_texto) {
+            tickerText.textContent = data.config.alerta_texto;
+            ticker.style.display = 'block';
+          } else {
+            ticker.style.display = 'none';
+          }
+        }
+      }
+
+      // Aplica dados de cache imediatamente
+      if (window.ENGELKE_CONFIG) {
+        const cached = window.ENGELKE_CONFIG.getCachedData();
+        if (cached) renderizarFornadas(cached);
+
+        const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
+        if (apiUrl) {
+          fetch(`${apiUrl}?action=get`, { redirect: 'follow' })
+            .then(res => res.json())
+            .then(json => {
+              if (json && json.success && json.data) {
+                window.ENGELKE_CONFIG.setCachedData(json.data);
+                renderizarFornadas(json.data);
+              }
+            })
+            .catch(err => console.log('Modo offline de fornadas ativo:', err));
+        }
+      }
+    })();
+
+  </script>
+</body>
+</html>
