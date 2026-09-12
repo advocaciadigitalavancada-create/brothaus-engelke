@@ -14,6 +14,15 @@
   <link rel="apple-touch-icon" href="../assets/cisne_totem_dourado.png">
   <link rel="icon" type="image/png" href="../assets/cisne_totem_dourado.png">
 
+  <!-- WhatsApp & Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Brothaus Engelke • Painel Móvel do Padeiro">
+  <meta property="og:description" content="Painel de atualização do ritmo do forno, fornadas vivas e gerador de Stories do Instagram.">
+  <meta property="og:url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/admin/">
+  <meta property="og:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
   <!-- Tipografia Engelke -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,38 +109,38 @@
     }
 
     .brand-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--gold-subtle);
-      border: 1px solid var(--gold);
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      color: var(--gold);
+      flex-shrink: 0;
     }
 
-    .brand-icon img {
-      width: 26px;
-      height: 26px;
-      object-fit: contain;
+    .brand-icon svg {
+      width: 36px;
+      height: 36px;
+      filter: drop-shadow(0 2px 6px rgba(200, 155, 88, 0.35));
     }
 
     .brand-title {
       font-family: var(--font-condensed);
-      font-size: 1.15rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--ink-pure);
-      line-height: 1.1;
+      color: #FFFFFF;
+      line-height: 1;
     }
 
     .brand-sub {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--gold);
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      font-weight: 600;
+      margin-top: 3px;
     }
 
     .top-actions {
@@ -250,82 +259,108 @@
       border: 1px solid rgba(200, 155, 88, 0.3);
     }
 
-    /* Botoes de Status do Forno (Touch Ultra-Ergonomico) */
-    .forno-status-grid {
+    /* Seletor Ultra-Ergonômico: 2 Modos Reais (Quente vs Normal) */
+    .mode-segment-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.65rem;
+      background: var(--bg-input);
+      padding: 5px;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      gap: 6px;
     }
 
-    .status-btn {
-      background: var(--bg-card-elevated);
-      border: 1.5px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 0.9rem 0.75rem;
+    .mode-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
+      justify-content: center;
       gap: 0.35rem;
+      padding: 0.95rem 0.75rem;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--ink-secondary);
+      font-family: var(--font-condensed);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .status-btn .icon-emoji {
+    .mode-btn .mode-emoji {
       font-size: 1.6rem;
     }
 
-    .status-btn .status-text {
-      font-family: var(--font-condensed);
-      font-size: 0.9rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--ink-pure);
-    }
-
-    .status-btn .status-sub {
+    .mode-btn .mode-sub {
       font-size: 0.65rem;
       color: var(--ink-muted);
+      font-family: var(--font-sans);
+      font-weight: 500;
+      letter-spacing: normal;
+      text-transform: none;
     }
 
-    .status-btn:active {
-      transform: scale(0.96);
-    }
-
-    .status-btn.active[data-val="saindo_agora"] {
-      background: rgba(214, 61, 51, 0.15);
+    .mode-btn.active[data-mode="saindo_agora"] {
+      background: rgba(214, 61, 51, 0.16);
       border-color: var(--alert-red);
-      box-shadow: 0 0 16px rgba(214, 61, 51, 0.3);
+      color: #FF8F87;
+      box-shadow: 0 4px 16px rgba(214, 61, 51, 0.25);
     }
-    .status-btn.active[data-val="saindo_agora"] .status-text {
-      color: #FF7B73;
-    }
-
-    .status-btn.active[data-val="ativo"] {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: var(--alert-green);
-      box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
-    }
-    .status-btn.active[data-val="ativo"] .status-text {
-      color: #34D399;
+    .mode-btn.active[data-mode="saindo_agora"] .mode-sub {
+      color: #FFB3AD;
     }
 
-    .status-btn.active[data-val="preparando"] {
-      background: rgba(200, 155, 88, 0.15);
-      border-color: var(--gold);
-      box-shadow: 0 0 16px rgba(200, 155, 88, 0.3);
+    .mode-btn.active[data-mode="ativo"] {
+      background: rgba(66, 91, 70, 0.35);
+      border-color: #5C7F62;
+      color: #5CE084;
+      box-shadow: 0 4px 16px rgba(66, 91, 70, 0.3);
     }
-    .status-btn.active[data-val="preparando"] .status-text {
-      color: var(--gold-light);
+    .mode-btn.active[data-mode="ativo"] .mode-sub {
+      color: #A3E8B8;
     }
 
-    .status-btn.active[data-val="pausado"] {
-      background: rgba(122, 114, 104, 0.2);
-      border-color: var(--ink-muted);
+    /* Acordeão do Cronograma Semanal (Qua a Dom) */
+    .crono-details {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
-    .status-btn.active[data-val="pausado"] .status-text {
-      color: var(--ink-secondary);
+
+    .crono-summary {
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: var(--font-condensed);
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-pure);
+      list-style: none;
+      user-select: none;
+    }
+
+    .crono-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .crono-details[open] .crono-summary {
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .crono-details-content {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
     }
 
     /* Form Inputs */
@@ -343,6 +378,90 @@
       color: var(--ink-secondary);
       display: flex;
       justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .label-badge {
+      font-size: 0.68rem;
+      color: var(--gold);
+      text-transform: none;
+      font-weight: 500;
+      letter-spacing: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .input-with-action {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .input-with-action .text-input {
+      padding-left: 2.6rem;
+      padding-right: 2.4rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: rgba(20, 17, 15, 0.7);
+      border: 1.5px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .input-with-action .text-input:focus {
+      border-color: var(--gold);
+      background: rgba(20, 17, 15, 0.95);
+      box-shadow: 0 0 0 3px rgba(200, 155, 88, 0.15);
+    }
+
+    .input-left-icon {
+      position: absolute;
+      left: 0.85rem;
+      color: var(--gold);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      opacity: 0.85;
+    }
+
+    .btn-clear-input {
+      position: absolute;
+      right: 0.6rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--ink-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-clear-input:hover, .btn-clear-input:active {
+      background: rgba(200, 155, 88, 0.25);
+      color: var(--gold-light);
+      border-color: var(--gold);
+    }
+
+    .quick-chip.chip-custom {
+      background: rgba(200, 155, 88, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .quick-chip.chip-custom:active {
+      background: var(--gold);
+      color: #141210;
     }
 
     .text-input, .text-area {
@@ -751,24 +870,29 @@
        ========================================================================= -->
   <div class="lock-overlay" id="lock-screen">
     <div class="lock-box">
-      <div class="lock-totem">
-        <img src="../assets/cisne_totem_dourado.png" alt="Brothaus Engelke" style="width:38px;height:38px;object-fit:contain;">
+      <div style="width:68px; height:68px; display:flex; align-items:center; justify-content:center; color:var(--gold); margin:0 auto 0.25rem auto;">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:62px;height:62px; filter:drop-shadow(0 4px 12px rgba(200,155,88,0.4));">
+          <circle cx="50" cy="50" r="44" stroke-width="1.8" stroke-opacity="0.5" />
+          <circle cx="50" cy="50" r="39" stroke-width="2.6" />
+          <path d="M 66 33 C 65 24 59 20 55 21 C 51.5 22.5 52 30 53.5 38 C 55.5 48 62 58 70 67 C 75 72.5 77.8 75.8 78.5 77.5" stroke-width="2.8" />
+          <path d="M 59 55 C 44 54 28 55 23 60 C 20.5 62.5 21.5 65.5 26 66.5 C 36 67.5 46 68 47.5 68.5 C 36 71 23 73.5 21.5 77 C 20.5 80 23.5 81.5 33 81.5 C 48 81.5 68 80.5 78.5 77.5" stroke-width="2.8" />
+        </svg>
       </div>
       <div>
-        <h2 style="font-family:var(--font-condensed); font-size:1.35rem; letter-spacing:0.06em; text-transform:uppercase;">
-          Brothaus Engelke
+        <h2 style="font-family:var(--font-condensed); font-size:1.45rem; letter-spacing:0.1em; text-transform:uppercase; color:#FFFFFF;">
+          ENGELKE
         </h2>
-        <p style="font-size:0.8rem; color:var(--ink-secondary); margin-top:0.25rem;">
-          Painel do Forno • Digite o PIN de 4 dígitos
+        <p style="font-size:0.75rem; color:var(--gold); margin-top:0.2rem; text-transform:uppercase; letter-spacing:0.1em; font-weight:600;">
+          Painel do Forno
         </p>
       </div>
 
       <input type="password" id="input-pin" class="pin-input" maxlength="6" inputmode="numeric" placeholder="••••" autocomplete="off">
       
-      <button class="btn-unlock" id="btn-unlock">Desbloquear</button>
+      <button class="btn-unlock" id="btn-unlock">Entrar no Painel</button>
 
       <p style="font-size:0.72rem; color:var(--ink-muted);">
-        Dica: PIN padrão de fábrica: <strong style="color:var(--gold);">1832</strong>
+        PIN padrão: <strong style="color:var(--gold);">1832</strong>
       </p>
     </div>
   </div>
@@ -779,11 +903,16 @@
   <header class="top-bar">
     <div class="brand-group">
       <div class="brand-icon">
-        <img src="../assets/cisne_totem_dourado.png" alt="Cisne Engelke">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="50" cy="50" r="44" stroke-width="1.8" stroke-opacity="0.5" />
+          <circle cx="50" cy="50" r="39" stroke-width="2.6" />
+          <path d="M 66 33 C 65 24 59 20 55 21 C 51.5 22.5 52 30 53.5 38 C 55.5 48 62 58 70 67 C 75 72.5 77.8 75.8 78.5 77.5" stroke-width="2.8" />
+          <path d="M 59 55 C 44 54 28 55 23 60 C 20.5 62.5 21.5 65.5 26 66.5 C 36 67.5 46 68 47.5 68.5 C 36 71 23 73.5 21.5 77 C 20.5 80 23.5 81.5 33 81.5 C 48 81.5 68 80.5 78.5 77.5" stroke-width="2.8" />
+        </svg>
       </div>
       <div>
-        <div class="brand-title">Brothaus Engelke</div>
-        <div class="brand-sub">Painel das Fornadas</div>
+        <div class="brand-title">ENGELKE</div>
+        <div class="brand-sub">Painel do Forno</div>
       </div>
     </div>
     <div class="top-actions">
@@ -797,76 +926,101 @@
   </header>
 
   <!-- =========================================================================
-       CONTEÚDO PRINCIPAL
+       CONTEÚDO PRINCIPAL (Ultra-Simplificado: 3 Segundos do Padeiro)
        ========================================================================= -->
   <main class="app-container">
 
-    <!-- Status da Sincronização -->
+    <!-- Status da Conexão Discreto -->
     <div class="status-strip">
       <div class="status-dot-group">
         <div class="status-dot" id="conn-dot"></div>
-        <span id="conn-text" style="color:var(--ink-secondary);">Conectando à planilha...</span>
+        <span id="conn-text" style="color:var(--ink-secondary); font-weight:500;">Conectando...</span>
       </div>
       <span id="last-sync-time" style="color:var(--ink-muted); font-size:0.72rem;"></span>
     </div>
 
-    <!-- CARD 1: Status Imediato do Forno -->
-    <section class="card">
+    <!-- CARD PRINCIPAL: A FORNADA DE HOJE -->
+    <section class="card" style="border: 1.5px solid rgba(200, 155, 88, 0.35);">
       <div class="card-header">
         <div class="card-title-group">
           <i data-lucide="flame" style="width:18px;height:18px; color:var(--gold);"></i>
-          <h2 class="card-title">Status do Forno em Tempo Real</h2>
+          <h2 class="card-title">Status da Fornada</h2>
         </div>
-        <span class="card-badge">1 Toque</span>
+        <span class="card-badge" id="badge-modo-atual">🔥 Quente</span>
       </div>
 
-      <div class="forno-status-grid">
-        <div class="status-btn active" data-val="saindo_agora" onclick="setFornoStatus('saindo_agora')">
-          <span class="icon-emoji">🔥</span>
-          <span class="status-text">Saindo Agora</span>
-          <span class="status-sub">Fornada no forno</span>
-        </div>
-
-        <div class="status-btn" data-val="ativo" onclick="setFornoStatus('ativo')">
-          <span class="icon-emoji">🥖</span>
-          <span class="status-text">No Balcão</span>
-          <span class="status-sub">Pães frescos prontos</span>
-        </div>
-
-        <div class="status-btn" data-val="preparando" onclick="setFornoStatus('preparando')">
-          <span class="icon-emoji">⏳</span>
-          <span class="status-text">No Forno</span>
-          <span class="status-sub">Assando agora</span>
-        </div>
-
-        <div class="status-btn" data-val="pausado" onclick="setFornoStatus('pausado')">
-          <span class="icon-emoji">🌙</span>
-          <span class="status-text">Descanso</span>
-          <span class="status-sub">Próxima fornada breve</span>
-        </div>
+      <!-- 2 MODOS CLAROS: OU TEM FORNADA QUENTE OU RITMO NORMAL -->
+      <div class="mode-segment-container">
+        <button type="button" class="mode-btn active" data-mode="saindo_agora" onclick="setModoFornada('saindo_agora')">
+          <span class="mode-emoji">🔥</span>
+          <span>Fornada Quente</span>
+          <span class="mode-sub">Avisa no site e stories</span>
+        </button>
+        <button type="button" class="mode-btn" data-mode="ativo" onclick="setModoFornada('ativo')">
+          <span class="mode-emoji">🥖</span>
+          <span>Ritmo Normal</span>
+          <span class="mode-sub">Cardápio do dia a dia</span>
+        </button>
       </div>
 
+      <!-- O QUE ESTÁ SAINDO COM CHIPS DE 1 TOQUE OU DIGITAÇÃO LIVRE -->
       <div class="field-group">
         <label class="field-label">
-          <span>Próxima Fornada / Horário Previsto</span>
+          <span>O que está saindo do forno?</span>
+          <span class="label-badge"><i data-lucide="edit-3" style="width:12px;height:12px;"></i> Digite livremente ou use atalhos</span>
         </label>
-        <input type="text" id="input-proxima-fornada" class="text-input" placeholder="Ex: Hoje às 15h30 ou Amanhã 07h30">
+        <div class="input-with-action">
+          <span class="input-left-icon">
+            <i data-lucide="wheat" style="width:18px;height:18px;"></i>
+          </span>
+          <input type="text" id="input-pao-destaque" class="text-input" placeholder="Escreva qualquer pão (ex: Focaccia de Alecrim, Brioche...)" autocomplete="off">
+          <button type="button" class="btn-clear-input" onclick="limparCampo('input-pao-destaque')" title="Limpar para escrever outro pão">
+            ✕
+          </button>
+        </div>
+        <div class="preset-chips-scroll" style="margin-top:0.35rem;">
+          <button type="button" class="quick-chip chip-custom" onclick="focarParaEscrever('input-pao-destaque')">
+            <i data-lucide="pen-tool" style="width:12px;height:12px;"></i> Digitar Outro...
+          </button>
+          <button type="button" class="quick-chip" onclick="preencherPao('Sourdough Tradicional Demeter')">🥖 Sourdough Demeter</button>
+          <button type="button" class="quick-chip" onclick="preencherPao('Baguetes Francesas de Tradição')">🥖 Baguetes</button>
+          <button type="button" class="quick-chip" onclick="preencherPao('Pão 100% Centeio Roggenbrot')">🍞 Centeio Puro</button>
+          <button type="button" class="quick-chip" onclick="preencherPao('Sachertorte Vienense de 1832')">🎂 Sachertorte</button>
+          <button type="button" class="quick-chip" onclick="preencherPao('Cinnamon Rolls Folhados')">🌀 Cinnamon</button>
+        </div>
       </div>
 
+      <!-- HORÁRIO COM CHIPS DE 1 TOQUE OU DIGITAÇÃO LIVRE -->
       <div class="field-group">
         <label class="field-label">
-          <span>Pão em Destaque do Momento</span>
+          <span>Horário da fornada</span>
+          <span class="label-badge"><i data-lucide="clock" style="width:12px;height:12px;"></i> Digite livremente ou use atalhos</span>
         </label>
-        <input type="text" id="input-pao-destaque" class="text-input" placeholder="Ex: Sourdough Tradicional Demeter & Baguetes">
+        <div class="input-with-action">
+          <span class="input-left-icon">
+            <i data-lucide="clock" style="width:18px;height:18px;"></i>
+          </span>
+          <input type="text" id="input-proxima-fornada" class="text-input" placeholder="Escreva qualquer horário (ex: Hoje às 16h15, Amanhã 07h...)" autocomplete="off">
+          <button type="button" class="btn-clear-input" onclick="limparCampo('input-proxima-fornada')" title="Limpar para escrever outro horário">
+            ✕
+          </button>
+        </div>
+        <div class="preset-chips-scroll" style="margin-top:0.35rem;">
+          <button type="button" class="quick-chip chip-custom" onclick="focarParaEscrever('input-proxima-fornada')">
+            <i data-lucide="pen-tool" style="width:12px;height:12px;"></i> Digitar Horário...
+          </button>
+          <button type="button" class="quick-chip" onclick="preencherHorario('Saindo Agora!')">🔥 Saindo Agora!</button>
+          <button type="button" class="quick-chip" onclick="preencherHorario('Hoje às 15h30')">⏰ 15h30</button>
+          <button type="button" class="quick-chip" onclick="preencherHorario('Hoje às 17h00')">⏰ 17h00</button>
+          <button type="button" class="quick-chip" onclick="preencherHorario('Amanhã às 07h30')">🌅 Amanhã 07h30</button>
+        </div>
       </div>
-    </section>
 
-    <!-- CARD 2: Alerta ao Vivo no Topo do Site -->
-    <section class="card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <i data-lucide="bell" style="width:18px;height:18px; color:var(--alert-amber);"></i>
-          <h2 class="card-title">Faixa ao Vivo no Site</h2>
+      <!-- FAIXA URGENTE NO SITE -->
+      <div class="toggle-row" style="padding-top:0.6rem; border-top:1px solid var(--border-subtle);">
+        <div class="toggle-label-group">
+          <span class="toggle-title">Faixa urgente no topo do site</span>
+          <span class="toggle-sub">Avisa os clientes ao vivo na página</span>
         </div>
         <label class="switch">
           <input type="checkbox" id="switch-alerta" checked>
@@ -874,95 +1028,60 @@
         </label>
       </div>
 
-      <p style="font-size:0.78rem; color:var(--ink-secondary); line-height:1.4;">
-        Quando ativado, exibe uma tarja dourada piscante com o aviso da fornada no topo do site para os clientes.
-      </p>
-
-      <div class="field-group">
-        <label class="field-label">
-          <span>Mensagem da Faixa</span>
-        </label>
-        <textarea id="input-alerta-texto" class="text-area" placeholder="Digite a mensagem do padeiro..."></textarea>
-      </div>
-
-      <div class="preset-chips-scroll">
-        <button class="quick-chip" onclick="aplicarPresetAlerta('🔥 Fornada de Sourdough Demeter acabou de sair do forno!')">🔥 Sourdough Quente</button>
-        <button class="quick-chip" onclick="aplicarPresetAlerta('🥖 Baguetes parisienses crocantes saindo às 15h30!')">🥖 Baguetes 15h30</button>
-        <button class="quick-chip" onclick="aplicarPresetAlerta('🎂 Sachertorte Vienense de 1832 disponível em fatias hoje!')">🎂 Sachertorte</button>
-        <button class="quick-chip" onclick="aplicarPresetAlerta('⚠️ Poucas unidades de Pão de Centeio 100% Roggenbrot!')">⚠️ Centeio Esgotando</button>
-      </div>
+      <input type="hidden" id="input-alerta-texto">
     </section>
 
-    <!-- CARD 3: Cronograma Semanal de Fornadas -->
-    <section class="card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <i data-lucide="calendar" style="width:18px;height:18px; color:var(--gold);"></i>
-          <h2 class="card-title">Cronograma Semanal</h2>
+    <!-- CRONOGRAMA SEMANAL (DOBRADO/RECOLHIDO PARA NÃO POLUIR) -->
+    <details class="crono-details" id="details-crono">
+      <summary class="crono-summary">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <i data-lucide="calendar" style="width:16px;height:16px; color:var(--gold);"></i>
+          <span>Editar Cardápio Semanal (Qua a Dom)</span>
         </div>
-        <span class="card-badge">Tabela</span>
-      </div>
+        <i data-lucide="chevron-down" style="width:18px;height:18px; color:var(--ink-muted);"></i>
+      </summary>
+      
+      <div class="crono-details-content">
+        <div class="crono-tabs" id="crono-tabs-container">
+          <button type="button" class="crono-tab-btn active" data-id="qua" onclick="selecionarDiaCrono('qua')">Qua</button>
+          <button type="button" class="crono-tab-btn" data-id="qui" onclick="selecionarDiaCrono('qui')">Qui</button>
+          <button type="button" class="crono-tab-btn" data-id="sex" onclick="selecionarDiaCrono('sex')">Sex</button>
+          <button type="button" class="crono-tab-btn" data-id="fim" onclick="selecionarDiaCrono('fim')">Sáb/Dom</button>
+        </div>
 
-      <div class="crono-tabs" id="crono-tabs-container">
-        <button class="crono-tab-btn active" data-id="qua" onclick="selecionarDiaCrono('qua')">Qua</button>
-        <button class="crono-tab-btn" data-id="qui" onclick="selecionarDiaCrono('qui')">Qui</button>
-        <button class="crono-tab-btn" data-id="sex" onclick="selecionarDiaCrono('sex')">Sex</button>
-        <button class="crono-tab-btn" data-id="fim" onclick="selecionarDiaCrono('fim')">Sáb/Dom</button>
-      </div>
-
-      <div class="crono-editor-body">
         <div class="field-group">
-          <label class="field-label">Status da Fornada Deste Dia</label>
-          <div class="status-select-row" id="crono-status-options">
-            <button class="status-pill-opt selected" data-st="saindo_agora" onclick="setDiaStatus('saindo_agora')">🔥 Saindo Agora</button>
-            <button class="status-pill-opt" data-st="disponivel" onclick="setDiaStatus('disponivel')">✅ Disponível</button>
-            <button class="status-pill-opt" data-st="ultimas_unidades" onclick="setDiaStatus('ultimas_unidades')">⚠️ Poucos</button>
-            <button class="status-pill-opt" data-st="esgotado" onclick="setDiaStatus('esgotado')">🚫 Esgotado</button>
+          <label class="field-label">Status deste dia</label>
+          <div class="status-select-row">
+            <button type="button" class="status-pill-opt selected" data-st="saindo_agora" onclick="setDiaStatus('saindo_agora')">🔥 Saindo Agora</button>
+            <button type="button" class="status-pill-opt" data-st="disponivel" onclick="setDiaStatus('disponivel')">✅ Disponível</button>
+            <button type="button" class="status-pill-opt" data-st="ultimas_unidades" onclick="setDiaStatus('ultimas_unidades')">⚠️ Poucos</button>
+            <button type="button" class="status-pill-opt" data-st="esgotado" onclick="setDiaStatus('esgotado')">🚫 Esgotado</button>
           </div>
         </div>
 
         <div class="field-group">
-          <label class="field-label">Horários das Fornadas</label>
+          <label class="field-label">Horários</label>
           <input type="text" id="input-crono-horarios" class="text-input" placeholder="Ex: 07h30 • 15h30">
         </div>
 
         <div class="field-group">
-          <label class="field-label">Pães & Itens em Produção</label>
-          <textarea id="input-crono-paes" class="text-area" placeholder="Ex: Sourdough Tradicional Demeter & Ciabatta..."></textarea>
+          <label class="field-label">Pães deste dia</label>
+          <textarea id="input-crono-paes" class="text-area" placeholder="Pães programados..."></textarea>
         </div>
       </div>
-    </section>
+    </details>
 
-    <!-- CARD 4: Instagram Stories Automatizado (1080x1920) -->
-    <section class="card">
-      <div class="card-header">
-        <div class="card-title-group">
-          <i data-lucide="instagram" style="width:18px;height:18px; color:var(--gold);"></i>
-          <h2 class="card-title">Story para Instagram (9:16)</h2>
-        </div>
-        <span class="card-badge">1080×1920</span>
+    <!-- OPÇÃO DISCRETA DE STORY -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:0.6rem 0.85rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:12px;">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <i data-lucide="instagram" style="width:16px;height:16px; color:var(--gold);"></i>
+        <span style="font-size:0.8rem; color:var(--ink-secondary);">Baixar Story automático (1080×1920)</span>
       </div>
-
-      <p style="font-size:0.78rem; color:var(--ink-secondary); line-height:1.4;">
-        Gera automaticamente uma imagem em alta resolução com a tipografia oficial (Playfair/Oswald), cores e o totem do Cisne Dourado para postar nos Stories.
-      </p>
-
-      <div class="toggle-row">
-        <div class="toggle-label-group">
-          <span class="toggle-title">Baixar Story ao publicar</span>
-          <span class="toggle-sub">Salva direto nas fotos do celular</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="switch-auto-story" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <button class="icon-btn" style="width:100%; height:auto; padding:0.8rem 1rem; border-radius:12px; gap:0.5rem; color:var(--gold-light); font-weight:600; font-size:0.85rem; background:var(--bg-card-elevated); border-color:rgba(200, 155, 88, 0.4);" onclick="gerarEVisualizarStory(false)">
-        <i data-lucide="sparkles" style="width:16px;height:16px; color:var(--gold);"></i>
-        <span>Visualizar & Baixar Story Agora</span>
-      </button>
-    </section>
+      <label class="switch" style="transform:scale(0.85); transform-origin:right center;">
+        <input type="checkbox" id="switch-auto-story" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
 
   </main>
 
@@ -973,7 +1092,7 @@
     <div class="publish-inner">
       <button class="btn-publish" id="btn-publish" onclick="publicarAlteracoes()">
         <i data-lucide="send" style="width:20px;height:20px;"></i>
-        <span>Publicar Fornada no Site</span>
+        <span>Publicar & Baixar Story</span>
       </button>
       <button class="icon-btn" style="width:52px; height:52px; border-radius:14px; background:var(--bg-card-elevated); border:1.5px solid var(--gold); flex-shrink:0;" onclick="gerarEVisualizarStory(false)" title="Gerar Story do Instagram">
         <i data-lucide="instagram" style="width:22px;height:22px; color:var(--gold-light);"></i>
@@ -1169,42 +1288,102 @@
     }
 
     function atualizarCamposInterface() {
-      // 1. Status do Forno
-      const statusVal = state.config.status_forno || 'ativo';
-      document.querySelectorAll('.status-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-val') === statusVal);
-      });
+      // 1. Modo do Forno (Quente vs Normal)
+      const statusVal = state.config.status_forno || 'saindo_agora';
+      setModoFornada(statusVal, false);
 
-      document.getElementById('input-proxima-fornada').value = state.config.proxima_fornada || '';
-      document.getElementById('input-pao-destaque').value = state.config.pao_destaque_hoje || '';
+      document.getElementById('input-proxima-fornada').value = state.config.proxima_fornada || 'Saindo Agora!';
+      document.getElementById('input-pao-destaque').value = state.config.pao_destaque_hoje || 'Sourdough Tradicional Demeter';
 
       // 2. Alerta
-      document.getElementById('switch-alerta').checked = !!state.config.alerta_ativo;
-      document.getElementById('input-alerta-texto').value = state.config.alerta_texto || '';
+      const switchAlerta = document.getElementById('switch-alerta');
+      if (switchAlerta) {
+        switchAlerta.checked = (state.config.alerta_ativo !== false);
+      }
 
-      // 3. Cronograma
+      // 3. Cronograma Semanal
       renderizarDiaCrono();
     }
 
     // -------------------------------------------------------------
-    // Manipulação dos Controles
+    // Manipulação dos Controles Simplificados
     // -------------------------------------------------------------
-    function setFornoStatus(val) {
+    function setModoFornada(val, vibrate = true) {
       state.config.status_forno = val;
-      document.querySelectorAll('.status-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-val') === val);
+      const isQuente = (val === 'saindo_agora');
+
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-mode') === val);
       });
-      if (navigator.vibrate) navigator.vibrate(30);
+
+      const badge = document.getElementById('badge-modo-atual');
+      if (badge) {
+        badge.textContent = isQuente ? '🔥 Quente' : '🥖 Normal';
+        badge.style.color = isQuente ? '#FF8F87' : '#5CE084';
+        badge.style.borderColor = isQuente ? 'rgba(214, 61, 51, 0.4)' : 'rgba(92, 224, 132, 0.4)';
+      }
+
+      const switchAlerta = document.getElementById('switch-alerta');
+      if (switchAlerta) {
+        switchAlerta.checked = isQuente;
+      }
+      state.config.alerta_ativo = isQuente;
+
+      if (vibrate && navigator.vibrate) navigator.vibrate(30);
     }
 
-    function aplicarPresetAlerta(texto) {
-      document.getElementById('input-alerta-texto').value = texto;
-      document.getElementById('switch-alerta').checked = true;
-      state.config.alerta_texto = texto;
-      state.config.alerta_ativo = true;
-      if (navigator.vibrate) navigator.vibrate(20);
-      mostrarToast('Preset aplicado!');
+    function focarParaEscrever(inputId) {
+      const el = document.getElementById(inputId);
+      if (!el) return;
+      el.value = '';
+      el.focus();
+      if (inputId === 'input-pao-destaque') {
+        state.config.pao_destaque_hoje = '';
+        setModoFornada('saindo_agora');
+      } else if (inputId === 'input-proxima-fornada') {
+        state.config.proxima_fornada = '';
+      }
+      if (navigator.vibrate) navigator.vibrate(25);
+      mostrarToast(inputId === 'input-pao-destaque' ? 'Digite o nome do pão no teclado' : 'Digite o horário no teclado');
     }
+
+    function limparCampo(inputId) {
+      const el = document.getElementById(inputId);
+      if (!el) return;
+      el.value = '';
+      el.focus();
+      if (inputId === 'input-pao-destaque') {
+        state.config.pao_destaque_hoje = '';
+      } else if (inputId === 'input-proxima-fornada') {
+        state.config.proxima_fornada = '';
+      }
+      if (navigator.vibrate) navigator.vibrate(15);
+    }
+
+    function preencherPao(nome) {
+      document.getElementById('input-pao-destaque').value = nome;
+      state.config.pao_destaque_hoje = nome;
+      setModoFornada('saindo_agora');
+      if (navigator.vibrate) navigator.vibrate(25);
+    }
+
+    function preencherHorario(hora) {
+      document.getElementById('input-proxima-fornada').value = hora;
+      state.config.proxima_fornada = hora;
+      if (navigator.vibrate) navigator.vibrate(25);
+    }
+
+    // Sincronização em tempo real conforme o padeiro digita
+    document.getElementById('input-pao-destaque').addEventListener('input', (e) => {
+      state.config.pao_destaque_hoje = e.target.value;
+      if (e.target.value.trim().length > 0 && state.config.status_forno !== 'saindo_agora') {
+        setModoFornada('saindo_agora', false);
+      }
+    });
+
+    document.getElementById('input-proxima-fornada').addEventListener('input', (e) => {
+      state.config.proxima_fornada = e.target.value;
+    });
 
     function selecionarDiaCrono(id) {
       salvarDiaCronoAtual();
@@ -1252,11 +1431,17 @@
     async function publicarAlteracoes() {
       salvarDiaCronoAtual();
 
-      // Atualiza valores da config
-      state.config.proxima_fornada = document.getElementById('input-proxima-fornada').value;
-      state.config.pao_destaque_hoje = document.getElementById('input-pao-destaque').value;
+      // Atualiza valores da config automaticamente
+      const pao = document.getElementById('input-pao-destaque').value.trim() || 'Sourdough Tradicional Demeter';
+      const horario = document.getElementById('input-proxima-fornada').value.trim() || 'Saindo Agora!';
+      const isQuente = (state.config.status_forno === 'saindo_agora');
+
+      state.config.pao_destaque_hoje = pao;
+      state.config.proxima_fornada = horario;
       state.config.alerta_ativo = document.getElementById('switch-alerta').checked;
-      state.config.alerta_texto = document.getElementById('input-alerta-texto').value;
+      state.config.alerta_texto = isQuente
+        ? `🔥 Fornada de ${pao} saindo agora do lastro de pedra!`
+        : `🥖 Pães biodinâmicos Demeter frescos disponíveis no balcão da Brothaus.`;
       state.config.ultima_atualizacao = new Date().toISOString();
 
       // Salva imediatamente no cache local do dispositivo
@@ -1272,7 +1457,7 @@
       if (!apiUrl) {
         setTimeout(() => {
           btn.classList.remove('loading');
-          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar Fornada no Site</span>';
+          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar & Baixar Story</span>';
           lucide.createIcons();
           if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
           mostrarToast('Salvo no dispositivo (Modo Local)', 'info');
@@ -1309,7 +1494,7 @@
         if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
 
         if (json.success) {
-          mostrarToast('✅ Fornadas publicadas no site da Brothaus!');
+          mostrarToast('✅ Fornada publicada no site da Brothaus!');
           document.getElementById('last-sync-time').textContent = 'Sinc: ' + formatarHora(new Date().toISOString());
 
           // Disparo automático do Story do Instagram para os Stories do celular
@@ -1324,14 +1509,14 @@
         }
 
         setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar Fornada no Site</span>';
+          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar & Baixar Story</span>';
           lucide.createIcons();
         }, 2200);
 
       } catch (err) {
         console.error('Falha na requisição:', err);
         btn.classList.remove('loading');
-        btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar Fornada no Site</span>';
+        btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar & Baixar Story</span>';
         lucide.createIcons();
         mostrarToast('Erro de rede. Dados salvos localmente.', 'warning');
 
