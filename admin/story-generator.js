@@ -91,25 +91,10 @@ window.EngelkeStoryGenerator = (function() {
 
     curY += 60;
 
-    // Carrega e desenha o Totem do Cisne Dourado
-    try {
-      const imgTotem = await carregarImagem('../assets/cisne_totem_dourado.png');
-      const totemSize = 140;
-      
-      // Halo sutil ao redor do totem
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(CANVAS_WIDTH / 2, curY + totemSize / 2, totemSize / 2 + 16, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(200, 155, 88, 0.25)';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.drawImage(imgTotem, CANVAS_WIDTH / 2 - totemSize / 2, curY, totemSize, totemSize);
-      curY += totemSize + 35;
-    } catch (e) {
-      curY += 40;
-    }
+    // Totem do Cisne Dourado em Vetor Puro (sem caixa cinza de fundo)
+    const totemRadius = 70;
+    desenharTotemCisneVetorial(ctx, CANVAS_WIDTH / 2, curY + totemRadius, totemRadius);
+    curY += totemRadius * 2 + 35;
 
     // Título Principal da Marca
     ctx.font = '700 58px "Oswald", sans-serif';
@@ -392,6 +377,92 @@ window.EngelkeStoryGenerator = (function() {
     }
     ctx.fillText(line.trim(), x, curY);
     return curY;
+  }
+
+  function desenharTotemCisneVetorial(ctx, cx, cy, r) {
+    ctx.save();
+    ctx.strokeStyle = '#C89B58';
+    ctx.fillStyle = '#C89B58';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Aro Externo e Interno Duplo
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.lineWidth = 3.5;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 0.9, 0, Math.PI * 2);
+    ctx.lineWidth = 1.8;
+    ctx.strokeStyle = 'rgba(200, 155, 88, 0.6)';
+    ctx.stroke();
+
+    // Pescoço e Cabeça do Cisne
+    ctx.strokeStyle = '#E0BA7E';
+    const scale = (r * 0.85) / 50;
+    ctx.beginPath();
+    ctx.moveTo(cx + (66 - 50) * scale, cy + (33 - 50) * scale);
+    ctx.bezierCurveTo(
+      cx + (65 - 50) * scale, cy + (24 - 50) * scale,
+      cx + (59 - 50) * scale, cy + (20 - 50) * scale,
+      cx + (55 - 50) * scale, cy + (21 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (51.5 - 50) * scale, cy + (22.5 - 50) * scale,
+      cx + (52 - 50) * scale, cy + (30 - 50) * scale,
+      cx + (53.5 - 50) * scale, cy + (38 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (55.5 - 50) * scale, cy + (48 - 50) * scale,
+      cx + (62 - 50) * scale, cy + (58 - 50) * scale,
+      cx + (70 - 50) * scale, cy + (67 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (75 - 50) * scale, cy + (72.5 - 50) * scale,
+      cx + (77.8 - 50) * scale, cy + (75.8 - 50) * scale,
+      cx + (78.5 - 50) * scale, cy + (77.5 - 50) * scale
+    );
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    // Corpo e Asas em 'E' Caligráfico Contínuo
+    ctx.beginPath();
+    ctx.moveTo(cx + (59 - 50) * scale, cy + (55 - 50) * scale);
+    ctx.bezierCurveTo(
+      cx + (44 - 50) * scale, cy + (54 - 50) * scale,
+      cx + (28 - 50) * scale, cy + (55 - 50) * scale,
+      cx + (23 - 50) * scale, cy + (60 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (20.5 - 50) * scale, cy + (62.5 - 50) * scale,
+      cx + (21.5 - 50) * scale, cy + (65.5 - 50) * scale,
+      cx + (26 - 50) * scale, cy + (66.5 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (36 - 50) * scale, cy + (67.5 - 50) * scale,
+      cx + (46 - 50) * scale, cy + (68 - 50) * scale,
+      cx + (47.5 - 50) * scale, cy + (68.5 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (36 - 50) * scale, cy + (71 - 50) * scale,
+      cx + (23 - 50) * scale, cy + (73.5 - 50) * scale,
+      cx + (21.5 - 50) * scale, cy + (77 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (20.5 - 50) * scale, cy + (80 - 50) * scale,
+      cx + (23.5 - 50) * scale, cy + (81.5 - 50) * scale,
+      cx + (33 - 50) * scale, cy + (81.5 - 50) * scale
+    );
+    ctx.bezierCurveTo(
+      cx + (48 - 50) * scale, cy + (81.5 - 50) * scale,
+      cx + (68 - 50) * scale, cy + (80.5 - 50) * scale,
+      cx + (78.5 - 50) * scale, cy + (77.5 - 50) * scale
+    );
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.restore();
   }
 
   function carregarImagem(src) {

@@ -3,66 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Brothaus Engelke • Fornadas</title>
+  <title>Engelke • Forno</title>
   
-  <!-- Configurações PWA & Web App -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#161311">
+  <meta name="theme-color" content="#12100E">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Fornadas Engelke">
-  <link rel="apple-touch-icon" href="../assets/cisne_totem_dourado.png">
-  <link rel="icon" type="image/png" href="../assets/cisne_totem_dourado.png">
+  <meta name="apple-mobile-web-app-title" content="Forno Engelke">
+  <link rel="icon" type="image/svg+xml" href="../assets/cisne_vetor_oficial.svg">
 
-  <!-- WhatsApp & Social Media Preview -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Brothaus Engelke • Painel Móvel do Padeiro">
-  <meta property="og:description" content="Painel de atualização do ritmo do forno, fornadas vivas e gerador de Stories do Instagram.">
-  <meta property="og:url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/admin/">
-  <meta property="og:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <!-- Tipografia Engelke -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Configuração Compartilhada & Gerador de Stories -->
   <script src="../config.js"></script>
   <script src="story-generator.js"></script>
 
   <style>
     :root {
-      --bg-dark: #161311;
-      --bg-card: #201C19;
-      --bg-card-elevated: #2A2521;
-      --bg-input: #12100E;
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-focus: #C89B58;
-
-      --ink-pure: #FFFFFF;
-      --ink-secondary: #B5AEA4;
-      --ink-muted: #7A7268;
-
+      --bg: #12100E;
+      --card: #1C1917;
       --gold: #C89B58;
       --gold-light: #E0BA7E;
-      --gold-subtle: rgba(200, 155, 88, 0.15);
-
-      --demeter: #425B46;
-      --demeter-glow: #5C7F62;
-
-      --alert-red: #D63D33;
-      --alert-amber: #D97706;
-      --alert-green: #10B981;
-
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-condensed: 'Oswald', sans-serif;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-
+      --gold-glow: rgba(200, 155, 88, 0.35);
+      --ink: #FFFFFF;
+      --ink-muted: #8E867C;
+      --active-bg: rgba(200, 155, 88, 0.18);
+      --active-border: #C89B58;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
@@ -72,70 +39,54 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--ink-pure);
-      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-top: var(--safe-top);
-      padding-bottom: calc(var(--safe-bottom) + 84px);
-      user-select: none;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Top Bar Mobile */
-    .top-bar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(22, 19, 17, 0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 0.85rem 1.25rem;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
+      padding: calc(var(--safe-top) + 0.75rem) 1.15rem calc(var(--safe-bottom) + 1.15rem) 1.15rem;
+      max-width: 440px;
+      margin: 0 auto;
       justify-content: space-between;
     }
 
-    .brand-group {
+    /* Top Bar */
+    header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      justify-content: space-between;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .brand-icon {
-      width: 38px;
-      height: 38px;
+    .brand {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 0.65rem;
+    }
+
+    .brand svg {
+      width: 32px;
+      height: 32px;
       color: var(--gold);
-      flex-shrink: 0;
     }
 
-    .brand-icon svg {
-      width: 36px;
-      height: 36px;
-      filter: drop-shadow(0 2px 6px rgba(200, 155, 88, 0.35));
-    }
-
-    .brand-title {
-      font-family: var(--font-condensed);
-      font-size: 1.3rem;
+    .brand-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.25rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #FFFFFF;
       line-height: 1;
     }
 
     .brand-sub {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       color: var(--gold);
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -143,717 +94,243 @@
       margin-top: 3px;
     }
 
-    .top-actions {
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
 
-    .icon-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      color: var(--ink-secondary);
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .icon-btn:active {
-      background: var(--bg-card-elevated);
-      transform: scale(0.94);
-    }
-
-    /* Container Principal */
-    .app-container {
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    /* Indicador de Status da Conexão */
-    .status-strip {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--bg-card);
-      padding: 0.6rem 0.9rem;
-      border-radius: 12px;
-      border: 1px solid var(--border-subtle);
-      font-size: 0.78rem;
-    }
-
-    .status-dot-group {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .status-dot {
+    .dot-status {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--alert-green);
+      background: #10B981;
       box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-      animation: pulseDot 2s infinite;
+      transition: all 0.3s;
     }
 
-    .status-dot.offline {
-      background: var(--alert-amber);
+    .dot-status.offline {
+      background: #D97706;
       box-shadow: 0 0 8px rgba(217, 119, 6, 0.6);
     }
 
-    @keyframes pulseDot {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.3); opacity: 0.7; }
-    }
-
-    /* Seções e Cards */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-title-group {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .card-title {
-      font-family: var(--font-condensed);
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ink-pure);
-    }
-
-    .card-badge {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.2rem 0.5rem;
-      border-radius: 6px;
-      background: var(--gold-subtle);
-      color: var(--gold-light);
-      border: 1px solid rgba(200, 155, 88, 0.3);
-    }
-
-    /* Seletor Ultra-Ergonômico: 2 Modos Reais (Quente vs Normal) */
-    .mode-segment-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: var(--bg-input);
-      padding: 5px;
-      border-radius: 14px;
-      border: 1px solid var(--border-subtle);
-      gap: 6px;
-    }
-
-    .mode-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      padding: 0.95rem 0.75rem;
-      border-radius: 10px;
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--ink-secondary);
-      font-family: var(--font-condensed);
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .mode-btn .mode-emoji {
-      font-size: 1.6rem;
-    }
-
-    .mode-btn .mode-sub {
-      font-size: 0.65rem;
-      color: var(--ink-muted);
-      font-family: var(--font-sans);
-      font-weight: 500;
-      letter-spacing: normal;
-      text-transform: none;
-    }
-
-    .mode-btn.active[data-mode="saindo_agora"] {
-      background: rgba(214, 61, 51, 0.16);
-      border-color: var(--alert-red);
-      color: #FF8F87;
-      box-shadow: 0 4px 16px rgba(214, 61, 51, 0.25);
-    }
-    .mode-btn.active[data-mode="saindo_agora"] .mode-sub {
-      color: #FFB3AD;
-    }
-
-    .mode-btn.active[data-mode="ativo"] {
-      background: rgba(66, 91, 70, 0.35);
-      border-color: #5C7F62;
-      color: #5CE084;
-      box-shadow: 0 4px 16px rgba(66, 91, 70, 0.3);
-    }
-    .mode-btn.active[data-mode="ativo"] .mode-sub {
-      color: #A3E8B8;
-    }
-
-    /* Acordeão do Cronograma Semanal (Qua a Dom) */
-    .crono-details {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .crono-summary {
-      padding: 1.1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      font-family: var(--font-condensed);
-      font-size: 0.95rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-pure);
-      list-style: none;
-      user-select: none;
-    }
-
-    .crono-summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .crono-details[open] .crono-summary {
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .crono-details-content {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    /* Form Inputs */
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .field-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-secondary);
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-
-    .label-badge {
-      font-size: 0.68rem;
-      color: var(--gold);
-      text-transform: none;
-      font-weight: 500;
-      letter-spacing: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .input-with-action {
-      position: relative;
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
-    .input-with-action .text-input {
-      padding-left: 2.6rem;
-      padding-right: 2.4rem;
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: #FFFFFF;
-      background: rgba(20, 17, 15, 0.7);
-      border: 1.5px solid var(--border-subtle);
-      transition: all 0.2s ease;
-    }
-
-    .input-with-action .text-input:focus {
-      border-color: var(--gold);
-      background: rgba(20, 17, 15, 0.95);
-      box-shadow: 0 0 0 3px rgba(200, 155, 88, 0.15);
-    }
-
-    .input-left-icon {
-      position: absolute;
-      left: 0.85rem;
-      color: var(--gold);
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      opacity: 0.85;
-    }
-
-    .btn-clear-input {
-      position: absolute;
-      right: 0.6rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--ink-muted);
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 0.75rem;
-      transition: all 0.2s ease;
-    }
-
-    .btn-clear-input:hover, .btn-clear-input:active {
-      background: rgba(200, 155, 88, 0.25);
-      color: var(--gold-light);
-      border-color: var(--gold);
-    }
-
-    .quick-chip.chip-custom {
-      background: rgba(200, 155, 88, 0.15);
-      border: 1px solid var(--gold);
-      color: var(--gold-light);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .quick-chip.chip-custom:active {
-      background: var(--gold);
-      color: #141210;
-    }
-
-    .text-input, .text-area {
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 0.8rem 0.9rem;
-      color: var(--ink-pure);
-      font-family: var(--font-sans);
-      font-size: 0.9rem;
-      width: 100%;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .text-input:focus, .text-area:focus {
-      border-color: var(--gold);
-    }
-
-    .text-area {
-      resize: vertical;
-      min-height: 64px;
-      line-height: 1.4;
-    }
-
-    /* Switch iOS Style */
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.25rem 0;
-    }
-
-    .toggle-label-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .toggle-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--ink-pure);
-    }
-
-    .toggle-sub {
-      font-size: 0.72rem;
-      color: var(--ink-muted);
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 28px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: var(--bg-input);
-      border: 1px solid var(--border-subtle);
-      transition: .3s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: #8C857B;
-      transition: .3s cubic-bezier(0.16, 1, 0.3, 1);
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--demeter);
-      border-color: var(--demeter-glow);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(22px);
-      background-color: #FFFFFF;
-    }
-
-    /* Preset Chips */
-    .preset-chips-scroll {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-      padding-bottom: 0.4rem;
-      scrollbar-width: none;
-    }
-    .preset-chips-scroll::-webkit-scrollbar {
-      display: none;
-    }
-
-    .quick-chip {
-      background: var(--bg-card-elevated);
-      border: 1px solid var(--border-subtle);
-      color: var(--ink-secondary);
-      padding: 0.4rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .quick-chip:active {
-      background: var(--gold-subtle);
-      color: var(--gold-light);
-      border-color: var(--gold);
-    }
-
-    /* Editor do Cronograma Semanal */
-    .crono-tabs {
-      display: flex;
-      background: var(--bg-input);
-      border-radius: 12px;
-      padding: 4px;
-      gap: 4px;
-      overflow-x: auto;
-    }
-
-    .crono-tab-btn {
-      flex: 1;
-      min-width: 65px;
-      padding: 0.5rem 0.4rem;
-      text-align: center;
+    .btn-icon {
       background: transparent;
       border: none;
       color: var(--ink-muted);
-      font-family: var(--font-condensed);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .crono-tab-btn.active {
-      background: var(--bg-card-elevated);
-      color: var(--gold-light);
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    .btn-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
     }
 
-    .crono-editor-body {
+    /* Section Titles */
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 1rem;
+      margin-bottom: 0.45rem;
+    }
+
+    /* Big Bread Buttons Grid (1 Tap) */
+    .bread-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+    }
+
+    .bread-btn {
+      background: var(--card);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 0.95rem 0.75rem;
+      text-align: left;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      padding-top: 0.5rem;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+      color: var(--ink);
     }
 
-    .status-select-row {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+    .bread-btn:active {
+      transform: scale(0.96);
     }
 
-    .status-pill-opt {
-      padding: 0.4rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.72rem;
+    .bread-btn.selected {
+      background: var(--active-bg);
+      border-color: var(--active-border);
+      box-shadow: 0 0 18px rgba(200, 155, 88, 0.28);
+    }
+
+    .bread-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .bread-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.96rem;
       font-weight: 600;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .bread-btn.selected .bread-name {
+      color: var(--gold-light);
+    }
+
+    /* Campo para Digitar Outro Pão */
+    .custom-input-box {
+      display: none;
+      margin-top: 0.55rem;
+    }
+
+    .custom-input-box.open {
+      display: block;
+    }
+
+    .text-input {
+      width: 100%;
+      background: #0E0C0B;
+      border: 1.5px solid var(--gold);
+      border-radius: 12px;
+      padding: 0.85rem 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      outline: none;
+    }
+
+    /* Horários Rápidos */
+    .time-scroll {
+      display: flex;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .time-pill {
+      background: var(--card);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      padding: 0.6rem 0.95rem;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
       letter-spacing: 0.05em;
-      background: var(--bg-input);
-      border: 1px solid var(--border-subtle);
+      text-transform: uppercase;
       color: var(--ink-muted);
       cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
     }
 
-    .status-pill-opt.selected[data-st="saindo_agora"] {
-      background: rgba(214, 61, 51, 0.2);
-      border-color: var(--alert-red);
-      color: #FF7B73;
-    }
-    .status-pill-opt.selected[data-st="disponivel"] {
-      background: rgba(16, 185, 129, 0.2);
-      border-color: var(--alert-green);
-      color: #34D399;
-    }
-    .status-pill-opt.selected[data-st="ultimas_unidades"] {
-      background: rgba(217, 119, 6, 0.2);
-      border-color: var(--alert-amber);
-      color: #FBBF24;
-    }
-    .status-pill-opt.selected[data-st="esgotado"] {
-      background: rgba(122, 114, 104, 0.25);
-      border-color: var(--ink-muted);
-      color: var(--ink-secondary);
+    .time-pill:active {
+      transform: scale(0.95);
     }
 
-    /* Barra Fixa Inferior de Publicação */
-    .publish-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(22, 19, 17, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border-subtle);
-      padding: 0.75rem 1.25rem calc(var(--safe-bottom) + 0.75rem) 1.25rem;
-      z-index: 60;
+    .time-pill.selected {
+      background: var(--gold);
+      color: #12100E;
+      border-color: var(--gold);
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(200, 155, 88, 0.35);
+    }
+
+    /* Botão Gigante de Publicação */
+    .cta-container {
+      margin-top: 1.4rem;
       display: flex;
-      justify-content: center;
-    }
-
-    .publish-inner {
-      max-width: 480px;
-      width: 100%;
-      display: flex;
+      flex-direction: column;
       gap: 0.75rem;
     }
 
-    .btn-publish {
-      flex: 1;
-      background: linear-gradient(135deg, #C89B58 0%, #A67C3B 100%);
-      color: #161311;
+    .btn-fire {
+      background: linear-gradient(135deg, #E0BA7E 0%, #C89B58 45%, #A67C3B 100%);
+      color: #12100E;
       border: none;
-      border-radius: 14px;
-      padding: 0.95rem 1.5rem;
-      font-family: var(--font-condensed);
-      font-size: 1.1rem;
+      border-radius: 18px;
+      padding: 1.2rem 1rem;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.25rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 28px var(--gold-glow);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(200, 155, 88, 0.35);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.15s ease;
+      width: 100%;
     }
 
-    .btn-publish:active {
+    .btn-fire:active {
       transform: scale(0.97);
       box-shadow: 0 2px 10px rgba(200, 155, 88, 0.2);
     }
 
-    .btn-publish.loading {
+    .btn-fire.loading {
       opacity: 0.7;
       pointer-events: none;
     }
 
-    /* Tela de Bloqueio por PIN */
-    .lock-overlay {
-      position: fixed;
-      inset: 0;
-      background: var(--bg-dark);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .lock-overlay.unlocked {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .lock-box {
-      width: 100%;
-      max-width: 320px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 1.25rem;
-    }
-
-    .lock-totem {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: var(--gold-subtle);
-      border: 1px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .pin-input {
-      width: 100%;
-      max-width: 220px;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-subtle);
+    .btn-quiet {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--ink-muted);
       border-radius: 12px;
-      padding: 0.85rem;
-      font-size: 1.6rem;
-      letter-spacing: 0.4em;
+      padding: 0.75rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
       text-align: center;
-      color: var(--gold-light);
-      outline: none;
-    }
-
-    .pin-input:focus {
-      border-color: var(--gold);
-    }
-
-    .btn-unlock {
-      width: 100%;
-      max-width: 220px;
-      background: var(--gold);
-      color: var(--bg-dark);
-      border: none;
-      border-radius: 12px;
-      padding: 0.85rem;
-      font-family: var(--font-condensed);
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
-    /* Modal de Configurações ⚙️ */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(12px);
-      z-index: 90;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    .btn-quiet:active {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--ink);
     }
 
-    .modal-overlay.open {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .modal-sheet {
-      background: var(--bg-card);
-      border-top: 1px solid var(--border-subtle);
-      border-radius: 24px 24px 0 0;
-      width: 100%;
-      max-width: 480px;
-      padding: 1.5rem 1.25rem calc(var(--safe-bottom) + 1.5rem) 1.25rem;
-      transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .modal-overlay.open .modal-sheet {
-      transform: translateY(0);
-    }
-
-    /* Toast de Notificação */
+    /* Toast Minimalista */
     .toast {
       position: fixed;
-      top: calc(var(--safe-top) + 60px);
+      top: calc(var(--safe-top) + 16px);
       left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: rgba(32, 28, 25, 0.95);
+      transform: translateX(-50%) translateY(-40px);
+      background: #1F1B18;
       border: 1px solid var(--gold);
-      color: var(--ink-pure);
+      color: #FFFFFF;
       padding: 0.75rem 1.25rem;
-      border-radius: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      font-size: 0.85rem;
+      border-radius: 999px;
+      font-size: 0.84rem;
       font-weight: 600;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       opacity: 0;
       visibility: hidden;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+      white-space: nowrap;
     }
 
     .toast.show {
@@ -861,800 +338,318 @@
       visibility: visible;
       transform: translateX(-50%) translateY(0);
     }
+
+    /* Modal de Configurações Discreto */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 90;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #1C1917;
+      border: 1px solid rgba(200, 155, 88, 0.3);
+      border-radius: 20px;
+      padding: 1.4rem;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
   </style>
 </head>
 <body>
 
-  <!-- =========================================================================
-       TELA DE BLOQUEIO POR PIN (Segurança Simples para o Celular)
-       ========================================================================= -->
-  <div class="lock-overlay" id="lock-screen">
-    <div class="lock-box">
-      <div style="width:68px; height:68px; display:flex; align-items:center; justify-content:center; color:var(--gold); margin:0 auto 0.25rem auto;">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:62px;height:62px; filter:drop-shadow(0 4px 12px rgba(200,155,88,0.4));">
-          <circle cx="50" cy="50" r="44" stroke-width="1.8" stroke-opacity="0.5" />
-          <circle cx="50" cy="50" r="39" stroke-width="2.6" />
-          <path d="M 66 33 C 65 24 59 20 55 21 C 51.5 22.5 52 30 53.5 38 C 55.5 48 62 58 70 67 C 75 72.5 77.8 75.8 78.5 77.5" stroke-width="2.8" />
-          <path d="M 59 55 C 44 54 28 55 23 60 C 20.5 62.5 21.5 65.5 26 66.5 C 36 67.5 46 68 47.5 68.5 C 36 71 23 73.5 21.5 77 C 20.5 80 23.5 81.5 33 81.5 C 48 81.5 68 80.5 78.5 77.5" stroke-width="2.8" />
-        </svg>
-      </div>
+  <!-- TOAST FLUTUANTE -->
+  <div class="toast" id="toast"></div>
+
+  <!-- TOPO: MARCA & STATUS -->
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="50" cy="50" r="44" stroke-width="1.8" stroke-opacity="0.5" />
+        <circle cx="50" cy="50" r="39" stroke-width="2.6" />
+        <path d="M 66 33 C 65 24 59 20 55 21 C 51.5 22.5 52 30 53.5 38 C 55.5 48 62 58 70 67 C 75 72.5 77.8 75.8 78.5 77.5" stroke-width="2.8" />
+        <path d="M 59 55 C 44 54 28 55 23 60 C 20.5 62.5 21.5 65.5 26 66.5 C 36 67.5 46 68 47.5 68.5 C 36 71 23 73.5 21.5 77 C 20.5 80 23.5 81.5 33 81.5 C 48 81.5 68 80.5 78.5 77.5" stroke-width="2.8" />
+      </svg>
       <div>
-        <h2 style="font-family:var(--font-condensed); font-size:1.45rem; letter-spacing:0.1em; text-transform:uppercase; color:#FFFFFF;">
-          ENGELKE
-        </h2>
-        <p style="font-size:0.75rem; color:var(--gold); margin-top:0.2rem; text-transform:uppercase; letter-spacing:0.1em; font-weight:600;">
-          Painel do Forno
-        </p>
-      </div>
-
-      <input type="password" id="input-pin" class="pin-input" maxlength="6" inputmode="numeric" placeholder="••••" autocomplete="off">
-      
-      <button class="btn-unlock" id="btn-unlock">Entrar no Painel</button>
-
-      <p style="font-size:0.72rem; color:var(--ink-muted);">
-        PIN padrão: <strong style="color:var(--gold);">1832</strong>
-      </p>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       TOP BAR (Mobile App Header)
-       ========================================================================= -->
-  <header class="top-bar">
-    <div class="brand-group">
-      <div class="brand-icon">
-        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="50" cy="50" r="44" stroke-width="1.8" stroke-opacity="0.5" />
-          <circle cx="50" cy="50" r="39" stroke-width="2.6" />
-          <path d="M 66 33 C 65 24 59 20 55 21 C 51.5 22.5 52 30 53.5 38 C 55.5 48 62 58 70 67 C 75 72.5 77.8 75.8 78.5 77.5" stroke-width="2.8" />
-          <path d="M 59 55 C 44 54 28 55 23 60 C 20.5 62.5 21.5 65.5 26 66.5 C 36 67.5 46 68 47.5 68.5 C 36 71 23 73.5 21.5 77 C 20.5 80 23.5 81.5 33 81.5 C 48 81.5 68 80.5 78.5 77.5" stroke-width="2.8" />
-        </svg>
-      </div>
-      <div>
-        <div class="brand-title">ENGELKE</div>
+        <div class="brand-name">ENGELKE</div>
         <div class="brand-sub">Painel do Forno</div>
       </div>
     </div>
-    <div class="top-actions">
-      <a href="../index.html" target="_blank" class="icon-btn" title="Ver Site Oficial">
-        <i data-lucide="external-link" style="width:18px;height:18px;"></i>
+
+    <div class="header-actions">
+      <div class="dot-status" id="dot-status" title="Conexão"></div>
+      <a href="../index.html" target="_blank" class="btn-icon" title="Ver Site">
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
-      <button class="icon-btn" id="btn-open-settings" title="Configurações">
-        <i data-lucide="settings" style="width:18px;height:18px;"></i>
+      <button class="btn-icon" onclick="abrirSettings()" title="Configurações">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
     </div>
   </header>
 
-  <!-- =========================================================================
-       CONTEÚDO PRINCIPAL (Ultra-Simplificado: 3 Segundos do Padeiro)
-       ========================================================================= -->
-  <main class="app-container">
-
-    <!-- Status da Conexão Discreto -->
-    <div class="status-strip">
-      <div class="status-dot-group">
-        <div class="status-dot" id="conn-dot"></div>
-        <span id="conn-text" style="color:var(--ink-secondary); font-weight:500;">Conectando...</span>
-      </div>
-      <span id="last-sync-time" style="color:var(--ink-muted); font-size:0.72rem;"></span>
+  <!-- CENTRO: SELEÇÃO RÁPIDA -->
+  <main>
+    <!-- QUAL PÃO SAIU? -->
+    <div class="section-label">Qual pão está saindo?</div>
+    <div class="bread-grid">
+      <button type="button" class="bread-btn selected" onclick="escolherPao('Sourdough Tradicional Demeter', this)">
+        <span class="bread-icon">🥖</span>
+        <span class="bread-name">Sourdough Demeter</span>
+      </button>
+      <button type="button" class="bread-btn" onclick="escolherPao('Baguetes Francesas de Tradição', this)">
+        <span class="bread-icon">🥖</span>
+        <span class="bread-name">Baguetes</span>
+      </button>
+      <button type="button" class="bread-btn" onclick="escolherPao('Pão 100% Centeio Roggenbrot', this)">
+        <span class="bread-icon">🍞</span>
+        <span class="bread-name">100% Centeio</span>
+      </button>
+      <button type="button" class="bread-btn" onclick="escolherPao('Sachertorte Vienense de 1832', this)">
+        <span class="bread-icon">🎂</span>
+        <span class="bread-name">Sachertorte</span>
+      </button>
     </div>
 
-    <!-- CARD PRINCIPAL: A FORNADA DE HOJE -->
-    <section class="card" style="border: 1.5px solid rgba(200, 155, 88, 0.35);">
-      <div class="card-header">
-        <div class="card-title-group">
-          <i data-lucide="flame" style="width:18px;height:18px; color:var(--gold);"></i>
-          <h2 class="card-title">Status da Fornada</h2>
-        </div>
-        <span class="card-badge" id="badge-modo-atual">🔥 Quente</span>
+    <!-- BOTÃO DISCRETO PARA ESCREVER OUTRO PÃO -->
+    <div style="margin-top: 0.45rem;">
+      <button type="button" class="bread-btn" id="btn-outro-pao" style="width:100%; flex-direction:row; align-items:center; justify-content:center; gap:0.5rem; padding:0.6rem;" onclick="ativarOutroPao()">
+        <span>✏️</span>
+        <span style="font-family:'Oswald',sans-serif; font-size:0.85rem; letter-spacing:0.04em; text-transform:uppercase;">Digitar outro pão...</span>
+      </button>
+      <div class="custom-input-box" id="box-outro-pao">
+        <input type="text" id="input-custom-pao" class="text-input" placeholder="Ex: Focaccia de Alecrim com Flor de Sal">
       </div>
-
-      <!-- 2 MODOS CLAROS: OU TEM FORNADA QUENTE OU RITMO NORMAL -->
-      <div class="mode-segment-container">
-        <button type="button" class="mode-btn active" data-mode="saindo_agora" onclick="setModoFornada('saindo_agora')">
-          <span class="mode-emoji">🔥</span>
-          <span>Fornada Quente</span>
-          <span class="mode-sub">Avisa no site e stories</span>
-        </button>
-        <button type="button" class="mode-btn" data-mode="ativo" onclick="setModoFornada('ativo')">
-          <span class="mode-emoji">🥖</span>
-          <span>Ritmo Normal</span>
-          <span class="mode-sub">Cardápio do dia a dia</span>
-        </button>
-      </div>
-
-      <!-- O QUE ESTÁ SAINDO COM CHIPS DE 1 TOQUE OU DIGITAÇÃO LIVRE -->
-      <div class="field-group">
-        <label class="field-label">
-          <span>O que está saindo do forno?</span>
-          <span class="label-badge"><i data-lucide="edit-3" style="width:12px;height:12px;"></i> Digite livremente ou use atalhos</span>
-        </label>
-        <div class="input-with-action">
-          <span class="input-left-icon">
-            <i data-lucide="wheat" style="width:18px;height:18px;"></i>
-          </span>
-          <input type="text" id="input-pao-destaque" class="text-input" placeholder="Escreva qualquer pão (ex: Focaccia de Alecrim, Brioche...)" autocomplete="off">
-          <button type="button" class="btn-clear-input" onclick="limparCampo('input-pao-destaque')" title="Limpar para escrever outro pão">
-            ✕
-          </button>
-        </div>
-        <div class="preset-chips-scroll" style="margin-top:0.35rem;">
-          <button type="button" class="quick-chip chip-custom" onclick="focarParaEscrever('input-pao-destaque')">
-            <i data-lucide="pen-tool" style="width:12px;height:12px;"></i> Digitar Outro...
-          </button>
-          <button type="button" class="quick-chip" onclick="preencherPao('Sourdough Tradicional Demeter')">🥖 Sourdough Demeter</button>
-          <button type="button" class="quick-chip" onclick="preencherPao('Baguetes Francesas de Tradição')">🥖 Baguetes</button>
-          <button type="button" class="quick-chip" onclick="preencherPao('Pão 100% Centeio Roggenbrot')">🍞 Centeio Puro</button>
-          <button type="button" class="quick-chip" onclick="preencherPao('Sachertorte Vienense de 1832')">🎂 Sachertorte</button>
-          <button type="button" class="quick-chip" onclick="preencherPao('Cinnamon Rolls Folhados')">🌀 Cinnamon</button>
-        </div>
-      </div>
-
-      <!-- HORÁRIO COM CHIPS DE 1 TOQUE OU DIGITAÇÃO LIVRE -->
-      <div class="field-group">
-        <label class="field-label">
-          <span>Horário da fornada</span>
-          <span class="label-badge"><i data-lucide="clock" style="width:12px;height:12px;"></i> Digite livremente ou use atalhos</span>
-        </label>
-        <div class="input-with-action">
-          <span class="input-left-icon">
-            <i data-lucide="clock" style="width:18px;height:18px;"></i>
-          </span>
-          <input type="text" id="input-proxima-fornada" class="text-input" placeholder="Escreva qualquer horário (ex: Hoje às 16h15, Amanhã 07h...)" autocomplete="off">
-          <button type="button" class="btn-clear-input" onclick="limparCampo('input-proxima-fornada')" title="Limpar para escrever outro horário">
-            ✕
-          </button>
-        </div>
-        <div class="preset-chips-scroll" style="margin-top:0.35rem;">
-          <button type="button" class="quick-chip chip-custom" onclick="focarParaEscrever('input-proxima-fornada')">
-            <i data-lucide="pen-tool" style="width:12px;height:12px;"></i> Digitar Horário...
-          </button>
-          <button type="button" class="quick-chip" onclick="preencherHorario('Saindo Agora!')">🔥 Saindo Agora!</button>
-          <button type="button" class="quick-chip" onclick="preencherHorario('Hoje às 15h30')">⏰ 15h30</button>
-          <button type="button" class="quick-chip" onclick="preencherHorario('Hoje às 17h00')">⏰ 17h00</button>
-          <button type="button" class="quick-chip" onclick="preencherHorario('Amanhã às 07h30')">🌅 Amanhã 07h30</button>
-        </div>
-      </div>
-
-      <!-- FAIXA URGENTE NO SITE -->
-      <div class="toggle-row" style="padding-top:0.6rem; border-top:1px solid var(--border-subtle);">
-        <div class="toggle-label-group">
-          <span class="toggle-title">Faixa urgente no topo do site</span>
-          <span class="toggle-sub">Avisa os clientes ao vivo na página</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="switch-alerta" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <input type="hidden" id="input-alerta-texto">
-    </section>
-
-    <!-- CRONOGRAMA SEMANAL (DOBRADO/RECOLHIDO PARA NÃO POLUIR) -->
-    <details class="crono-details" id="details-crono">
-      <summary class="crono-summary">
-        <div style="display:flex; align-items:center; gap:0.5rem;">
-          <i data-lucide="calendar" style="width:16px;height:16px; color:var(--gold);"></i>
-          <span>Editar Cardápio Semanal (Qua a Dom)</span>
-        </div>
-        <i data-lucide="chevron-down" style="width:18px;height:18px; color:var(--ink-muted);"></i>
-      </summary>
-      
-      <div class="crono-details-content">
-        <div class="crono-tabs" id="crono-tabs-container">
-          <button type="button" class="crono-tab-btn active" data-id="qua" onclick="selecionarDiaCrono('qua')">Qua</button>
-          <button type="button" class="crono-tab-btn" data-id="qui" onclick="selecionarDiaCrono('qui')">Qui</button>
-          <button type="button" class="crono-tab-btn" data-id="sex" onclick="selecionarDiaCrono('sex')">Sex</button>
-          <button type="button" class="crono-tab-btn" data-id="fim" onclick="selecionarDiaCrono('fim')">Sáb/Dom</button>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Status deste dia</label>
-          <div class="status-select-row">
-            <button type="button" class="status-pill-opt selected" data-st="saindo_agora" onclick="setDiaStatus('saindo_agora')">🔥 Saindo Agora</button>
-            <button type="button" class="status-pill-opt" data-st="disponivel" onclick="setDiaStatus('disponivel')">✅ Disponível</button>
-            <button type="button" class="status-pill-opt" data-st="ultimas_unidades" onclick="setDiaStatus('ultimas_unidades')">⚠️ Poucos</button>
-            <button type="button" class="status-pill-opt" data-st="esgotado" onclick="setDiaStatus('esgotado')">🚫 Esgotado</button>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Horários</label>
-          <input type="text" id="input-crono-horarios" class="text-input" placeholder="Ex: 07h30 • 15h30">
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Pães deste dia</label>
-          <textarea id="input-crono-paes" class="text-area" placeholder="Pães programados..."></textarea>
-        </div>
-      </div>
-    </details>
-
-    <!-- OPÇÃO DISCRETA DE STORY -->
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:0.6rem 0.85rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:12px;">
-      <div style="display:flex; align-items:center; gap:0.5rem;">
-        <i data-lucide="instagram" style="width:16px;height:16px; color:var(--gold);"></i>
-        <span style="font-size:0.8rem; color:var(--ink-secondary);">Baixar Story automático (1080×1920)</span>
-      </div>
-      <label class="switch" style="transform:scale(0.85); transform-origin:right center;">
-        <input type="checkbox" id="switch-auto-story" checked>
-        <span class="slider"></span>
-      </label>
     </div>
 
+    <!-- HORÁRIO -->
+    <div class="section-label">Quando?</div>
+    <div class="time-scroll">
+      <button type="button" class="time-pill selected" onclick="escolherHorario('Saindo Agora!', this)">🔥 Agora!</button>
+      <button type="button" class="time-pill" onclick="escolherHorario('Hoje às 15h30', this)">⏰ 15h30</button>
+      <button type="button" class="time-pill" onclick="escolherHorario('Hoje às 17h00', this)">⏰ 17h00</button>
+      <button type="button" class="time-pill" onclick="ativarOutroHorario(this)">✏️ Outro</button>
+    </div>
+    <div class="custom-input-box" id="box-outro-horario">
+      <input type="text" id="input-custom-horario" class="text-input" placeholder="Ex: Hoje às 16h15 ou Amanhã 07h30">
+    </div>
   </main>
 
-  <!-- =========================================================================
-       BARRA FIXA DE PUBLICAÇÃO (Ação Rápida no Polegar)
-       ========================================================================= -->
-  <div class="publish-bar">
-    <div class="publish-inner">
-      <button class="btn-publish" id="btn-publish" onclick="publicarAlteracoes()">
-        <i data-lucide="send" style="width:20px;height:20px;"></i>
-        <span>Publicar & Baixar Story</span>
-      </button>
-      <button class="icon-btn" style="width:52px; height:52px; border-radius:14px; background:var(--bg-card-elevated); border:1.5px solid var(--gold); flex-shrink:0;" onclick="gerarEVisualizarStory(false)" title="Gerar Story do Instagram">
-        <i data-lucide="instagram" style="width:22px;height:22px; color:var(--gold-light);"></i>
-      </button>
-    </div>
+  <!-- BASE: O BOTÃO HERO -->
+  <div class="cta-container">
+    <button type="button" class="btn-fire" id="btn-publicar" onclick="publicarFornada()">
+      <span>🔥 Publicar & Baixar Story</span>
+    </button>
+    <button type="button" class="btn-quiet" onclick="voltarRitmoNormal()">
+      🥖 Encerrar fornada e voltar à vitrine normal
+    </button>
   </div>
 
-  <!-- =========================================================================
-       MODAL DE PRÉVIA DO STORY (Instagram Stories)
-       ========================================================================= -->
-  <div class="modal-overlay" id="modal-story">
-    <div class="modal-sheet" style="max-height:92vh; overflow-y:auto;">
+  <!-- MODAL DE CONFIGURAÇÕES (APENAS CASO PRECISE CONFIGURAR A URL) -->
+  <div class="modal" id="modal-settings">
+    <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h3 style="font-family:var(--font-condensed); font-size:1.2rem; text-transform:uppercase;">
-            Story da Fornada
-          </h3>
-          <p style="font-size:0.75rem; color:var(--gold);">1080 × 1920 px • Pronto para Instagram</p>
-        </div>
-        <button class="icon-btn" onclick="fecharModalStory()">
-          <i data-lucide="x" style="width:18px;height:18px;"></i>
-        </button>
+        <h3 style="font-family:'Oswald',sans-serif; font-size:1.1rem; text-transform:uppercase;">Configurações</h3>
+        <button class="btn-icon" onclick="fecharSettings()">&times;</button>
       </div>
-
-      <!-- Pré-visualização da Imagem Gerada -->
-      <div id="story-preview-container" style="display:flex; justify-content:center; background:#0B0A09; padding:0.75rem; border-radius:14px; border:1px solid var(--border-subtle); min-height:200px; align-items:center;">
-        <img id="story-preview-img" style="max-width:220px; height:auto; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.7); display:none;" alt="Story Preview">
-        <div id="story-loading" style="color:var(--gold); font-size:0.85rem; display:flex; align-items:center; gap:0.5rem;">
-          <i data-lucide="loader-2" class="animate-spin" style="width:18px;height:18px;"></i>
-          <span>Desenhando arte em alta resolução...</span>
-        </div>
+      <div>
+        <label style="font-size:0.75rem; color:var(--ink-muted); text-transform:uppercase; font-weight:600;">URL do Google Apps Script (/exec)</label>
+        <input type="url" id="input-api-url" class="text-input" style="font-size:0.8rem; margin-top:0.3rem;" placeholder="https://script.google.com/macros/s/.../exec">
       </div>
-
-      <div style="display:flex; flex-direction:column; gap:0.6rem;">
-        <button class="btn-publish" style="padding:0.85rem; font-size:1rem;" id="btn-share-story" onclick="compartilharStoryAtual()">
-          <i data-lucide="share-2" style="width:18px;height:18px;"></i>
-          <span>Compartilhar nos Stories</span>
-        </button>
-        
-        <button class="icon-btn" style="width:100%; height:auto; padding:0.8rem; border-radius:12px; font-size:0.85rem; color:var(--ink-pure);" onclick="baixarStoryAtual()">
-          <i data-lucide="download" style="width:16px;height:16px;"></i>
-          <span>Baixar Imagem Novamente (PNG)</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       MODAL DE CONFIGURAÇÕES (URL do Google Apps Script & PIN)
-       ========================================================================= -->
-  <div class="modal-overlay" id="modal-settings">
-    <div class="modal-sheet">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="font-family:var(--font-condensed); font-size:1.2rem; text-transform:uppercase;">
-          Configurações da Conexão
-        </h3>
-        <button class="icon-btn" onclick="fecharModalSettings()">
-          <i data-lucide="x" style="width:18px;height:18px;"></i>
-        </button>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">URL do Google Apps Script (Web App)</label>
-        <input type="url" id="settings-api-url" class="text-input" placeholder="https://script.google.com/macros/s/.../exec">
-        <p style="font-size:0.7rem; color:var(--ink-muted); margin-top:0.25rem;">
-          Cole a URL gerada ao publicar o script no Google Drive (terminada em <code>/exec</code>).
-        </p>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">PIN de Autorização</label>
-        <input type="password" id="settings-pin" class="text-input" placeholder="1832" maxlength="6">
-      </div>
-
-      <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
-        <button class="btn-unlock" style="flex:1;" onclick="salvarConfiguracoes()">Salvar Configurações</button>
-        <button class="icon-btn" style="width:auto; padding:0 1rem; font-size:0.8rem;" onclick="testarConexao()">Testar</button>
-      </div>
-
-      <button style="background:transparent; border:none; color:var(--alert-red); font-size:0.75rem; text-align:center; padding:0.5rem; cursor:pointer;" onclick="bloquearNovamente()">
-        🔒 Bloquear painel agora
+      <button class="btn-fire" style="padding:0.8rem; font-size:1rem; border-radius:12px;" onclick="salvarSettings()">
+        Salvar
       </button>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">
-    <i data-lucide="check-circle-2" style="width:18px;height:18px; color:var(--alert-green);"></i>
-    <span id="toast-text">Fornadas publicadas com sucesso!</span>
-  </div>
-
-  <!-- =========================================================================
-       LÓGICA JAVASCRIPT REATIVA & ERGONÔMICA
-       ========================================================================= -->
+  <!-- LÓGICA ULTRA-LEVE & VELOZ -->
   <script>
-    // Registro do Service Worker para PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW falhou:', err));
-      });
-    }
-
-    // Estado Local da Aplicação
-    let currentPin = localStorage.getItem('engelke_admin_pin') || "1832";
     let state = JSON.parse(JSON.stringify(window.ENGELKE_CONFIG.DEFAULT_DATA));
-    let diaSelecionadoId = 'qua';
+    let paoAtual = 'Sourdough Tradicional Demeter';
+    let horarioAtual = 'Saindo Agora!';
 
-    // Inicialização
+    // Inicialização direta, sem barreiras
     document.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      verificarAutenticacao();
-      carregarEstadoInicial();
-    });
-
-    // -------------------------------------------------------------
-    // Autenticação por PIN
-    // -------------------------------------------------------------
-    function verificarAutenticacao() {
-      const pinSalvo = localStorage.getItem('engelke_admin_pin');
-      const lockScreen = document.getElementById('lock-screen');
-      if (pinSalvo) {
-        lockScreen.classList.add('unlocked');
-      } else {
-        lockScreen.classList.remove('unlocked');
-      }
-    }
-
-    document.getElementById('btn-unlock').addEventListener('click', () => {
-      const pinInput = document.getElementById('input-pin').value.trim();
-      if (!pinInput) {
-        mostrarToast('Digite o PIN de 4 dígitos', 'warning');
-        return;
-      }
-      currentPin = pinInput;
-      localStorage.setItem('engelke_admin_pin', currentPin);
-      document.getElementById('lock-screen').classList.add('unlocked');
-      if (navigator.vibrate) navigator.vibrate(50);
-      mostrarToast('Acesso liberado!', 'success');
-      carregarDadosDoServidor();
-    });
-
-    function bloquearNovamente() {
-      localStorage.removeItem('engelke_admin_pin');
-      fecharModalSettings();
-      document.getElementById('lock-screen').classList.remove('unlocked');
-      document.getElementById('input-pin').value = '';
-    }
-
-    // -------------------------------------------------------------
-    // Carregamento de Estado (Stale-While-Revalidate)
-    // -------------------------------------------------------------
-    function carregarEstadoInicial() {
       const cached = window.ENGELKE_CONFIG.getCachedData();
-      if (cached) {
-        state = cached;
-      }
-      atualizarCamposInterface();
-      carregarDadosDoServidor();
-    }
-
-    async function carregarDadosDoServidor() {
-      const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
-      const connDot = document.getElementById('conn-dot');
-      const connText = document.getElementById('conn-text');
-
-      if (!apiUrl) {
-        connDot.className = 'status-dot offline';
-        connText.textContent = 'Modo Local (Configure a URL)';
-        return;
-      }
-
-      try {
-        connText.textContent = 'Sincronizando...';
-        const res = await fetch(`${apiUrl}?action=get`, { redirect: 'follow' });
-        const json = await res.json();
-
-        if (json.success && json.data) {
-          state = json.data;
-          window.ENGELKE_CONFIG.setCachedData(state);
-          atualizarCamposInterface();
-          connDot.className = 'status-dot';
-          connText.textContent = 'Google Sheets Conectado';
-          
-          if (state.config.ultima_atualizacao) {
-            document.getElementById('last-sync-time').textContent = 'Sinc: ' + formatarHora(state.config.ultima_atualizacao);
-          }
-        }
-      } catch (err) {
-        console.warn('Erro ao sincronizar com Google Apps Script:', err);
-        connDot.className = 'status-dot offline';
-        connText.textContent = 'Offline (Usando cache local)';
-      }
-    }
-
-    function atualizarCamposInterface() {
-      // 1. Modo do Forno (Quente vs Normal)
-      const statusVal = state.config.status_forno || 'saindo_agora';
-      setModoFornada(statusVal, false);
-
-      document.getElementById('input-proxima-fornada').value = state.config.proxima_fornada || 'Saindo Agora!';
-      document.getElementById('input-pao-destaque').value = state.config.pao_destaque_hoje || 'Sourdough Tradicional Demeter';
-
-      // 2. Alerta
-      const switchAlerta = document.getElementById('switch-alerta');
-      if (switchAlerta) {
-        switchAlerta.checked = (state.config.alerta_ativo !== false);
-      }
-
-      // 3. Cronograma Semanal
-      renderizarDiaCrono();
-    }
-
-    // -------------------------------------------------------------
-    // Manipulação dos Controles Simplificados
-    // -------------------------------------------------------------
-    function setModoFornada(val, vibrate = true) {
-      state.config.status_forno = val;
-      const isQuente = (val === 'saindo_agora');
-
-      document.querySelectorAll('.mode-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-mode') === val);
-      });
-
-      const badge = document.getElementById('badge-modo-atual');
-      if (badge) {
-        badge.textContent = isQuente ? '🔥 Quente' : '🥖 Normal';
-        badge.style.color = isQuente ? '#FF8F87' : '#5CE084';
-        badge.style.borderColor = isQuente ? 'rgba(214, 61, 51, 0.4)' : 'rgba(92, 224, 132, 0.4)';
-      }
-
-      const switchAlerta = document.getElementById('switch-alerta');
-      if (switchAlerta) {
-        switchAlerta.checked = isQuente;
-      }
-      state.config.alerta_ativo = isQuente;
-
-      if (vibrate && navigator.vibrate) navigator.vibrate(30);
-    }
-
-    function focarParaEscrever(inputId) {
-      const el = document.getElementById(inputId);
-      if (!el) return;
-      el.value = '';
-      el.focus();
-      if (inputId === 'input-pao-destaque') {
-        state.config.pao_destaque_hoje = '';
-        setModoFornada('saindo_agora');
-      } else if (inputId === 'input-proxima-fornada') {
-        state.config.proxima_fornada = '';
-      }
-      if (navigator.vibrate) navigator.vibrate(25);
-      mostrarToast(inputId === 'input-pao-destaque' ? 'Digite o nome do pão no teclado' : 'Digite o horário no teclado');
-    }
-
-    function limparCampo(inputId) {
-      const el = document.getElementById(inputId);
-      if (!el) return;
-      el.value = '';
-      el.focus();
-      if (inputId === 'input-pao-destaque') {
-        state.config.pao_destaque_hoje = '';
-      } else if (inputId === 'input-proxima-fornada') {
-        state.config.proxima_fornada = '';
-      }
-      if (navigator.vibrate) navigator.vibrate(15);
-    }
-
-    function preencherPao(nome) {
-      document.getElementById('input-pao-destaque').value = nome;
-      state.config.pao_destaque_hoje = nome;
-      setModoFornada('saindo_agora');
-      if (navigator.vibrate) navigator.vibrate(25);
-    }
-
-    function preencherHorario(hora) {
-      document.getElementById('input-proxima-fornada').value = hora;
-      state.config.proxima_fornada = hora;
-      if (navigator.vibrate) navigator.vibrate(25);
-    }
-
-    // Sincronização em tempo real conforme o padeiro digita
-    document.getElementById('input-pao-destaque').addEventListener('input', (e) => {
-      state.config.pao_destaque_hoje = e.target.value;
-      if (e.target.value.trim().length > 0 && state.config.status_forno !== 'saindo_agora') {
-        setModoFornada('saindo_agora', false);
-      }
+      if (cached) state = cached;
+      carregarDoServidor();
     });
 
-    document.getElementById('input-proxima-fornada').addEventListener('input', (e) => {
-      state.config.proxima_fornada = e.target.value;
-    });
-
-    function selecionarDiaCrono(id) {
-      salvarDiaCronoAtual();
-      diaSelecionadoId = id;
-      document.querySelectorAll('.crono-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-id') === id);
-      });
-      renderizarDiaCrono();
-    }
-
-    function renderizarDiaCrono() {
-      const item = state.cronograma.find(c => c.id === diaSelecionadoId);
-      if (!item) return;
-
-      document.getElementById('input-crono-horarios').value = item.horarios || '';
-      document.getElementById('input-crono-paes').value = item.paes || '';
-
-      document.querySelectorAll('.status-pill-opt').forEach(pill => {
-        pill.classList.toggle('selected', pill.getAttribute('data-st') === item.status);
-      });
-    }
-
-    function setDiaStatus(st) {
-      const item = state.cronograma.find(c => c.id === diaSelecionadoId);
-      if (item) {
-        item.status = st;
-      }
-      document.querySelectorAll('.status-pill-opt').forEach(pill => {
-        pill.classList.toggle('selected', pill.getAttribute('data-st') === st);
-      });
+    function escolherPao(nome, el) {
+      paoAtual = nome;
+      document.querySelectorAll('.bread-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('box-outro-pao').classList.remove('open');
       if (navigator.vibrate) navigator.vibrate(20);
     }
 
-    function salvarDiaCronoAtual() {
-      const item = state.cronograma.find(c => c.id === diaSelecionadoId);
-      if (!item) return;
-
-      item.horarios = document.getElementById('input-crono-horarios').value;
-      item.paes = document.getElementById('input-crono-paes').value;
+    function ativarOutroPao() {
+      document.querySelectorAll('.bread-grid .bread-btn').forEach(b => b.classList.remove('selected'));
+      document.getElementById('btn-outro-pao').classList.add('selected');
+      const box = document.getElementById('box-outro-pao');
+      box.classList.add('open');
+      const input = document.getElementById('input-custom-pao');
+      input.focus();
+      if (navigator.vibrate) navigator.vibrate(20);
     }
 
-    // -------------------------------------------------------------
-    // Publicação dos Dados (POST / GET Fallback)
-    // -------------------------------------------------------------
-    async function publicarAlteracoes() {
-      salvarDiaCronoAtual();
+    function escolherHorario(hora, el) {
+      horarioAtual = hora;
+      document.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('box-outro-horario').classList.remove('open');
+      if (navigator.vibrate) navigator.vibrate(20);
+    }
 
-      // Atualiza valores da config automaticamente
-      const pao = document.getElementById('input-pao-destaque').value.trim() || 'Sourdough Tradicional Demeter';
-      const horario = document.getElementById('input-proxima-fornada').value.trim() || 'Saindo Agora!';
-      const isQuente = (state.config.status_forno === 'saindo_agora');
+    function ativarOutroHorario(el) {
+      document.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
+      el.classList.add('selected');
+      const box = document.getElementById('box-outro-horario');
+      box.classList.add('open');
+      const input = document.getElementById('input-custom-horario');
+      input.focus();
+      if (navigator.vibrate) navigator.vibrate(20);
+    }
 
-      state.config.pao_destaque_hoje = pao;
-      state.config.proxima_fornada = horario;
-      state.config.alerta_ativo = document.getElementById('switch-alerta').checked;
-      state.config.alerta_texto = isQuente
-        ? `🔥 Fornada de ${pao} saindo agora do lastro de pedra!`
-        : `🥖 Pães biodinâmicos Demeter frescos disponíveis no balcão da Brothaus.`;
+    async function publicarFornada() {
+      const btn = document.getElementById('btn-publicar');
+      btn.classList.add('loading');
+      btn.textContent = 'Enviando...';
+
+      // Captura o pão (seja o botão ou o texto digitado)
+      if (document.getElementById('box-outro-pao').classList.contains('open')) {
+        const customPao = document.getElementById('input-custom-pao').value.trim();
+        if (customPao) paoAtual = customPao;
+      }
+
+      // Captura o horário
+      if (document.getElementById('box-outro-horario').classList.contains('open')) {
+        const customHora = document.getElementById('input-custom-horario').value.trim();
+        if (customHora) horarioAtual = customHora;
+      }
+
+      state.config.status_forno = 'saindo_agora';
+      state.config.pao_destaque_hoje = paoAtual;
+      state.config.proxima_fornada = horarioAtual;
+      state.config.alerta_ativo = true;
+      state.config.alerta_texto = `🔥 Fornada de ${paoAtual} saindo agora do lastro de pedra!`;
       state.config.ultima_atualizacao = new Date().toISOString();
 
-      // Salva imediatamente no cache local do dispositivo
+      window.ENGELKE_CONFIG.setCachedData(state);
+      if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+
+      // 1. Gera e baixa o Story do Instagram
+      try {
+        await window.EngelkeStoryGenerator.baixarStoryPNG(state, `story-${Date.now()}.png`);
+        mostrarToast('🔥 Fornada no ar & Story baixado!');
+      } catch (err) {
+        console.warn('Erro ao gerar story:', err);
+        mostrarToast('🔥 Fornada publicada!');
+      }
+
+      // 2. Sincroniza com o Google Sheets
+      const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
+      if (apiUrl) {
+        try {
+          const payload = {
+            pin: '1832',
+            config: state.config,
+            cronograma: state.cronograma
+          };
+          fetch(apiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }).catch(e => console.log('Envio bg:', e));
+        } catch (e) {}
+      }
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        btn.textContent = '🔥 Publicar & Baixar Story';
+      }, 1500);
+    }
+
+    async function voltarRitmoNormal() {
+      if (!confirm('Deseja encerrar o alerta de fornada quente e voltar ao ritmo normal?')) return;
+
+      state.config.status_forno = 'ativo';
+      state.config.alerta_ativo = false;
+      state.config.alerta_texto = '🥖 Pães frescos disponíveis no balcão da Brothaus.';
+      state.config.ultima_atualizacao = new Date().toISOString();
       window.ENGELKE_CONFIG.setCachedData(state);
 
-      const btn = document.getElementById('btn-publish');
-      btn.classList.add('loading');
-      btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin" style="width:20px;height:20px;"></i> <span>Publicando...</span>';
-      lucide.createIcons();
-
       const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
+      if (apiUrl) {
+        try {
+          fetch(apiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pin: '1832', config: state.config, cronograma: state.cronograma })
+          });
+        } catch (e) {}
+      }
 
+      mostrarToast('🥖 Vitrine normal ativada!');
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+
+    async function carregarDoServidor() {
+      const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
+      const dot = document.getElementById('dot-status');
       if (!apiUrl) {
-        setTimeout(() => {
-          btn.classList.remove('loading');
-          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar & Baixar Story</span>';
-          lucide.createIcons();
-          if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
-          mostrarToast('Salvo no dispositivo (Modo Local)', 'info');
-
-          // Disparo automático do Story do Instagram
-          const autoStory = document.getElementById('switch-auto-story');
-          if (autoStory && autoStory.checked) {
-            setTimeout(() => {
-              gerarEVisualizarStory(true);
-            }, 500);
-          }
-        }, 400);
+        dot.className = 'dot-status offline';
         return;
       }
-
       try {
-        const payload = {
-          pin: currentPin,
-          config: state.config,
-          cronograma: state.cronograma
-        };
-
-        // Usa GET com payload em JSON para 100% de confiabilidade em Web Apps do Google
-        const encoded = encodeURIComponent(JSON.stringify(payload));
-        const updateUrl = `${apiUrl}?action=update&pin=${encodeURIComponent(currentPin)}&payload=${encoded}`;
-        
-        const res = await fetch(updateUrl, { redirect: 'follow' });
+        const res = await fetch(`${apiUrl}?action=get`);
         const json = await res.json();
-
-        btn.classList.remove('loading');
-        btn.innerHTML = '<i data-lucide="check" style="width:20px;height:20px;"></i> <span>Publicado com Sucesso!</span>';
-        lucide.createIcons();
-
-        if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
-
-        if (json.success) {
-          mostrarToast('✅ Fornada publicada no site da Brothaus!');
-          document.getElementById('last-sync-time').textContent = 'Sinc: ' + formatarHora(new Date().toISOString());
-
-          // Disparo automático do Story do Instagram para os Stories do celular
-          const autoStory = document.getElementById('switch-auto-story');
-          if (autoStory && autoStory.checked) {
-            setTimeout(() => {
-              gerarEVisualizarStory(true);
-            }, 600);
-          }
-        } else {
-          mostrarToast('Erro: ' + (json.error || 'Falha ao salvar'), 'warning');
-        }
-
-        setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar & Baixar Story</span>';
-          lucide.createIcons();
-        }, 2200);
-
-      } catch (err) {
-        console.error('Falha na requisição:', err);
-        btn.classList.remove('loading');
-        btn.innerHTML = '<i data-lucide="send" style="width:20px;height:20px;"></i> <span>Publicar & Baixar Story</span>';
-        lucide.createIcons();
-        mostrarToast('Erro de rede. Dados salvos localmente.', 'warning');
-
-        // Mesmo offline, se configurado, gera e baixa a arte para o padeiro postar nos stories
-        const autoStory = document.getElementById('switch-auto-story');
-        if (autoStory && autoStory.checked) {
-          setTimeout(() => {
-            gerarEVisualizarStory(true);
-          }, 600);
-        }
-      }
-    }
-
-    // -------------------------------------------------------------
-    // Modal de Configurações
-    // -------------------------------------------------------------
-    document.getElementById('btn-open-settings').addEventListener('click', () => {
-      document.getElementById('settings-api-url').value = window.ENGELKE_CONFIG.getApiUrl();
-      document.getElementById('settings-pin').value = currentPin;
-      document.getElementById('modal-settings').classList.add('open');
-    });
-
-    function fecharModalSettings() {
-      document.getElementById('modal-settings').classList.remove('open');
-    }
-
-    function salvarConfiguracoes() {
-      const url = document.getElementById('settings-api-url').value.trim();
-      const pin = document.getElementById('settings-pin').value.trim();
-
-      window.ENGELKE_CONFIG.setApiUrl(url);
-      if (pin) {
-        currentPin = pin;
-        localStorage.setItem('engelke_admin_pin', pin);
-      }
-
-      fecharModalSettings();
-      mostrarToast('Configurações salvas!');
-      carregarDadosDoServidor();
-    }
-
-    async function testarConexao() {
-      const url = document.getElementById('settings-api-url').value.trim();
-      if (!url) {
-        alert('Por favor, informe a URL do Google Apps Script.');
-        return;
-      }
-
-      try {
-        const res = await fetch(`${url}?action=get`, { redirect: 'follow' });
-        const json = await res.json();
-        if (json.success) {
-          alert('🟢 Conexão com Google Sheets efetuada com sucesso!');
-        } else {
-          alert('⚠️ Erro retornado pelo script: ' + json.error);
+        if (json.success && json.data) {
+          state = json.data;
+          window.ENGELKE_CONFIG.setCachedData(state);
+          dot.className = 'dot-status';
         }
       } catch (e) {
-        alert('❌ Falha ao conectar: Verifique se o Web App foi implantado como "Qualquer pessoa" e se a URL termina com /exec.');
+        dot.className = 'dot-status offline';
       }
     }
 
-    // -------------------------------------------------------------
-    // Instagram Stories Generator & Share
-    // -------------------------------------------------------------
-    let storyCanvasAtual = null;
-
-    async function gerarEVisualizarStory(autoDownload = false) {
-      salvarDiaCronoAtual();
-
-      // Sincroniza campos do formulário no estado local
-      state.config.proxima_fornada = document.getElementById('input-proxima-fornada').value;
-      state.config.pao_destaque_hoje = document.getElementById('input-pao-destaque').value;
-      state.config.alerta_texto = document.getElementById('input-alerta-texto').value;
-
-      const modal = document.getElementById('modal-story');
-      const img = document.getElementById('story-preview-img');
-      const loading = document.getElementById('story-loading');
-
-      modal.classList.add('open');
-      img.style.display = 'none';
-      loading.style.display = 'flex';
-      loading.innerHTML = '<i data-lucide="loader-2" class="animate-spin" style="width:18px;height:18px;"></i> <span>Desenhando arte em alta resolução...</span>';
-      lucide.createIcons();
-
-      try {
-        const canvas = await window.EngelkeStoryGenerator.gerarCanvasStory(state);
-        storyCanvasAtual = canvas;
-        const dataUrl = canvas.toDataURL('image/png');
-
-        img.src = dataUrl;
-        img.style.display = 'block';
-        loading.style.display = 'none';
-
-        if (autoDownload) {
-          window.EngelkeStoryGenerator.baixarStoryPNG(state, `story-fornada-${Date.now()}.png`);
-          mostrarToast('📸 Imagem do Story baixada para o seu celular!');
-        }
-      } catch (err) {
-        console.error('Erro ao gerar Story:', err);
-        loading.innerHTML = '<span style="color:var(--alert-red); font-size:0.8rem;">Falha ao desenhar arte do Story.</span>';
-      }
-    }
-
-    function fecharModalStory() {
-      document.getElementById('modal-story').classList.remove('open');
-    }
-
-    async function compartilharStoryAtual() {
-      try {
-        await window.EngelkeStoryGenerator.compartilharStoryNativo(state);
-      } catch (err) {
-        window.EngelkeStoryGenerator.baixarStoryPNG(state);
-      }
-    }
-
-    function baixarStoryAtual() {
-      window.EngelkeStoryGenerator.baixarStoryPNG(state);
-      mostrarToast('📥 Download do Story iniciado!');
-    }
-
-    // -------------------------------------------------------------
-    // Utilitários de UI
-    // -------------------------------------------------------------
     function mostrarToast(msg) {
       const toast = document.getElementById('toast');
-      const toastText = document.getElementById('toast-text');
-      toastText.textContent = msg;
+      toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    function formatarHora(iso) {
-      try {
-        const d = new Date(iso);
-        return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      } catch (e) {
-        return '';
-      }
+    function abrirSettings() {
+      document.getElementById('input-api-url').value = window.ENGELKE_CONFIG.getApiUrl();
+      document.getElementById('modal-settings').classList.add('open');
+    }
+
+    function fecharSettings() {
+      document.getElementById('modal-settings').classList.remove('open');
+    }
+
+    function salvarSettings() {
+      const url = document.getElementById('input-api-url').value.trim();
+      window.ENGELKE_CONFIG.setApiUrl(url);
+      fecharSettings();
+      mostrarToast('Configurações salvas!');
+      carregarDoServidor();
     }
   </script>
 </body>

@@ -3,49 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Brothaus Engelke • Boutique de Pães Vivos & Confeitaria Vienense</title>
+  <title>Brothaus Engelke • O Astrolábio do Pão Vivo (Protótipo 3D Escultural)</title>
   <link rel="icon" type="image/png" href="assets/cisne_totem_dourado.png">
 
-  <!-- SEO & Standard Meta Fallbacks (Essencial para WhatsApp Web / Desktop) -->
+  <!-- SEO & WhatsApp Open Graph Tags -->
   <meta name="title" content="Brothaus Engelke • Boutique de Pães Vivos">
   <meta name="description" content="Ateliê artesanal de pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Certificação Biodinâmica Demeter. Rio Tavares, Florianópolis.">
   <link rel="image_src" href="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp_v2.jpg?v=2">
-
-  <!-- Schema.org Microdata para Crawlers e Mensageiros -->
-  <meta itemprop="name" content="Brothaus Engelke • Boutique de Pães Vivos">
-  <meta itemprop="description" content="Ateliê artesanal de pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Certificação Biodinâmica Demeter. Rio Tavares, Florianópolis.">
-  <meta itemprop="image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp_v2.jpg?v=2">
-
-  <!-- WhatsApp, Facebook & Open Graph Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Brothaus Engelke • Boutique de Pães Vivos">
   <meta property="og:description" content="Ateliê artesanal de pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Certificação Biodinâmica Demeter. Rio Tavares, Florianópolis.">
   <meta property="og:url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/">
-  <meta property="og:site_name" content="Brothaus Engelke">
   <meta property="og:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp_v2.jpg?v=2">
-  <meta property="og:image:secure_url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp_v2.jpg?v=2">
-  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="800">
   <meta property="og:image:height" content="800">
-  <meta property="og:image:alt" content="Brothaus Engelke — Selo Nobre do Cisne e Pães Vivos">
-
-  <!-- Twitter / X Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Brothaus Engelke • Boutique de Pães Vivos">
-  <meta name="twitter:description" content="Pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Rio Tavares, Florianópolis.">
-  <meta name="twitter:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_whatsapp_v2.jpg?v=2">
 
   <!-- LLMs.txt Machine-Readable Context for AI Agents & Search Engines -->
   <link rel="alternate" type="text/markdown" href="llms.txt" title="Brothaus Engelke LLMs Context">
   <link rel="alternate" type="text/plain" href="llm.txt" title="Brothaus Engelke LLM Context">
 
-  <!-- Google Fonts: A Tríade Tipográfica de Ouro Engelke + Bauhaus Monumental (Big Shoulders 900 + Oswald + Playfair + Plus Jakarta) -->
+  <!-- Google Fonts: A Tríade Tipográfica de Ouro Engelke (Editorial Vienense + Bauhaus Condensada + Suíça Grotesca) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Dynamic Fornadas Config -->
-  <script src="config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Three.js + Lenis + Lucide + STLLoader -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -619,145 +599,6 @@
       border-bottom: none;
     }
 
-    /* ==========================================================================
-       CARTAZ DE RUA DE BERLIM: O PÃO VIVO NÃO ACEITA PRESSA
-       "A tipografia não mora dentro de caixas; ela é quem constrói o espaço."
-       ========================================================================== */
-    .chapter-poster-berlin {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 7rem 0 6rem 0;
-      position: relative;
-      border-bottom: 1px solid var(--border-hairline);
-      scroll-margin-top: 5rem;
-    }
-
-    .poster-street-container {
-      width: 100%;
-      position: relative;
-      z-index: 12;
-    }
-
-    .poster-headline-berlin {
-      font-family: 'Big Shoulders Display', -apple-system, sans-serif;
-      font-size: clamp(3.6rem, 8.5vw, 8.5rem);
-      font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: -0.025em;
-      text-transform: uppercase;
-      color: var(--ink-primary);
-      margin: 1.25rem 0 2.25rem 0;
-      width: 100%;
-      max-width: 100%;
-      word-break: break-word;
-      display: block;
-    }
-
-    .poster-content-layout {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 3.5rem;
-      align-items: start;
-      margin-top: 1.5rem;
-    }
-
-    /* O Pão Livre: Zero caixas de supermercado, o fundo de linho respira */
-    .poster-bread-stage {
-      width: 100%;
-      position: relative;
-    }
-
-    .poster-bread-img {
-      width: 100%;
-      aspect-ratio: 16/10;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      filter: contrast(1.06) brightness(0.98);
-      border: none !important;
-      box-shadow: none !important;
-      border-radius: 0 !important;
-    }
-
-    .poster-bread-caption {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding-top: 0.85rem;
-      border-top: 1.5px solid var(--ink-primary);
-      margin-top: 0.85rem;
-      font-family: var(--font-condensed);
-      font-size: 0.78rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ink-primary);
-    }
-
-    .poster-editorial-side {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .poster-lead-text {
-      font-family: var(--font-quote);
-      font-size: clamp(1.2rem, 1.8vw, 1.45rem);
-      color: var(--ink-secondary);
-      line-height: 1.55;
-      font-style: italic;
-      margin-bottom: 0.5rem;
-    }
-
-    .poster-principles-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.75rem;
-      border-top: 1px solid var(--border-hairline);
-      padding-top: 1.75rem;
-    }
-
-    .poster-principle-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .poster-principle-kicker {
-      font-family: var(--font-condensed);
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--brass-metal);
-      font-weight: 600;
-    }
-
-    .poster-principle-title {
-      font-family: var(--font-serif);
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--ink-primary);
-      line-height: 1.25;
-    }
-
-    .poster-principle-desc {
-      font-size: 0.88rem;
-      color: var(--ink-secondary);
-      line-height: 1.55;
-    }
-
-    @media (max-width: 900px) {
-      .poster-content-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      .poster-principles-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-    }
-
     /* Half-grid layout: Content on the Left, 3D Astrolabe sculpture on the Right */
     .half-layout {
       width: 45%;
@@ -1042,61 +883,6 @@
       border: 1px solid var(--border-hairline);
       padding: 3rem;
       margin-top: 2rem;
-      border-radius: 4px;
-    }
-    .sacher-quote {
-      font-family: var(--font-quote);
-      font-size: 1.35rem;
-      font-style: italic;
-      color: var(--ink-secondary);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-      font-variant-numeric: lining-nums;
-      font-feature-settings: 'lnum' 1, 'liga' 1;
-    }
-    .sacher-price-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 1.25rem;
-      border-top: 1px solid var(--border-hairline);
-      padding-top: 1.25rem;
-    }
-    .sacher-price-col {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-    .sacher-price-kicker {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--ink-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .sacher-price-name {
-      font-family: var(--font-sans);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--ink-primary);
-    }
-    .sacher-price-val {
-      font-family: var(--font-mono);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--ink-primary);
-      white-space: nowrap !important;
-      flex-shrink: 0;
-      text-align: right;
-    }
-
-    /* Bread Craftsmanship Card */
-    .bread-zoom-img {
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .bread-zoom-img:hover {
-      transform: scale(1.04);
     }
 
     /* Table for Fornadas */
@@ -1514,16 +1300,13 @@
         padding: 0.45rem 0.35rem !important;
         font-size: 0.70rem !important;
       }
-      .btn-3d-standalone {
-        display: none !important;
-      }
       .half-layout {
         width: 100%;
         max-width: 100%;
       }
       #cap-1 {
         justify-content: flex-start !important;
-        padding-top: 295px !important;
+        padding-top: 300px !important;
       }
       body.view-polaroid #cap-1 {
         padding-top: 6.5rem !important;
@@ -1556,40 +1339,14 @@
         padding: 1.25rem 0 !important;
       }
       .display-title {
-        font-size: clamp(1.95rem, 6.8vw, 2.5rem) !important;
-        line-height: 1.15 !important;
-        margin-bottom: 1.15rem !important;
-      }
-      .display-lead {
-        font-size: 1.05rem !important;
-        line-height: 1.55 !important;
-        margin-bottom: 1.75rem !important;
-      }
-      .sacher-clean-box {
-        padding: 1.75rem 1.5rem !important;
-        margin-top: 1.5rem !important;
-      }
-      .sacher-quote {
-        font-size: 1.12rem !important;
-        line-height: 1.55 !important;
+        font-size: clamp(2.1rem, 7.5vw, 2.75rem) !important;
+        line-height: 1.1 !important;
         margin-bottom: 1.25rem !important;
       }
-      .sacher-price-row {
-        gap: 0.75rem !important;
-        padding-top: 1rem !important;
-      }
-      .sacher-price-kicker {
-        font-size: 0.65rem !important;
-      }
-      .sacher-price-name {
-        font-size: 1.0rem !important;
-      }
-      .sacher-price-val {
-        font-size: 1.2rem !important;
-      }
-      .sacher-cta-btn {
-        width: 100% !important;
-        justify-content: center !important;
+      .display-lead {
+        font-size: 1.15rem !important;
+        line-height: 1.52 !important;
+        margin-bottom: 2rem !important;
       }
       .hud-compass {
         display: none;
@@ -1601,21 +1358,11 @@
     }
 
     @media (max-width: 640px) {
-      .site-container {
-        padding: 0 1.2rem !important;
-      }
-      .section-block {
-        min-height: auto !important;
-        padding: 4.25rem 0 3.25rem 0 !important;
-      }
       .top-bar {
         flex-wrap: wrap !important;
-        padding: 0.45rem 0.85rem 0.4rem 0.85rem !important;
+        padding: 0.45rem 0.75rem 0.4rem 0.75rem !important;
         row-gap: 0.35rem !important;
         justify-content: space-between !important;
-        backdrop-filter: blur(14px) !important;
-        -webkit-backdrop-filter: blur(14px) !important;
-        background: rgba(247, 245, 240, 0.94) !important;
       }
       .brand-group {
         order: 1;
@@ -1634,7 +1381,7 @@
         gap: 0.35rem !important;
       }
       .btn-menu-trigger {
-        padding: 0.30rem 0.45rem !important;
+        padding: 0.30rem 0.4rem !important;
         font-size: 0.66rem !important;
         letter-spacing: 0.08em !important;
       }
@@ -1657,137 +1404,10 @@
         padding: 0.24rem 0.65rem !important;
         font-size: 0.63rem !important;
       }
-      #cap-1 {
-        padding-top: 285px !important;
-      }
-      .display-title {
-        font-size: clamp(1.85rem, 7vw, 2.35rem) !important;
-        line-height: 1.15 !important;
-        margin-bottom: 1rem !important;
-      }
-      .display-lead {
-        font-size: 1.0rem !important;
-        line-height: 1.52 !important;
-        margin-bottom: 1.35rem !important;
-      }
-      .sacher-clean-box {
-        padding: 1.35rem 1.15rem !important;
-        margin-top: 1.25rem !important;
-      }
-      .sacher-quote {
-        font-size: 1.02rem !important;
-        line-height: 1.52 !important;
-        margin-bottom: 1.15rem !important;
-      }
-      .sacher-price-name {
-        font-size: 0.95rem !important;
-      }
-      .sacher-price-val {
-        font-size: 1.15rem !important;
-      }
-      .sacher-cta-btn {
-        padding: 0.8rem 1rem !important;
-        font-size: 0.8rem !important;
-      }
       body.view-polaroid #cap-1 {
         padding-top: 7.5rem !important;
       }
     }
-  
-    /* ==========================================================================
-       AO VIVO: FAIXA DINÂMICA DE FORNADAS (Telemetria Direta do Forno)
-       ========================================================================== */
-    .live-fornada-banner {
-      background: #1A1816;
-      color: #F7F5F0;
-      border: 1px solid rgba(200, 155, 88, 0.4);
-      border-radius: 4px;
-      padding: 0.85rem 1.4rem;
-      margin-top: 5.5rem;
-      margin-bottom: -4rem;
-      position: relative;
-      z-index: 20;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      animation: bannerFadeIn 0.5s ease;
-    }
-
-    @keyframes bannerFadeIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .live-banner-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .live-banner-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .ticker-pulse {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #D63D33;
-      box-shadow: 0 0 10px #D63D33;
-      animation: pulseTicker 1.8s infinite;
-      display: inline-block;
-    }
-
-    @keyframes pulseTicker {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.4); opacity: 0.6; }
-    }
-
-    .live-banner-label {
-      font-family: var(--font-condensed);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #E0BA7E;
-    }
-
-    .live-banner-sep {
-      color: rgba(247, 245, 240, 0.4);
-    }
-
-    .live-banner-text {
-      font-family: var(--font-sans);
-      font-size: 0.88rem;
-      color: #F7F5F0;
-      font-weight: 500;
-    }
-
-    .live-banner-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-family: var(--font-sans);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #E0BA7E;
-      text-decoration: none;
-      border: 1px solid rgba(224, 186, 126, 0.4);
-      padding: 0.4rem 0.85rem;
-      border-radius: 3px;
-      transition: var(--transition-pure);
-    }
-
-    .live-banner-cta:hover {
-      background: #E0BA7E;
-      color: #1A1816;
-    }
-
   </style>
 </head>
 <body>
@@ -1832,9 +1452,6 @@
     </div>
 
     <div class="top-bar-actions">
-      <a href="cisne_3d.html" class="btn-menu-trigger btn-3d-standalone" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.35rem; color:var(--brass-metal); border-color:rgba(158,122,62,0.35); font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;" title="Girar Escultura 3D em 360°">
-        <span>✦ Escultura 3D</span>
-      </a>
       <button id="btn-open-menu" class="btn-menu-trigger">Cardápio</button>
       <a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke%20e%20Gustavo!%20Gostaria%20de%20consultar%20as%20fornadas%20da%20Brothaus." 
          target="_blank" rel="noopener noreferrer" class="btn-primary-dark">
@@ -1911,10 +1528,6 @@
             </a>
             <a href="#cap-4" style="font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.1em; color:var(--ink-secondary); text-decoration:none; border:1px solid var(--border-hairline); padding:0.85rem 1.5rem;">
               Ver Fornadas da Semana ↓
-            </a>
-            <a href="cisne_3d.html" style="font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.1em; color:var(--brass-metal); text-decoration:none; border:1px solid rgba(158,122,62,0.35); padding:0.85rem 1.4rem; display:inline-flex; align-items:center; gap:0.45rem; background:rgba(158,122,62,0.06); border-radius:2px; transition:var(--transition-pure);" title="Visualizador Interativo 360° da Escultura de Latão">
-              <span>✦ Girar Escultura 3D (360°)</span>
-              <i data-lucide="rotate-3d" style="width:14px;height:14px;"></i>
             </a>
           </div>
         </div>
@@ -2031,45 +1644,42 @@
       </div>
     </section>
 
-    <!-- CHAPTER 03: O MANIFESTO DO FORNO • CARTAZ DE RUA DE BERLIM -->
-    <section class="chapter-poster-berlin" id="cap-3" data-chapter="3">
-      <div class="poster-street-container">
-        <div class="section-kicker">03 // O Manifesto do Forno • Levain 36h</div>
-        
-        <h2 class="poster-headline-berlin">
-          O PÃO VIVO<br>NÃO ACEITA PRESSA.
+    <!-- CHAPTER 03: O TEMPO & A FERMENTAÇÃO LENTA -->
+    <section class="section-block" id="cap-3" data-chapter="3">
+      <div class="half-layout">
+        <div class="section-kicker">03 / O Tempo & O Ofício</div>
+        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; line-height:1.2; margin-bottom:1.5rem;">
+          36 Horas de Fermentação Lenta.
         </h2>
+        <p class="display-lead">
+          Quatro matérias puras: farinha biodinâmica, água cristalina, sal marinho e colônias selvagens de leveduras cuidadas dia a dia com a paciência dos mestres.
+        </p>
 
-        <div class="poster-content-layout">
-          <!-- O Pão Livre: O linho respira, sem caixas de supermercado -->
-          <div class="poster-bread-stage">
-            <img src="assets/fornada_baguetes_textura_zoom.jpg" alt="Fornada de Pães Vivos Brothaus Engelke com cortes diagonais e farinha viva no lastro de pedra" class="poster-bread-img">
-            <div class="poster-bread-caption">
-              <span>Fornada no Lastro de Pedra • Rio Tavares</span>
-              <span style="color:var(--stitch-red);">✦ Farinha Demeter 100% Pura</span>
-            </div>
+        <div class="principles-list">
+          <div class="principle-entry">
+            <div class="principle-num">Maturação a Frio</div>
+            <h3 class="principle-title">Digestibilidade Perfeita</h3>
+            <p class="principle-text">
+              A fermentação lenta degrada o glúten naturalmente, eliminando o inchaço e criando notas aromáticas amendoadas que a panificação rápida jamais alcança.
+            </p>
+          </div>
+          <div class="principle-entry">
+            <div class="principle-num">Assamento Artesanal</div>
+            <h3 class="principle-title">A Crosta Caramelizada</h3>
+            <p class="principle-text">
+              Na temperatura exata do forno, os açúcares naturais do trigo caramelizam em tons dourados e âmbar, selando a crocância da crosta e a umidade do miolo aerado.
+            </p>
           </div>
 
-          <!-- Coluna Editorial Livre -->
-          <div class="poster-editorial-side">
-            <p class="poster-lead-text">
-              Quatro matérias puras: farinha biodinâmica, água pura, sal marinho e colônias selvagens cuidadas com a paciência que a panificação industrial esqueceu.
-            </p>
-
-            <div class="poster-principles-grid">
-              <div class="poster-principle-item">
-                <span class="poster-principle-kicker">36H • Maturação a Frio</span>
-                <h3 class="poster-principle-title">Digestibilidade Perfeita</h3>
-                <p class="poster-principle-desc">
-                  A fermentação lenta degrada o glúten naturalmente, eliminando o inchaço e despertando notas amendoadas que a pressa industrial jamais alcança.
-                </p>
+          <div class="principle-entry" style="border-bottom:none; padding-bottom:0; margin-top:0.5rem;">
+            <div style="background:var(--bg-surface); border:1px solid var(--border-hairline); padding:0.75rem; box-shadow:0 8px 24px rgba(27,25,23,0.04);">
+              <div style="aspect-ratio:16/9; width:100%; height:auto; overflow:hidden; position:relative; border-radius:4px;">
+                <img src="assets/fornada_baguetes_wide_4k.jpg" alt="Fornada de Pães Vivos Brothaus Engelke com cortes diagonais e farinha viva" style="width:100%; height:100%; object-fit:cover; object-position:center 50%; filter:contrast(1.06) brightness(0.98);">
               </div>
-              <div class="poster-principle-item">
-                <span class="poster-principle-kicker">Forno de Lastro</span>
-                <h3 class="poster-principle-title">A Crosta Caramelizada</h3>
-                <p class="poster-principle-desc">
-                  Na temperatura exata do forno, os açúcares naturais do trigo caramelizam em tons dourados, selando a crocância externa e a umidade do miolo aerado.
-                </p>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem; font-family:var(--font-sans); font-size:0.68rem; font-weight:600; color:var(--ink-tertiary); letter-spacing:0.12em; text-transform:uppercase;">
+                <span>Cortes Rítmicos 42°</span>
+                <span style="color:var(--stitch-red);">✦ Fornada Viva</span>
+                <span>Farinha Demeter</span>
               </div>
             </div>
           </div>
@@ -2086,22 +1696,22 @@
         </h2>
         
         <div class="sacher-clean-box">
-          <p class="sacher-quote">
+          <p style="font-family:var(--font-quote); font-size:1.35rem; font-style:italic; color:var(--ink-secondary); line-height:1.6; margin-bottom:1.5rem; font-variant-numeric:lining-nums; font-feature-settings:'lnum' 1, 'liga' 1;">
             Criada em Viena por Franz Sacher sob encomenda do príncipe Metternich. Massa nobre de cacau puro, entremeada por compota artesanal de damascos frescos e ganache espelhada.
           </p>
 
-          <div class="sacher-price-row">
-            <div class="sacher-price-col">
-              <span class="sacher-price-kicker">ENCOMENDA DE FIM DE SEMANA</span>
-              <div class="sacher-price-name">Torta Inteira (1,6kg)</div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px solid var(--border-hairline); padding-top:1.25rem;">
+            <div>
+              <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-tertiary); text-transform:uppercase;">ENCOMENDA DE FIM DE SEMANA</span>
+              <div style="font-family:var(--font-sans); font-size:1.1rem; font-weight:600; color:var(--ink-primary); margin-top:2px;">Torta Inteira (1,6kg)</div>
             </div>
-            <div class="sacher-price-val">R$ 145,00</div>
+            <div style="font-family:var(--font-mono); font-size:1.1rem; font-weight:700; color:var(--ink-primary);">R$ 145,00</div>
           </div>
         </div>
 
-        <div style="margin-top:1.5rem;">
+        <div style="margin-top:2rem;">
           <a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke!%20Gostaria%20de%20encomendar%201%20Sachertorte%20inteira%20para%20o%20fim%20de%20semana." 
-             target="_blank" rel="noopener noreferrer" class="btn-primary-dark sacher-cta-btn">
+             target="_blank" rel="noopener noreferrer" class="btn-primary-dark">
             <span>Encomendar Sachertorte no WhatsApp</span>
             <i data-lucide="arrow-up-right" style="width:15px;height:15px;"></i>
           </a>
@@ -2836,9 +2446,9 @@
     // Posicionamento inteligente: Baia direita no desktop / Coroa superior no mobile
     function updateLayoutPositions() {
       if (window.innerWidth < 900) {
-        // Enquadramento áureo na coroa superior do mobile, perfeitamente abaixo do cabeçalho
-        astrolabeGroup.position.set(0, 1.80, 0);
-        astrolabeGroup.scale.set(0.46, 0.46, 0.46);
+        // Enquadramento perfeito na coroa superior do mobile
+        astrolabeGroup.position.set(0, 3.25, 0);
+        astrolabeGroup.scale.set(0.60, 0.60, 0.60);
       } else {
         astrolabeGroup.position.set(4.4, 0, 0);
         astrolabeGroup.scale.set(1.0, 1.0, 1.0);
@@ -3050,16 +2660,16 @@
       innerGimbalGroup.rotation.y = THREE.MathUtils.lerp(innerGimbalGroup.rotation.y, targetInnerRotY, lerpSpd);
       swanGroup.rotation.y = THREE.MathUtils.lerp(swanGroup.rotation.y, targetSwanRotY, lerpSpd);
 
-      // Micro levitação do astrolábio (mantendo o palco superior áureo no mobile)
-      astrolabeGroup.position.y = (isMob ? 1.80 : 0) + Math.sin(time * 1.5) * 0.04;
+      // Micro levitação do astrolábio (mantendo o palco superior no mobile)
+      astrolabeGroup.position.y = (isMob ? 3.25 : 0) + Math.sin(time * 1.5) * 0.05;
 
       // Atenuação dinâmica de opacidade no mobile para leitura cristalina
       if (isMob) {
         // No topo absoluto (hero), presença escultural nítida (0.85).
-        // Assim que começa a rolar para baixo (0 a 160px), o texto sobe sobre o astrolábio;
-        // atenua suavemente para 0.18 (marca d'água etérea), garantindo legibilidade e contraste impecáveis.
-        const scrollFade = Math.min(1.0, Math.max(0.0, currentScroll / 160));
-        const targetCanvasOpacity = 0.85 - (scrollFade * 0.67); // 0.85 -> 0.18
+        // Assim que começa a rolar para baixo (0 a 180px), o texto sobe sobre o astrolábio;
+        // atenua suavemente para 0.28 (marca d'água etérea), garantindo legibilidade e contraste impecáveis.
+        const scrollFade = Math.min(1.0, Math.max(0.0, currentScroll / 180));
+        const targetCanvasOpacity = 0.85 - (scrollFade * 0.57); // 0.85 -> 0.28
         const currentCanvasOpacity = parseFloat(canvas.style.opacity) || 0.85;
         canvas.style.opacity = THREE.MathUtils.lerp(currentCanvasOpacity, targetCanvasOpacity, 0.15).toFixed(3);
       } else {
@@ -3150,7 +2760,7 @@
         orderLink.href = `https://api.whatsapp.com/send?phone=5548998301122&text=${encodeURIComponent(msg)}`;
       });
     });
-  
+
     // =========================================================================
     // SELETOR DE EXPERIÊNCIA: TOTEM 3D vs POLARÓIDE REAL (AO ENTARDECER)
     // =========================================================================
@@ -3225,57 +2835,6 @@
         setViewMode('3d', false);
       }
     })();
-
-    // =========================================================================
-    // BROTHAUS ENGELKE • SINCRONIZAÇÃO DINÂMICA DE FORNADAS (Stale-While-Revalidate)
-    // =========================================================================
-    (function() {
-      const STATUS_MAP = {
-        'saindo_agora': { text: '🔥 Saindo Agora', class: 'saindo_agora' },
-        'ativo': { text: '🥖 No Balcão', class: 'disponivel' },
-        'disponivel': { text: '✅ Disponível', class: 'disponivel' },
-        'preparando': { text: '⏳ No Forno', class: 'ultimas_unidades' },
-        'ultimas_unidades': { text: '⚠️ Poucos', class: 'ultimas_unidades' },
-        'esgotado': { text: '🚫 Esgotado', class: 'esgotado' },
-        'pausado': { text: '🌙 Em Breve', class: 'esgotado' }
-      };
-
-      function renderizarFornadas(data) {
-        if (!data) return;
-
-        // 1. Alerta ao Vivo no Topo do Site
-        const ticker = document.getElementById('live-fornada-ticker');
-        const tickerText = document.getElementById('ticker-text');
-        if (ticker && tickerText && data.config) {
-          if (data.config.alerta_ativo && data.config.alerta_texto) {
-            tickerText.textContent = data.config.alerta_texto;
-            ticker.style.display = 'block';
-          } else {
-            ticker.style.display = 'none';
-          }
-        }
-      }
-
-      // Aplica dados de cache imediatamente
-      if (window.ENGELKE_CONFIG) {
-        const cached = window.ENGELKE_CONFIG.getCachedData();
-        if (cached) renderizarFornadas(cached);
-
-        const apiUrl = window.ENGELKE_CONFIG.getApiUrl();
-        if (apiUrl) {
-          fetch(`${apiUrl}?action=get`, { redirect: 'follow' })
-            .then(res => res.json())
-            .then(json => {
-              if (json && json.success && json.data) {
-                window.ENGELKE_CONFIG.setCachedData(json.data);
-                renderizarFornadas(json.data);
-              }
-            })
-            .catch(err => console.log('Modo offline de fornadas ativo:', err));
-        }
-      }
-    })();
-
   </script>
 </body>
 </html>
