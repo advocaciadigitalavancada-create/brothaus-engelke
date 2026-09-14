@@ -378,6 +378,34 @@
       border-radius: 1px;
     }
 
+    /* Recheio 3D Vivo: Viewport e Canvas do Cisne de Latão 3D dentro da Polaróide (Cap. 02) */
+    .polaroid-3d-viewport {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      background: radial-gradient(circle at center, #FAF7EE 0%, #E7E3D6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .polaroid-3d-viewport.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #polaroid-canvas-3d {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
     .polaroid-photo {
       position: absolute;
       inset: 0;
@@ -412,6 +440,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.5rem;
       margin-bottom: 0.4rem;
     }
 
@@ -1420,6 +1449,11 @@
           <div class="polaroid-card" id="polaroid-card">
             <span class="polaroid-pin"></span>
             <div class="polaroid-image-box" id="polaroid-image-box">
+              <!-- Recheio 3D Vivo: O Cisne de Latão Nobre 3D Interativo (Capítulo 02) -->
+              <div class="polaroid-3d-viewport" id="polaroid-3d-viewport">
+                <canvas id="polaroid-canvas-3d"></canvas>
+              </div>
+
               <img src="assets/totem_real_foto_dusk.jpg" 
                    alt="Totem do Cisne em Latão & Fachada ao Entardecer no Rio Tavares" 
                    class="polaroid-photo active" 
@@ -1446,7 +1480,7 @@
                 <span class="polaroid-tag" id="polaroid-tag">Cap. 01 • Fachada</span>
                 <div class="polaroid-dots" id="polaroid-dots">
                   <button type="button" class="p-dot active" data-target="0" aria-label="Capítulo 1: O Totem"></button>
-                  <button type="button" class="p-dot" data-target="1" aria-label="Capítulo 2: A Terra Demeter"></button>
+                  <button type="button" class="p-dot" data-target="1" aria-label="Capítulo 2: O Astrolábio Vivo"></button>
                   <button type="button" class="p-dot" data-target="2" aria-label="Capítulo 3: O Ofício 42°"></button>
                   <button type="button" class="p-dot" data-target="3" aria-label="Capítulo 4: Sachertorte 1832"></button>
                   <button type="button" class="p-dot" data-target="4" aria-label="Capítulo 5: O Forno de Lastro"></button>
@@ -1963,9 +1997,9 @@
         tilt: -1.4,
       },
       {
-        tag: "Cap. 02 • A Terra",
-        title: "Massa Madre & Solo Vivo",
-        sub: "Trigo biodinâmico certificado SPG/OPAC ABDSul • 36h",
+        tag: "Cap. 02 • O Astrolábio Vivo",
+        title: "Astrolábio & Ciclos Demeter",
+        sub: "Escultura 3D em latão • Orientação cosmo-telúrica",
         tilt: 0.9,
       },
       {
@@ -1996,11 +2030,22 @@
       const data = polaroidChapters[index];
       if (!data) return;
 
-      // 1. Alterna a foto ativa com fade suave e micro-scale (todas as fotos 100% nítidas)
+      // Alterna entre o Cisne 3D Vivo (Cap 02) e as fotografias analógicas
+      const p3dViewport = document.getElementById('polaroid-3d-viewport');
+      if (p3dViewport) {
+        if (index === 1) {
+          p3dViewport.classList.add('active');
+          if (typeof window.resizePolaroid3D === 'function') window.resizePolaroid3D();
+        } else {
+          p3dViewport.classList.remove('active');
+        }
+      }
+
+      // 1. Alterna a foto ativa com fade suave (quando não for o Cap 02)
       const photos = document.querySelectorAll('.polaroid-photo');
       photos.forEach(img => {
         const photoNum = parseInt(img.getAttribute('data-photo'), 10);
-        if (photoNum === index + 1) {
+        if (index !== 1 && photoNum === index + 1) {
           img.classList.add('active');
         } else {
           img.classList.remove('active');
@@ -2545,7 +2590,8 @@
       if (!document.body.classList.contains('view-polaroid')) {
         renderer.render(scene, camera);
       }
-      if (document.body.classList.contains('view-polaroid') && currentPolaroidChapter === 1 && pRenderer && pCamera) {
+      // Renderização do Cisne 3D Nobre dentro da Polaróide (Capítulo 02)
+      if (currentPolaroidChapter === 1 && pRenderer && pCamera) {
         pRenderer.render(scene, pCamera);
       }
     }
