@@ -1038,6 +1038,97 @@
       letter-spacing: 0.03em;
     }
 
+    /* ==========================================================================
+       CERTIFICAÇÃO OFICIAL SISORG / MAPA & ABDSUL (INSPEÇÃO REGULATÓRIA)
+       ========================================================================== */
+    .sisorg-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .sisorg-seal-badge-wrap {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sisorg-seal-img {
+      width: 132px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 4px 14px rgba(0, 122, 51, 0.16));
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sisorg-seal-img:hover {
+      transform: scale(1.04);
+    }
+
+    .sisorg-seal-caption {
+      font-family: var(--font-sans);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--demeter-green);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .sisorg-executive-statement {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      line-height: 1.74;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    .sisorg-executive-statement strong {
+      color: var(--ink-primary);
+      font-weight: 700;
+    }
+
+    .sisorg-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+      padding: 1.1rem;
+      background: rgba(51, 68, 54, 0.045);
+      border: 1px solid rgba(51, 68, 54, 0.14);
+      border-radius: 4px;
+    }
+
+    .sisorg-pillar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .sisorg-pillar-label {
+      font-family: var(--font-condensed);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--demeter-green);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sisorg-pillar-val {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--ink-secondary);
+    }
+
     @media (max-width: 768px) {
       .abdsul-feature-card {
         padding: 1.25rem;
@@ -1050,6 +1141,24 @@
         justify-content: center;
         width: 100%;
         text-align: center;
+      }
+      .sisorg-card-header {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+      }
+      .sisorg-seal-badge-wrap {
+        align-self: center;
+        margin: 0.5rem 0 1rem 0;
+      }
+      .sisorg-seal-img {
+        width: 140px;
+      }
+      .sisorg-pillars-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      .sisorg-executive-statement {
+        text-align: left;
       }
     }
 
@@ -2018,31 +2127,78 @@
           </div>
         </div>
 
-        <!-- DESTAQUE EDITORIAL & REPORTAGEM OFICIAL ABDSUL -->
+        <!-- DESTAQUE EDITORIAL & REPORTAGEM OFICIAL ABDSUL COM SELO SISORG OFICIAL -->
         <div class="abdsul-feature-card">
-          <div class="abdsul-feature-top">
-            <div class="abdsul-badge-group">
-              <span class="abdsul-pill">ABDSul • Série Especial #01</span>
-              <span class="abdsul-cert-tag">Demeter & Orgânicos SPG/OPAC</span>
+          <!-- Cabeçalho do Bloco: Metadados Institucionais + Selo Oficial SisOrg -->
+          <div class="sisorg-card-header">
+            <div style="flex:1;">
+              <div class="abdsul-badge-group" style="margin-bottom:0.65rem;">
+                <span class="abdsul-pill">ABDSul • Série Especial #01</span>
+                <span class="abdsul-cert-tag">SisOrg / MAPA • SPG Litoral</span>
+                <span class="abdsul-date">Publicação Oficial</span>
+              </div>
+              <div class="abdsul-quote-lead" style="margin-bottom:0;">
+                “A Engelke representa um exemplo de como a certificação participativa ultrapassa a dimensão burocrática e se transforma em compromisso ético compartilhado (...) restaurando vínculos entre campo e cidade, produtor e consumidor, economia e cuidado.”
+              </div>
             </div>
-            <span class="abdsul-date">Publicação Oficial</span>
+            
+            <div class="sisorg-seal-badge-wrap">
+              <img src="assets/selo_sisorg_participativo.svg" 
+                   alt="Selo Oficial SisOrg Produto Orgânico Brasil - Sistema Participativo MAPA" 
+                   class="sisorg-seal-img" 
+                   width="132" 
+                   height="78"
+                   loading="lazy">
+              <span class="sisorg-seal-caption">Certificação Oficial MAPA</span>
+            </div>
           </div>
 
-          <div class="abdsul-quote-lead">
-            “A Engelke representa um exemplo de como a certificação participativa ultrapassa a dimensão burocrática e se transforma em compromisso ético compartilhado (...) restaurando vínculos entre campo e cidade, produtor e consumidor, economia e cuidado.”
-          </div>
-
-          <p class="abdsul-feature-desc">
-            Na matéria inaugural que celebra os organismos pioneiros da <strong>Associação de Agricultura Biodinâmica do Sul (ABDSul)</strong>, a Brothaus Engelke no Rio Tavares foi homenageada pelo rigor com fermentações lentas de 36 horas, grãos limpos de adubos químicos e compromisso vivo com a terra.
+          <!-- O PARÁGRAFO EXECUTIVO DE ALTA AUTORIDADE (LEI Nº 10.831/2003 & SISORG/MAPA) -->
+          <p class="sisorg-executive-statement">
+            No rigor do ordenamento jurídico brasileiro (<strong>Lei Federal nº 10.831/2003</strong> e <strong>Decreto nº 6.323/2007</strong>), a chancela de produto orgânico transcende qualquer apelo comercial: constitui um regime compulsório de conformidade fiscalizado pelo <strong>Ministério da Agricultura e Pecuária (MAPA)</strong>. Sob a tutela do <strong>SisOrg (Sistema Brasileiro de Avaliação da Conformidade Orgânica)</strong>, a Brothaus Engelke opera sob o <strong>Sistema Participativo de Garantia (SPG)</strong> homologado pela <strong>ABDSul (OPAC credenciada)</strong> em convergência com os preceitos internacionais da certificação biodinâmica <strong>Demeter</strong>. Esse ecossistema garante controle social direto e rastreabilidade irrestrita do solo à fornada: cada lote de trigo e centeio utilizado em nosso ateliê provém de áreas agrícolas regeneradas, com interdição absoluta a agrotóxicos, fertilizantes químicos de síntese e sementes transgênicas (OGMs). Em sinergia com a moagem limpa a frio e a maturação selvagem de 36 horas da nossa massa madre viva, essa integridade agronômica inativa os fitatos e desbloqueia a máxima biodisponibilidade nutricional — compromisso ético e artesanal publicamente consagrado na reportagem inaugural da ABDSul.
           </p>
 
+          <!-- GRID DOS TRÊS PILARES DE CONFORMIDADE REGULATÓRIA -->
+          <div class="sisorg-pillars-grid">
+            <div class="sisorg-pillar-item">
+              <div class="sisorg-pillar-label">
+                <i data-lucide="scale" style="width:13px;height:13px;"></i>
+                <span>Marco Regulatório</span>
+              </div>
+              <div class="sisorg-pillar-val">
+                Lei nº 10.831/2003, Decreto nº 6.323/2007 e cadastro oficial ativo no CNPO / MAPA.
+              </div>
+            </div>
+
+            <div class="sisorg-pillar-item">
+              <div class="sisorg-pillar-label">
+                <i data-lucide="shield-check" style="width:13px;height:13px;"></i>
+                <span>Auditoria & SPG</span>
+              </div>
+              <div class="sisorg-pillar-val">
+                OPAC ABDSul: responsabilidade solidária, visitas entre pares e rastreabilidade total.
+              </div>
+            </div>
+
+            <div class="sisorg-pillar-item">
+              <div class="sisorg-pillar-label">
+                <i data-lucide="wheat" style="width:13px;height:13px;"></i>
+                <span>Pureza & Demeter</span>
+              </div>
+              <div class="sisorg-pillar-val">
+                Zero químicos sintéticos, 100% livre de OGMs e fermentação biológica de 36 horas.
+              </div>
+            </div>
+          </div>
+
+          <!-- Rodapé do Card com Acesso à Matéria Oficial -->
           <div class="abdsul-footer-cta">
             <a href="https://www.abdsul.org.br/post/01-engelke-caf%C3%A9-s%C3%A9rie-especial-organismos-certificados-demeter-e-org%C3%A2nicos-do-spg-opac-abdsul"
                target="_blank" rel="noopener noreferrer" class="abdsul-btn-link">
               <span>Ler Reportagem Oficial na ABDSul</span>
               <i data-lucide="external-link" style="width:14px;height:14px;"></i>
             </a>
-            <span class="abdsul-authority">Associação de Agricultura Biodinâmica do Sul • SPG Litoral</span>
+            <span class="abdsul-authority">Associação de Agricultura Biodinâmica do Sul • SPG Litoral Catarinense • SisOrg/MAPA</span>
           </div>
         </div>
       </div>
@@ -2239,13 +2395,16 @@
         </div>
       </div>
 
-      <!-- Banner de Certificação Orgânica Oficial Desde 2017 -->
-      <div style="background:var(--demeter-badge); border:1px solid rgba(51,68,54,0.2); border-radius:4px; padding:0.75rem 1rem; display:flex; align-items:center; gap:0.75rem; margin-bottom:1.75rem;">
-        <img src="assets/selo_organico_2017.svg" alt="Certificado Orgânico" style="width:34px; height:34px; flex-shrink:0;">
-        <div style="font-size:0.75rem; line-height:1.35; color:var(--demeter-green); width:100%;">
-          <strong style="font-family:var(--font-condensed); letter-spacing:0.06em; text-transform:uppercase; font-size:0.82rem; display:block;">Certificados Orgânicos Desde 2017</strong>
-          <span>Farinhas limpas, grãos biodinâmicos Demeter e fermentação selvagem.</span>
-          <div style="margin-top:0.45rem; padding-top:0.35rem; border-top:1px dashed rgba(51,68,54,0.18);">
+      <!-- Banner de Certificação Orgânica Oficial SisOrg / MAPA Desde 2017 -->
+      <div style="background:var(--demeter-badge); border:1px solid rgba(51,68,54,0.22); border-left:3px solid var(--demeter-green); border-radius:4px; padding:0.85rem 1rem; display:flex; align-items:center; gap:0.95rem; margin-bottom:1.75rem;">
+        <img src="assets/selo_sisorg_participativo.svg" alt="Selo Oficial SisOrg Produto Orgânico Brasil - Sistema Participativo MAPA" style="width:58px; height:auto; flex-shrink:0; filter:drop-shadow(0 2px 6px rgba(0,122,51,0.18));">
+        <div style="font-size:0.75rem; line-height:1.38; color:var(--demeter-green); width:100%;">
+          <div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.15rem;">
+            <strong style="font-family:var(--font-condensed); letter-spacing:0.08em; text-transform:uppercase; font-size:0.84rem;">Orgânico Oficial • SisOrg / MAPA</strong>
+            <span style="font-size:0.64rem; font-weight:700; background:var(--demeter-green); color:#F7F5F0; padding:0.1rem 0.4rem; border-radius:2px; text-transform:uppercase; letter-spacing:0.05em;">SPG ABDSul</span>
+          </div>
+          <span>Trigo e centeio biodinâmicos Demeter, 100% livres de agrotóxicos e transgênicos (Lei nº 10.831/2003). Moagem limpa e fermentação de 36 horas.</span>
+          <div style="margin-top:0.45rem; padding-top:0.35rem; border-top:1px dashed rgba(51,68,54,0.2);">
             <a href="https://www.abdsul.org.br/post/01-engelke-caf%C3%A9-s%C3%A9rie-especial-organismos-certificados-demeter-e-org%C3%A2nicos-do-spg-opac-abdsul"
                target="_blank" rel="noopener noreferrer"
                style="color:var(--demeter-green); font-weight:600; text-decoration:underline; text-underline-offset:2px; display:inline-flex; align-items:center; gap:0.25rem;">
@@ -2687,7 +2846,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.10;
+    renderer.toneMappingExposure = 1.05;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -2742,27 +2901,29 @@
       window.addEventListener('resize', resizePolaroid3D);
     }
 
-    // --- PROCEDURAL BRUSHED METAL TEXTURE (Idêntico à Referência Real media_1789220525323.jpg) ---
+    // --- PROCEDURAL BRUSHED METAL TEXTURE (Acabamento Acetinado Escovado de Alta Relojoaria) ---
     function createBrushedMetalTexture() {
       const bCanvas = document.createElement('canvas');
       bCanvas.width = 512;
       bCanvas.height = 512;
       const ctx = bCanvas.getContext('2d');
-      ctx.fillStyle = '#827E7A';
+      // Fundo neutro luminoso de polimento fino
+      ctx.fillStyle = '#C8C4BC';
       ctx.fillRect(0, 0, 512, 512);
 
       const rad = 35 * Math.PI / 180;
       const cosA = Math.cos(rad);
       const sinA = Math.sin(rad);
 
-      for (let i = 0; i < 22000; i++) {
+      // Micropigmentos sutis de polimento manual (sem ranhuras rústicas grossas)
+      for (let i = 0; i < 28000; i++) {
         const x = Math.random() * 650 - 80;
         const y = Math.random() * 650 - 80;
-        const len = 35 + Math.random() * 140;
-        const val = Math.floor(Math.random() * 110 + 90);
-        const alpha = 0.05 + Math.random() * 0.14;
+        const len = 30 + Math.random() * 120;
+        const val = Math.floor(Math.random() * 85 + 170); // 170 a 255: tons claros e reflexivos
+        const alpha = 0.02 + Math.random() * 0.06;      // Ultra sutil
         ctx.strokeStyle = `rgba(${val}, ${val}, ${val}, ${alpha})`;
-        ctx.lineWidth = Math.random() > 0.85 ? 1.5 : 0.75;
+        ctx.lineWidth = Math.random() > 0.85 ? 0.75 : 0.45;
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x + cosA * len, y + sinA * len);
@@ -2771,18 +2932,18 @@
       const tex = new THREE.CanvasTexture(bCanvas);
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(2.5, 2.5);
+      tex.repeat.set(4.0, 4.0); // Frequência fina de escovamento de precisão
       return tex;
     }
     const brushedTexture = createBrushedMetalTexture();
 
-    // --- PROCEDURAL STUDIO ENVIRONMENT MAP (PMREM) ---
+    // --- PROCEDURAL STUDIO ENVIRONMENT MAP (PMREM) DE ALTA JOALHERIA ---
     function createStudioEnvironment(renderer) {
       const pmremGenerator = new THREE.PMREMGenerator(renderer);
       pmremGenerator.compileEquirectangularShader();
       
       const envScene = new THREE.Scene();
-      envScene.background = new THREE.Color(0x181512);
+      envScene.background = new THREE.Color(0x121110);
 
       const panelGeom = new THREE.PlaneGeometry(1, 1);
       
@@ -2799,16 +2960,16 @@
         return mesh;
       }
 
-      // Key softbox: warm golden light from top-left
-      addSoftbox(0xFFE3B8, 4.0, 4.0, 8.0, [-5, 7, 5]);
-      // Rim softbox: cool crisp reflection on right silhouette
-      addSoftbox(0xD4E6FF, 2.4, 3.0, 9.0, [6, 4, -4]);
-      // Overhead strip: highlights the crown and top curve
-      addSoftbox(0xFDE5BE, 3.2, 8.0, 2.0, [0, 8, 2]);
-      // Bottom bounce: warm dough/hearth glow
-      addSoftbox(0x783D18, 2.4, 5.0, 5.0, [0, -6, 4]);
-      // Back fill: dark ambient tone
-      addSoftbox(0x2B170B, 1.4, 10.0, 10.0, [0, 0, -8]);
+      // Key softbox: luz champanhe suave vinda do topo/esquerda
+      addSoftbox(0xFFF3DE, 4.8, 5.0, 8.0, [-5, 7, 5]);
+      // Rim softbox: reflexo afiado e cristalino no contorno direito posterior
+      addSoftbox(0xEDF4FF, 4.2, 3.5, 10.0, [7, 5, -4]);
+      // Overhead strip: realce vivo na crista dos anéis chanfrados
+      addSoftbox(0xFFF9E8, 3.6, 9.0, 2.0, [0, 8.5, 2]);
+      // Front fill softbox: preenchimento frontal suave para nitidez dos detalhes
+      addSoftbox(0xEBE2D2, 1.8, 7.0, 7.0, [0, 1, 8]);
+      // Bottom hearth bounce: calor dourado/âmbar da forja na base
+      addSoftbox(0x8C4A1A, 1.6, 5.0, 4.0, [0, -6, 4]);
 
       const renderTarget = pmremGenerator.fromScene(envScene, 0.04);
       envScene.clear();
@@ -2819,31 +2980,33 @@
     const studioEnvMap = createStudioEnvironment(renderer);
     scene.environment = studioEnvMap;
 
-    // --- MATERIAL DE LATÃO/BRONZE ESCOVADO ESCURECIDO (PBR FÍSICO COM TEXTURA REAL) ---
-    // Calibrado fielmente à nova imagem de referência (media_1789220525323.jpg)
+    // --- MATERIAL DE LATÃO RELOJOEIRO / OURO CHAMPAGNE NOBRE (PBR FÍSICO DE ALTA JOALHERIA) ---
     const brassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x94603B,        // Bronze-latão envelhecido aquecido (adeus ao dourado pálido)
-      emissive: 0x1E1006,     // Brilho quente de forno e forja
-      metalness: 0.88,
-      roughness: 0.38,
+      color: 0xD4AF37,             // Latão relojoeiro / ouro champanhe nobre de alta joalheria
+      emissive: 0x1E1408,          // Brilho quente sutil para áreas de oclusão
+      metalness: 0.97,             // Metal puro reluzente
+      roughness: 0.20,             // Acabamento acetinado escovado de luxo com reflexo nítido
       bumpMap: brushedTexture,
-      bumpScale: 0.008,
+      bumpScale: 0.003,            // Micropigmentos ultra sutis de polimento relojoeiro
       roughnessMap: brushedTexture,
-      clearcoat: 0.22,
-      clearcoatRoughness: 0.28,
-      reflectivity: 0.88,
-      envMapIntensity: 1.25,
+      clearcoat: 0.42,             // Verniz protetor de alta relojoaria
+      clearcoatRoughness: 0.12,    // Reflexo especular vivo e cristalino nas bordas
+      reflectivity: 0.97,
+      envMapIntensity: 1.55,       // Reflexos ricos do estúdio PMREM
       side: THREE.DoubleSide
     });
 
+    // --- AÇO ESCURECIDO DOS PIVÔS E PINOS MECÂNICOS (TITÂNIO RELOJOEIRO) ---
     const darkSteelMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x322A24,
-      metalness: 0.90,
-      roughness: 0.45,
+      color: 0x1C1A18,             // Aço de alta têmpera / titânio relojoeiro
+      metalness: 0.94,
+      roughness: 0.28,
       bumpMap: brushedTexture,
-      bumpScale: 0.005,
-      clearcoat: 0.12,
-      envMapIntensity: 1.0
+      bumpScale: 0.0025,
+      clearcoat: 0.28,
+      clearcoatRoughness: 0.15,
+      reflectivity: 0.92,
+      envMapIntensity: 1.25
     });
 
     // Astrolabe Master Group
@@ -2863,8 +3026,8 @@
     }
     updateLayoutPositions();
 
-    // Helper para anéis chanfrados e extrudados com espessura sólida de forja
-    function createBeveledRing(rInner, rOuter, depth, bevel) {
+    // Helper para anéis chanfrados e lapidados de alta relojoaria
+    function createBeveledRing(rInner, rOuter, depth, bevelThickness = 0.02, bevelSize = 0.018) {
       const shape = new THREE.Shape();
       shape.absarc(0, 0, rOuter, 0, Math.PI * 2, false);
       const hole = new THREE.Path();
@@ -2874,10 +3037,10 @@
       const geom = new THREE.ExtrudeGeometry(shape, {
         depth: depth,
         bevelEnabled: true,
-        bevelThickness: bevel,
-        bevelSize: bevel,
-        bevelSegments: 3,
-        curveSegments: 96
+        bevelThickness: bevelThickness,
+        bevelSize: bevelSize,
+        bevelSegments: 4, // Facetas refinadas com reflexo vivo
+        curveSegments: 128 // Curvatura contínua sem arestas
       });
       geom.center();
       return geom;
@@ -2887,22 +3050,23 @@
     const outerGimbalGroup = new THREE.Group();
     astrolabeGroup.add(outerGimbalGroup);
 
-    const outerRingMesh = new THREE.Mesh(createBeveledRing(2.62, 2.82, 0.16, 0.016), brassMaterial);
+    // Proporção esbelta e chanfro de joalheria mecânica
+    const outerRingMesh = new THREE.Mesh(createBeveledRing(2.64, 2.82, 0.13, 0.022, 0.020), brassMaterial);
     outerRingMesh.castShadow = true;
     outerRingMesh.receiveShadow = true;
     outerGimbalGroup.add(outerRingMesh);
 
-    // Parafusos e pinos do eixo no aro externo
-    const pivotTop = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.32, 24), darkSteelMaterial);
+    // Parafusos e pinos do eixo no aro externo em aço escurecido relojoeiro
+    const pivotTop = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.34, 32), darkSteelMaterial);
     pivotTop.position.set(0, 2.76, 0);
     outerGimbalGroup.add(pivotTop);
 
-    const pivotBottom = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.32, 24), darkSteelMaterial);
+    const pivotBottom = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.34, 32), darkSteelMaterial);
     pivotBottom.position.set(0, -2.76, 0);
     outerGimbalGroup.add(pivotBottom);
 
     // Flange de Apoio na Base Inferior do Totem
-    const flangeDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.48, 0.08, 48), brassMaterial);
+    const flangeDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.46, 0.06, 64), brassMaterial);
     flangeDisc.position.set(0, -2.88, 0);
     outerGimbalGroup.add(flangeDisc);
 
@@ -2910,7 +3074,7 @@
     const innerGimbalGroup = new THREE.Group();
     astrolabeGroup.add(innerGimbalGroup);
 
-    const innerRingMesh = new THREE.Mesh(createBeveledRing(2.26, 2.42, 0.14, 0.015), brassMaterial);
+    const innerRingMesh = new THREE.Mesh(createBeveledRing(2.28, 2.44, 0.11, 0.018, 0.016), brassMaterial);
     innerRingMesh.castShadow = true;
     innerRingMesh.receiveShadow = true;
     innerGimbalGroup.add(innerRingMesh);
@@ -2928,13 +3092,14 @@
     }
     swanShape.closePath();
 
+    // Relevo escultural refinado com chanfro nobre
     const swanExtrudeSettings = {
       steps: 1,
-      depth: 0.052,
+      depth: 0.046,
       bevelEnabled: true,
-      bevelThickness: 0.007,
-      bevelSize: 0.006,
-      bevelOffset: -0.002,
+      bevelThickness: 0.009,
+      bevelSize: 0.007,
+      bevelOffset: -0.001,
       bevelSegments: 4
     };
 
@@ -2947,7 +3112,7 @@
     swanMesh.position.set(0.02, 0.14, 0);
     swanGroup.add(swanMesh);
 
-    // --- Partículas Finas de Farinha Orgânica & Trigo em Suspensão ---
+    // --- Partículas Finas de Farinha Dourada & Trigo Orgânico em Suspensão ---
     const dustCount = 180;
     const dustGeo = new THREE.BufferGeometry();
     const dustPositions = new Float32Array(dustCount * 3);
@@ -2960,28 +3125,40 @@
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
 
     const dustMaterial = new THREE.PointsMaterial({
-      color: 0x94603B,
-      size: 0.08,
+      color: 0xD4AF37,
+      size: 0.065,
       transparent: true,
-      opacity: 0.45
+      opacity: 0.35
     });
     const dustPoints = new THREE.Points(dustGeo, dustMaterial);
     scene.add(dustPoints);
 
-    // --- Iluminação Cênica de Estúdio ---
-    const ambientLight = new THREE.AmbientLight(0xFFF9F0, 1.2);
+    // --- Iluminação Cênica de Estúdio & Rim Lighting Nítido ---
+    const ambientLight = new THREE.AmbientLight(0xFFF9EE, 0.45);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xFFE3B8, 2.4);
-    keyLight.position.set(5, 8, 10);
+    // Key light: Ouro champanhe suave frontal/superior
+    const keyLight = new THREE.DirectionalLight(0xFFF0D4, 2.2);
+    keyLight.position.set(4, 7, 7);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xD4E6FF, 1.5);
+    // Rim light principal: Luz cristalina afiada de contorno traseiro
+    const rimLight = new THREE.DirectionalLight(0xFFFFFF, 2.8);
     rimLight.position.set(-6, 4, -4);
     scene.add(rimLight);
 
-    // Luz âmbar de brasa de forno
-    const ovenLight = new THREE.PointLight(0xD46A27, 0.3, 30);
+    // Rim light secundária: Luz de preenchimento lateral direita para chanfros
+    const rimLight2 = new THREE.DirectionalLight(0xFFF6E2, 2.2);
+    rimLight2.position.set(6, 3, -3);
+    scene.add(rimLight2);
+
+    // Fill light lateral suave para revelar tridimensionalidade
+    const fillLight = new THREE.DirectionalLight(0xD8C49E, 0.8);
+    fillLight.position.set(-3, -2, 5);
+    scene.add(fillLight);
+
+    // Luz âmbar sutil de brasa de forno na base
+    const ovenLight = new THREE.PointLight(0xEE762A, 0.35, 25);
     ovenLight.position.set(2, -5, 6);
     scene.add(ovenLight);
 
@@ -3047,12 +3224,12 @@
       const escapementPulse = Math.sin(time * 6.0) * 0.015;
       targetSwanRotY = (u * Math.PI * 6.0) + escapementPulse;
 
-      // Intensidade do calor do forno (ápice térmico no Cap. 3)
+      // Intensidade do calor do forno (brasa suave sem queimar o ouro no Cap. 3)
       if (p >= 0.36 && p <= 0.72) {
         const hearthP = 1.0 - Math.abs(p - 0.54) / 0.18;
-        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.4 + hearthP * 3.8, 0.08);
+        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.35 + hearthP * 1.8, 0.08);
       } else {
-        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.3, 0.05);
+        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.35, 0.05);
       }
 
       // Interpolação ágil e suave

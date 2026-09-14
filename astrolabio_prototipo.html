@@ -2337,27 +2337,27 @@
       window.addEventListener('resize', resizePolaroid3D);
     }
 
-    // --- PROCEDURAL BRUSHED METAL TEXTURE (Idêntico à Referência Real media_1789220525323.jpg) ---
+    // --- PROCEDURAL BRUSHED METAL TEXTURE (Acabamento Acetinado Escovado de Alta Relojoaria) ---
     function createBrushedMetalTexture() {
       const bCanvas = document.createElement('canvas');
       bCanvas.width = 512;
       bCanvas.height = 512;
       const ctx = bCanvas.getContext('2d');
-      ctx.fillStyle = '#827E7A';
+      ctx.fillStyle = '#C8C4BC';
       ctx.fillRect(0, 0, 512, 512);
 
       const rad = 35 * Math.PI / 180;
       const cosA = Math.cos(rad);
       const sinA = Math.sin(rad);
 
-      for (let i = 0; i < 22000; i++) {
+      for (let i = 0; i < 28000; i++) {
         const x = Math.random() * 650 - 80;
         const y = Math.random() * 650 - 80;
-        const len = 35 + Math.random() * 140;
-        const val = Math.floor(Math.random() * 110 + 90);
-        const alpha = 0.05 + Math.random() * 0.14;
+        const len = 30 + Math.random() * 120;
+        const val = Math.floor(Math.random() * 85 + 170);
+        const alpha = 0.02 + Math.random() * 0.06;
         ctx.strokeStyle = `rgba(${val}, ${val}, ${val}, ${alpha})`;
-        ctx.lineWidth = Math.random() > 0.85 ? 1.5 : 0.75;
+        ctx.lineWidth = Math.random() > 0.85 ? 0.75 : 0.45;
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x + cosA * len, y + sinA * len);
@@ -2366,18 +2366,18 @@
       const tex = new THREE.CanvasTexture(bCanvas);
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(2.5, 2.5);
+      tex.repeat.set(4.0, 4.0);
       return tex;
     }
     const brushedTexture = createBrushedMetalTexture();
 
-    // --- PROCEDURAL STUDIO ENVIRONMENT MAP (PMREM) ---
+    // --- PROCEDURAL STUDIO ENVIRONMENT MAP (PMREM) DE ALTA JOALHERIA ---
     function createStudioEnvironment(renderer) {
       const pmremGenerator = new THREE.PMREMGenerator(renderer);
       pmremGenerator.compileEquirectangularShader();
       
       const envScene = new THREE.Scene();
-      envScene.background = new THREE.Color(0x181512);
+      envScene.background = new THREE.Color(0x121110);
 
       const panelGeom = new THREE.PlaneGeometry(1, 1);
       
@@ -2394,16 +2394,11 @@
         return mesh;
       }
 
-      // Key softbox: warm golden light from top-left
-      addSoftbox(0xFFE3B8, 4.0, 4.0, 8.0, [-5, 7, 5]);
-      // Rim softbox: cool crisp reflection on right silhouette
-      addSoftbox(0xD4E6FF, 2.4, 3.0, 9.0, [6, 4, -4]);
-      // Overhead strip: highlights the crown and top curve
-      addSoftbox(0xFDE5BE, 3.2, 8.0, 2.0, [0, 8, 2]);
-      // Bottom bounce: warm dough/hearth glow
-      addSoftbox(0x783D18, 2.4, 5.0, 5.0, [0, -6, 4]);
-      // Back fill: dark ambient tone
-      addSoftbox(0x2B170B, 1.4, 10.0, 10.0, [0, 0, -8]);
+      addSoftbox(0xFFF3DE, 4.8, 5.0, 8.0, [-5, 7, 5]);
+      addSoftbox(0xEDF4FF, 4.2, 3.5, 10.0, [7, 5, -4]);
+      addSoftbox(0xFFF9E8, 3.6, 9.0, 2.0, [0, 8.5, 2]);
+      addSoftbox(0xEBE2D2, 1.8, 7.0, 7.0, [0, 1, 8]);
+      addSoftbox(0x8C4A1A, 1.6, 5.0, 4.0, [0, -6, 4]);
 
       const renderTarget = pmremGenerator.fromScene(envScene, 0.04);
       envScene.clear();
@@ -2414,31 +2409,32 @@
     const studioEnvMap = createStudioEnvironment(renderer);
     scene.environment = studioEnvMap;
 
-    // --- MATERIAL DE LATÃO/BRONZE ESCOVADO ESCURECIDO (PBR FÍSICO COM TEXTURA REAL) ---
-    // Calibrado fielmente à nova imagem de referência (media_1789220525323.jpg)
+    // --- MATERIAL DE LATÃO RELOJOEIRO / OURO CHAMPAGNE NOBRE (PBR FÍSICO DE ALTA JOALHERIA) ---
     const brassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x94603B,        // Bronze-latão envelhecido aquecido (adeus ao dourado pálido)
-      emissive: 0x1E1006,     // Brilho quente de forno e forja
-      metalness: 0.88,
-      roughness: 0.38,
+      color: 0xC5A059,             // Latão relojoeiro austríaco nobre
+      emissive: 0x251A0A,          // Brilho quente sutil
+      metalness: 0.96,
+      roughness: 0.22,
       bumpMap: brushedTexture,
-      bumpScale: 0.008,
+      bumpScale: 0.0035,
       roughnessMap: brushedTexture,
-      clearcoat: 0.22,
-      clearcoatRoughness: 0.28,
-      reflectivity: 0.88,
-      envMapIntensity: 1.25,
+      clearcoat: 0.40,
+      clearcoatRoughness: 0.14,
+      reflectivity: 0.96,
+      envMapIntensity: 1.45,
       side: THREE.DoubleSide
     });
 
     const darkSteelMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x322A24,
-      metalness: 0.90,
-      roughness: 0.45,
+      color: 0x1C1A18,             // Aço de alta têmpera / titânio relojoeiro
+      metalness: 0.94,
+      roughness: 0.28,
       bumpMap: brushedTexture,
-      bumpScale: 0.005,
-      clearcoat: 0.12,
-      envMapIntensity: 1.0
+      bumpScale: 0.0025,
+      clearcoat: 0.28,
+      clearcoatRoughness: 0.15,
+      reflectivity: 0.92,
+      envMapIntensity: 1.25
     });
 
     // Astrolabe Master Group
@@ -2458,8 +2454,8 @@
     }
     updateLayoutPositions();
 
-    // Helper para anéis chanfrados e extrudados com espessura sólida de forja
-    function createBeveledRing(rInner, rOuter, depth, bevel) {
+    // Helper para anéis chanfrados e lapidados de alta relojoaria
+    function createBeveledRing(rInner, rOuter, depth, bevelThickness = 0.02, bevelSize = 0.018) {
       const shape = new THREE.Shape();
       shape.absarc(0, 0, rOuter, 0, Math.PI * 2, false);
       const hole = new THREE.Path();
@@ -2469,10 +2465,10 @@
       const geom = new THREE.ExtrudeGeometry(shape, {
         depth: depth,
         bevelEnabled: true,
-        bevelThickness: bevel,
-        bevelSize: bevel,
-        bevelSegments: 3,
-        curveSegments: 96
+        bevelThickness: bevelThickness,
+        bevelSize: bevelSize,
+        bevelSegments: 4,
+        curveSegments: 128
       });
       geom.center();
       return geom;
@@ -2482,22 +2478,22 @@
     const outerGimbalGroup = new THREE.Group();
     astrolabeGroup.add(outerGimbalGroup);
 
-    const outerRingMesh = new THREE.Mesh(createBeveledRing(2.62, 2.82, 0.16, 0.016), brassMaterial);
+    const outerRingMesh = new THREE.Mesh(createBeveledRing(2.64, 2.82, 0.13, 0.022, 0.020), brassMaterial);
     outerRingMesh.castShadow = true;
     outerRingMesh.receiveShadow = true;
     outerGimbalGroup.add(outerRingMesh);
 
-    // Parafusos e pinos do eixo no aro externo
-    const pivotTop = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.32, 24), darkSteelMaterial);
+    // Parafusos e pinos do eixo no aro externo em titânio relojoeiro
+    const pivotTop = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.34, 32), darkSteelMaterial);
     pivotTop.position.set(0, 2.76, 0);
     outerGimbalGroup.add(pivotTop);
 
-    const pivotBottom = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.32, 24), darkSteelMaterial);
+    const pivotBottom = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.34, 32), darkSteelMaterial);
     pivotBottom.position.set(0, -2.76, 0);
     outerGimbalGroup.add(pivotBottom);
 
     // Flange de Apoio na Base Inferior do Totem
-    const flangeDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.48, 0.08, 48), brassMaterial);
+    const flangeDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.46, 0.06, 64), brassMaterial);
     flangeDisc.position.set(0, -2.88, 0);
     outerGimbalGroup.add(flangeDisc);
 
@@ -2505,7 +2501,7 @@
     const innerGimbalGroup = new THREE.Group();
     astrolabeGroup.add(innerGimbalGroup);
 
-    const innerRingMesh = new THREE.Mesh(createBeveledRing(2.26, 2.42, 0.14, 0.015), brassMaterial);
+    const innerRingMesh = new THREE.Mesh(createBeveledRing(2.28, 2.44, 0.11, 0.018, 0.016), brassMaterial);
     innerRingMesh.castShadow = true;
     innerRingMesh.receiveShadow = true;
     innerGimbalGroup.add(innerRingMesh);
@@ -2525,11 +2521,11 @@
 
     const swanExtrudeSettings = {
       steps: 1,
-      depth: 0.052,
+      depth: 0.046,
       bevelEnabled: true,
-      bevelThickness: 0.007,
-      bevelSize: 0.006,
-      bevelOffset: -0.002,
+      bevelThickness: 0.009,
+      bevelSize: 0.007,
+      bevelOffset: -0.001,
       bevelSegments: 4
     };
 
@@ -2542,7 +2538,7 @@
     swanMesh.position.set(0.02, 0.14, 0);
     swanGroup.add(swanMesh);
 
-    // --- Partículas Finas de Farinha Orgânica & Trigo em Suspensão ---
+    // --- Partículas Finas de Farinha Dourada & Trigo Orgânico em Suspensão ---
     const dustCount = 180;
     const dustGeo = new THREE.BufferGeometry();
     const dustPositions = new Float32Array(dustCount * 3);
@@ -2555,28 +2551,32 @@
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
 
     const dustMaterial = new THREE.PointsMaterial({
-      color: 0x94603B,
-      size: 0.08,
+      color: 0xD4AF37,
+      size: 0.065,
       transparent: true,
-      opacity: 0.45
+      opacity: 0.35
     });
     const dustPoints = new THREE.Points(dustGeo, dustMaterial);
     scene.add(dustPoints);
 
-    // --- Iluminação Cênica de Estúdio ---
-    const ambientLight = new THREE.AmbientLight(0xFFF9F0, 1.2);
+    // --- Iluminação Cênica de Estúdio & Rim Lighting Nítido ---
+    const ambientLight = new THREE.AmbientLight(0xFFFAF2, 0.95);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xFFE3B8, 2.4);
-    keyLight.position.set(5, 8, 10);
+    const keyLight = new THREE.DirectionalLight(0xFFF2DC, 2.6);
+    keyLight.position.set(5, 8, 9);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0xD4E6FF, 1.5);
-    rimLight.position.set(-6, 4, -4);
+    const rimLight = new THREE.DirectionalLight(0xEDF4FF, 2.4);
+    rimLight.position.set(-6, 5, -5);
     scene.add(rimLight);
 
-    // Luz âmbar de brasa de forno
-    const ovenLight = new THREE.PointLight(0xD46A27, 0.3, 30);
+    const rimLight2 = new THREE.DirectionalLight(0xFFF8E7, 1.8);
+    rimLight2.position.set(7, 2, -4);
+    scene.add(rimLight2);
+
+    // Luz âmbar sutil de brasa de forno na base
+    const ovenLight = new THREE.PointLight(0xEE762A, 0.35, 25);
     ovenLight.position.set(2, -5, 6);
     scene.add(ovenLight);
 
@@ -2642,12 +2642,12 @@
       const escapementPulse = Math.sin(time * 6.0) * 0.015;
       targetSwanRotY = (u * Math.PI * 6.0) + escapementPulse;
 
-      // Intensidade do calor do forno (ápice térmico no Cap. 3)
+      // Intensidade do calor do forno (brasa suave sem queimar o ouro no Cap. 3)
       if (p >= 0.36 && p <= 0.72) {
         const hearthP = 1.0 - Math.abs(p - 0.54) / 0.18;
-        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.4 + hearthP * 3.8, 0.08);
+        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.35 + hearthP * 1.8, 0.08);
       } else {
-        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.3, 0.05);
+        ovenLight.intensity = THREE.MathUtils.lerp(ovenLight.intensity, 0.35, 0.05);
       }
 
       // Interpolação ágil e suave

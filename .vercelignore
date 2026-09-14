@@ -1,0 +1,15 @@
+# Regras de exclusão de artefatos não essenciais para deploy de produção
+*.stl
+*.pdf
+*.py
+Gemini_Generated_Image_*.jpg
+preview_*.png
+test_*.png
+test_*.svg
+test_*.html
+cisne_3d.html
+astrolabio_prototipo.html
+index_estatico_legado.html
+backend/
+dossie_*.md
+*.txt

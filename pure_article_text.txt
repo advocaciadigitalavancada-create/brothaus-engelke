@@ -1,0 +1,242 @@
+if (window.ResizeObserver &&
+        (!window.PerformanceObserver || !PerformanceObserver.supportedEntryTypes || PerformanceObserver.supportedEntryTypes.indexOf('paint') === -1)) {
+        new ResizeObserver(function (entries, observer) {
+            entries.some(function (entry) {
+                var contentRect = entry.contentRect;
+                if (contentRect.width > 0 && contentRect.height > 0) {
+                    requestAnimationFrame(function (now) {
+                        window.wixFirstPaint = now;
+                        dispatchEvent(new CustomEvent('wixFirstPaint'));
+                    });
+                    observer.disconnect();
+                    return true;
+                }
+            });
+        }).observe(document.body);
+    }
+
+---
+
+const div = document.createElement('div')
+    div.style.overflowY = 'scroll'
+    div.style.width = '50px'
+    div.style.height = '50px'
+    div.style.visibility = 'hidden'
+    document.body.appendChild(div)
+    const scrollbarWidth= div.offsetWidth - div.clientWidth
+    document.body.removeChild(div)
+    if(scrollbarWidth > 0){
+        document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`)
+    }
+
+---
+
+Sobre a ABDSulGestãoAssociadosApoiadores e ParceirosAbordagens e Princípios BiodinâmicosAntroposofia no MundoCertificação
+
+---
+
+SPGCertificados DemeterCertificados de Conformidade OrgânicaNorma e legislaçãoProjetos
+
+---
+
+​Curso de Agricultura BiodinâmicaFundo de PublicaçõesPublicações
+
+---
+
+Comunicado de Imprensa BFDILivro Manfred KlettLivro de Bernard LievegoedEventos
+
+---
+
+Palestra Online com Roberto Dertoni100 AnosElaboração do Preparado Biodinâmico de Chifre Esterco e MutirãoAplicação do Preparado Biodinâmico de Três ReisPreparado Biodinâmico Três ReisElaboração do Preparado Biodinâmico de Sílica (501)Encontros Pré XIV CB - ABConversas BiodinâmicasPreparados
+
+---
+
+LoginTodos os postsBuscar01 - Engelke Café: Série Especial    Organismos Certificados Demeter e Orgânicos do SPG/OPAC/ABDSul ABDSul Biodinâmica1 de jun.4 min de leituraAtualizado: 9 de jun.
+
+---
+
+Neste 1º de junho de 2026, a Associação de Agricultura Biodinâmica do Sul - ABDSul inicia uma nova série de publicações dedicada aos organismos que integram o seu Sistema Participativo de Garantia – SPG/OPAC, reconhecido pela construção coletiva da confiança, da qualidade e do compromisso com a agricultura biodinâmica e biodinâmica.
+
+---
+
+Mais do que apresentar os organismos certificados, esta série busca revelar histórias vivas. Histórias de famílias, agricultores, padeiros, cozinheiros, artesãos do alimento e guardiões da terra que escolheram cultivar não apenas produtos, mas relações saudáveis entre ser humano, natureza e sociedade.
+
+---
+
+Essa é a Sachertorte. Uma torta típica da Áustria, inventada sob encomenda de um príncipe essa receita hoje é famosa no mundo inteiro. Chocolate com creme de damasco, é tão bom e você come e vai se sentindo como parte da realeza!!             Clique sobre o texto e assista o vídeo.
+
+---
+
+Para inaugurar esta caminhada, apresentamos a Engelke Café, fundada em maio de 2013, localizada no bairro Rio Tavares, em Florianópolis. A casa também conhecida como Boutique de Pães tornou-se referência no universo dos pães de fermentação natural, da alimentação consciente e da valorização dos ingredientes orgânicos e biodinâmicos.
+
+---
+
+A trajetória da Engelke dialoga com um movimento maior que floresceu nas últimas décadas em Santa Catarina: o reencontro entre alimento, território e cultura. Em um tempo marcado pela industrialização acelerada da comida, iniciativas como esta ajudaram a resgatar o valor do pão artesanal, do café preparado com cuidado, dos processos lentos e da relação direta com produtores comprometidos com a saúde da terra e das pessoas.
+
+---
+
+Ao longo dos anos, a Engelke consolidou-se não apenas como cafeteria ou padaria artesanal, mas como um verdadeiro organismo social e cultural, onde alimento, convivência e consciência caminham juntos. Seus espaços, aromas e sabores carregam a assinatura de um trabalho construído com dedicação, estudo e sensibilidade.
+
+---
+
+Os sócios Engelke e Gustavo,  e colaboradores que sustentam este caminho ajudaram a fortalecer, em Florianópolis, uma cultura alimentar mais conectada aos princípios da agroecologia, da biodinâmica e da economia associativa. Em cada fornada, em cada xícara servida, existe também uma mensagem silenciosa: é possível produzir e empreender respeitando os ritmos da natureza e valorizando relações humanas mais verdadeiras.
+
+---
+
+https://www.facebook.com/reel/168911191857906?locale=pt_BR
+
+---
+
+Integrando o SPG/OPAC da ABDSul, a Engelke representa um exemplo de como a certificação participativa ultrapassa a dimensão burocrática e se transforma em compromisso ético compartilhado. A certificação nasce do acompanhamento mútuo, da transparência, das visitas entre pares e da construção comunitária da qualidade orgânica e biodinâmica.
+
+---
+
+No presente momento, em que cresce o interesse por alimentos regenerativos, fermentações naturais, cadeias curtas e práticas sustentáveis, organismos como a Engelke assumem papel ainda mais importante. Eles ajudam a demonstrar que o futuro da alimentação não depende apenas de tecnologia ou escala, mas da capacidade de restaurar vínculos entre campo e cidade, produtor e consumidor, economia e cuidado.
+
+---
+
+Cultivar o futuro, portanto, significa cultivar consciência. Significa apoiar iniciativas que regeneram solos, fortalecem comunidades, preservam saberes e oferecem alimentos vivos, produzidos com responsabilidade e sentido.
+
+---
+
+Que esta primeira publicação inspire outras conexões e permita que mais pessoas conheçam os organismos que, diariamente, ajudam a construir uma nova cultura agrícola e alimentar no Sul do Brasil.
+
+---
+
+A ABDSul saúda e agradece à Engelke por integrar esta caminhada coletiva de transformação, cooperação e vitalidade. 🌱☕🍞
+
+---
+
+Nome da Empresa: Engelke Boutique de Pães
+
+---
+
+Cidade da Empresa: Florianópolis / SC
+
+---
+
+Proprietários: Engelke e Gustavo
+
+---
+
+Certificação: Certificado Orgânico pela ABDSul – SPG/OPAC - Gurpo Litoral
+
+---
+
+Local: Rio Tavares - Florianópolis – SC
+
+---
+
+lRegenerar a Vida. Cultivar o Futuro
+
+---
+
+Durante o EnaBioSul, a comunidade poderá conhecer de perto iniciativas como a ENLGELKE CAFÉ, dentre outras, em espaço de exposição gratuito e aberto ao público, promovendo encontros entre produtores, consumidores, pesquisadores e organizações comprometidas com a saúde da Terra, dos alimentos e das relações humanas.
+
+---
+
+Local: Escola Municipal Santa Cruz da Figueira
+
+---
+
+Município: Águas Mornas - SC (Grande Florianópolis, distância de 40 km da capital)
+
+---
+
+Como fazer a inscrição: Clique aqui EnaBioSul
+
+---
+
+Fundada em 22 de julho de 2001, a ABDSul chega,
+
+---
+
+em 2026, ao marco de seus   25 anos de atuação, celebrando um ciclo de amadurecimento, renovação e aprofundamento de seu propósito.
+
+---
+
+Ao longo dessa trajetória, a Associação tem se dedicado a impulsionar a agricultura biodinâmica no Sul do Brasil e a certificação Demeter e Orgânica, promovendo formação, articulação de redes, fortalecimento de iniciativas e o cultivo de uma consciência ampliada sobre a relação entre ser humano, Terra, cosmos e comunidade.
+
+---
+
+Difundir e fortalecer a agricultura biodinâmica em suas dimensões técnica, social e espiritual;
+
+---
+
+Promover processos formativos e comunitários, inspirados na Antroposofia;
+
+---
+
+Fomentar redes de cooperação entre produtores, consumidores e iniciativas afins;
+
+---
+
+Contribuir para o desenvolvimento de sistemas agrícolas biodinâmicos e regenerativos, saudáveis e sustentáveis.
+
+---
+
+Desenvolver o Sistema Participativo de Garantia (SPG) orgânico e biodinâmico/Demeter.
+
+---
+
+Ao celebrar seus 25 anos de trajetória, a ABDSul reafirma seu propósito de regenerar a vida, fortalecer comunidades e cultivar futuros mais conscientes, cooperativos e harmoniosos entre ser humano, natureza e sociedade.
+
+---
+
+Acompanhe os canais de comunicação da ABDSul
+
+---
+
+Site/Portal: https://www.abdsul.org.br/
+
+---
+
+Blog: https://www.abdsul.org.br/blog
+
+---
+
+SPG/OPAC: https://www.abdsul.org.br/certificacao
+
+---
+
+Instagram: https://www.instagram.com/abdsul.biodinamica/
+
+---
+
+Facebook: https://www.facebook.com/abdsul.biodinamica#
+
+---
+
+YouTube/TV Biodinâmica: https://www.youtube.com/channel/UCLXO_F3i-YFk-2Fy81W9sLA
+
+---
+
+EnaBioSul: https://www.abdsul.org.br/enabiosul
+
+---
+
+Posts recentesVer tudoEvento Online - Reflexões sobre a Evolução do Cosmos, os Reinos da Natureza e o Ser Humano   Com o apoio do SPG/ABDSul, o Ikiporã realizou a segunda Oficina do Fazer em Ituporanga e fortalece um novo ciclo da Agricultura Biodinâmica no Sul do Brasil   Dois encontros movimentam a comunidade biodinâmica no Sul do Brasil
+
+---
+
+Insira seu email abaixo e seja informado das novidades da ABDSul
+
+---
+
+Associa&ccedil;&atilde;o de Agricultura Biodin&acirc;mica do Sul - ABDSul
+
+---
+
+Margens da BR 282, Km 44, Estrada Geral de Santa Isabel, sn
+
+---
+
+Santa Isabel - &Aacute;guas Mornas &ndash; CEP 88155-899 - SC &ndash; Brasil
+CNPJ: 04.927.223/0001-50
+
+---
+
+Pol&iacute;tica de Entrega | Troca | Reembolso
+
+---
+

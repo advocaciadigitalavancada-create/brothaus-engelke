@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 250" width="420" height="250" role="img" aria-label="Selo Oficial SisOrg Produto Orgânico Brasil - Sistema Participativo MAPA">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap');
+      .sisorg-base {
+        font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
+      }
+      .txt-prod {
+        font-size: 20px;
+        font-weight: 800;
+        fill: #FFFFFF;
+        letter-spacing: 0.22em;
+      }
+      .txt-org {
+        font-size: 38px;
+        font-weight: 900;
+        fill: #FFFFFF;
+        letter-spacing: 0.04em;
+      }
+      .txt-br {
+        font-size: 29px;
+        font-weight: 900;
+        fill: #007A33;
+        letter-spacing: 0.14em;
+      }
+      .txt-part {
+        font-size: 14px;
+        font-weight: 800;
+        fill: #FFFFFF;
+        letter-spacing: 0.20em;
+        text-anchor: middle;
+      }
+      .txt-legal {
+        font-size: 9px;
+        font-weight: 800;
+        fill: #007A33;
+        letter-spacing: 0.16em;
+        text-anchor: middle;
+      }
+    </style>
+
+    <clipPath id="inner-border-clip">
+      <rect x="12" y="12" width="396" height="226" rx="60" ry="60" />
+    </clipPath>
+    <linearGradient id="yellow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD100" />
+      <stop offset="100%" stop-color="#FFBA00" />
+    </linearGradient>
+    <linearGradient id="green-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#008838" />
+      <stop offset="100%" stop-color="#006C2C" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo e Contorno Exterior do Selo Oficial SisOrg -->
+  <rect x="6" y="6" width="408" height="238" rx="66" ry="66" fill="#FFFFFF" stroke="#007A33" stroke-width="6" />
+
+  <!-- Conteúdo Interno Mascarado -->
+  <g clip-path="url(#inner-border-clip)">
+    <!-- Campo Amarelo Ouro Oficial (Setor Direito / Brasil) -->
+    <rect x="12" y="12" width="396" height="226" fill="url(#yellow-grad)" />
+
+    <!-- Campo Verde Folha Oficial (Setor Esquerdo / Produto Orgânico) -->
+    <path d="M 12,12 L 310,12 C 280,50 255,95 220,130 C 175,172 105,185 12,176 Z" fill="url(#green-grad)" />
+
+    <!-- Filete de Separação Curvo Branco (Dinâmica da Folha SisOrg) -->
+    <path d="M 310,12 C 280,50 255,95 220,130 C 175,172 105,185 12,176" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" />
+
+    <!-- Textos da Marca Oficial SisOrg -->
+    <!-- PRODUTO -->
+    <text x="44" y="62" class="sisorg-base txt-prod">PRODUTO</text>
+
+    <!-- ORGÂNICO -->
+    <text x="42" y="106" class="sisorg-base txt-org">ORGÂNICO</text>
+
+    <!-- BRASIL -->
+    <text x="262" y="124" class="sisorg-base txt-br">BRASIL</text>
+
+    <!-- Tarja Inferior Oficial: SISTEMA PARTICIPATIVO -->
+    <rect x="24" y="172" width="372" height="38" rx="19" fill="#007A33" stroke="#FFFFFF" stroke-width="2.2" />
+    <text x="210" y="196" class="sisorg-base txt-part">SISTEMA PARTICIPATIVO</text>
+
+    <!-- Rodapé Regulatório: SisOrg / MAPA / OPAC ABDSul -->
+    <text x="210" y="226" class="sisorg-base txt-legal">SISORG • MAPA • OPAC ABDSUL CERTIFICADA</text>
+  </g>
+</svg>

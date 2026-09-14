@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #F8F9FA; margin: 0; padding: 24px; color: #1F1F1F; }
+  .sheet-frame { background: #FFFFFF; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border: 1px solid #E0E0E0; overflow: hidden; max-width: 900px; margin: 0 auto; }
+  .sheet-header { background: #FFFFFF; padding: 12px 20px; border-bottom: 1px solid #E0E0E0; display: flex; align-items: center; gap: 12px; }
+  .sheet-icon { width: 28px; height: 28px; background: #0F9D58; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; }
+  .sheet-title { font-size: 18px; font-weight: 600; color: #202124; }
+  .sheet-tabs { background: #F1F3F4; padding: 6px 16px 0 16px; display: flex; gap: 4px; border-bottom: 1px solid #DADCE0; }
+  .tab { background: #FFFFFF; padding: 8px 16px; font-size: 13px; font-weight: 600; color: #202124; border: 1px solid #DADCE0; border-bottom: none; border-radius: 6px 6px 0 0; }
+  .tab.inactive { background: transparent; border: none; color: #5F6368; font-weight: 500; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #C89B58; color: #FFFFFF; text-align: left; padding: 10px 14px; font-weight: 700; border: 1px solid #B88B48; letter-spacing: 0.04em; }
+  td { padding: 9px 14px; border: 1px solid #E8EAED; }
+  tr:nth-child(even) { background: #FDFBF7; }
+  .key { font-weight: 600; color: #1A1816; font-family: monospace; font-size: 12px; }
+  .val-active { color: #D63D33; font-weight: 700; background: rgba(214, 61, 51, 0.08); padding: 3px 8px; border-radius: 4px; display: inline-block; }
+  .val-bread { color: #94603B; font-weight: 700; }
+  .val-time { color: #137333; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class='sheet-frame'>
+    <div class='sheet-header'>
+      <div class='sheet-icon'>田</div>
+      <div>
+        <div class='sheet-title'>Brothaus Engelke • Controle de Fornadas</div>
+        <div style='font-size:11px; color:#5F6368;'>Google Drive • Nuvem Soberana do Cliente</div>
+      </div>
+    </div>
+    <div class='sheet-tabs'>
+      <div class='tab'>Config (Ao Vivo)</div>
+      <div class='tab inactive'>Cronograma</div>
+      <div class='tab inactive'>Log de Fornadas</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style='width:22%;'>Chave de Configuração</th>
+          <th style='width:38%;'>Valor Atual (Atualizado via Celular)</th>
+          <th style='width:40%;'>Descrição / Como Funciona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class='key'>status_forno</td>
+          <td><span class='val-active'>🔥 saindo_agora</span></td>
+          <td>Ativa o alarme no site oficial e prepara o Story</td>
+        </tr>
+        <tr>
+          <td class='key'>pao_destaque_hoje</td>
+          <td><span class='val-bread'>🥖 Sourdough Tradicional Demeter</span></td>
+          <td>Nome do pão principal no topo do site e na arte dos Stories</td>
+        </tr>
+        <tr>
+          <td class='key'>proxima_fornada</td>
+          <td><span class='val-time'>⚡ Saindo Agora!</span></td>
+          <td>Horário exibido na telemetria ao vivo para os clientes</td>
+        </tr>
+        <tr>
+          <td class='key'>alerta_ativo</td>
+          <td><strong>TRUE</strong></td>
+          <td>Liga a faixa urgente dourada no topo da página</td>
+        </tr>
+        <tr>
+          <td class='key'>alerta_texto</td>
+          <td>🔥 Fornada de Sourdough Demeter saindo agora do lastro de pedra!</td>
+          <td>Frase exibida ao vivo na faixa urgente</td>
+        </tr>
+        <tr>
+          <td class='key'>alerta_tipo</td>
+          <td>fornada_quente</td>
+          <td>Categoria visual do alerta</td>
+        </tr>
+        <tr>
+          <td class='key'>ultima_atualizacao</td>
+          <td>2026-09-14 10:30:00</td>
+          <td>Carimbo de data/hora sincronizado automaticamente</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -117,132 +117,165 @@ window.EngelkeStoryGenerator = (function() {
     curY += 50;
 
     // 7. Cartão Arquitetônico Central (A Fornada & Pães)
-    const cardWidth = CANVAS_WIDTH - 180;
-    const cardX = (CANVAS_WIDTH - cardWidth) / 2;
-    const cardTop = curY;
-    const cardHeight = 580;
+    const cardWidth = CANVAS_WIDTH - 160; // 920px
+    const cardX = (CANVAS_WIDTH - cardWidth) / 2; // 80px
+    const cardTop = curY + 12;
+    const cardHeight = 495;
 
-    // Fundo do Card
-    ctx.fillStyle = 'rgba(28, 24, 21, 0.94)';
-    desenharRetanguloArredondado(ctx, cardX, cardTop, cardWidth, cardHeight, 16);
+    // Fundo do Card com sutil profundidade e textura nobre
+    const cardGrad = ctx.createLinearGradient(cardX, cardTop, cardX, cardTop + cardHeight);
+    cardGrad.addColorStop(0, 'rgba(28, 24, 20, 0.98)');
+    cardGrad.addColorStop(1, 'rgba(17, 14, 12, 0.99)');
+    ctx.fillStyle = cardGrad;
+    desenharRetanguloArredondado(ctx, cardX, cardTop, cardWidth, cardHeight, 18);
     ctx.fill();
 
-    // Borda do Card
-    ctx.strokeStyle = 'rgba(200, 155, 88, 0.45)';
+    // Borda do Card em Latão Nobre
+    ctx.strokeStyle = 'rgba(200, 155, 88, 0.42)';
     ctx.lineWidth = 1.5;
-    desenharRetanguloArredondado(ctx, cardX, cardTop, cardWidth, cardHeight, 16);
+    desenharRetanguloArredondado(ctx, cardX, cardTop, cardWidth, cardHeight, 18);
+    ctx.stroke();
+
+    // Borda interna tênue de respiro
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+    ctx.lineWidth = 1;
+    desenharRetanguloArredondado(ctx, cardX + 6, cardTop + 6, cardWidth - 12, cardHeight - 12, 14);
     ctx.stroke();
 
     // Detalhe da Costura em Linha Vermelha Artesanal no Topo do Card
     ctx.save();
     ctx.strokeStyle = '#C83E36';
-    ctx.lineWidth = 3;
-    ctx.setLineDash([8, 6]);
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([7, 6]);
     ctx.beginPath();
-    ctx.moveTo(cardX + 24, cardTop + 14);
-    ctx.lineTo(cardX + cardWidth - 24, cardTop + 14);
+    ctx.moveTo(cardX + 28, cardTop + 14);
+    ctx.lineTo(cardX + cardWidth - 28, cardTop + 14);
     ctx.stroke();
     ctx.restore();
 
-    let insideY = cardTop + 56;
+    let insideY = cardTop + 48;
 
-    // Kicker do Card
-    ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
+    // Kicker do Card (Caixa Alta Condensada com Tracking Generoso)
+    ctx.font = '700 17px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#C89B58';
-    ctx.fillText('OFÍCIO ANCESTRAL • FERMENTAÇÃO NATURAL 36H', CANVAS_WIDTH / 2, insideY);
+    ctx.letterSpacing = '3px';
+    ctx.fillText('OFÍCIO ANCESTRAL • LEVAIN SELVAGEM 36H', CANVAS_WIDTH / 2, insideY);
+    ctx.letterSpacing = '0px';
 
-    insideY += 55;
+    insideY += 50;
 
-    // Título do Pão em Destaque
+    // Título do Pão em Destaque (Playfair Display com Presença Imperial)
     const paoDestaque = (state.config && state.config.pao_destaque_hoje) || 'Sourdough Tradicional Demeter';
-    ctx.font = '600 44px "Playfair Display", Georgia, serif';
+    ctx.font = '600 48px "Playfair Display", Georgia, serif';
     ctx.fillStyle = '#FFFFFF';
+    insideY = quebrarTextoCentrado(ctx, paoDestaque, CANVAS_WIDTH / 2, insideY, cardWidth - 90, 54);
+
+    // Respiro milimétrico após o título para nunca colidir com descendentes
+    insideY += 38;
+
+    // Filete de Latão com Losango Dourado Central
+    desenharDivisorJoalheria(ctx, CANVAS_WIDTH / 2, insideY, 190);
+
+    insideY += 34;
+
+    // Mensagem da Fornada (Tratamento Literário e Poético)
+    let alertaTexto = (state.config && state.config.alerta_texto) || 'Pães de fermentação lenta de 36 horas, crosta dourada e miolo aromático.';
+    alertaTexto = alertaTexto.replace(/^🔥\s*/, '');
     
-    // Quebra de texto elegante para títulos longos
-    insideY = quebrarTextoCentrado(ctx, paoDestaque, CANVAS_WIDTH / 2, insideY, cardWidth - 80, 52);
+    ctx.font = 'italic 400 25px "Playfair Display", Georgia, serif';
+    ctx.fillStyle = '#E8E2D8';
+    insideY = quebrarTextoCentrado(ctx, `“${alertaTexto}”`, CANVAS_WIDTH / 2, insideY, cardWidth - 110, 36);
 
-    insideY += 25;
+    insideY += 34;
 
-    // Linha divisória fina de latão
-    ctx.strokeStyle = 'rgba(200, 155, 88, 0.25)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(CANVAS_WIDTH / 2 - 140, insideY);
-    ctx.lineTo(CANVAS_WIDTH / 2 + 140, insideY);
-    ctx.stroke();
+    // Faixa Intermediária: Pilares de Pureza Artesanal (Estética Bauhaus & Escola Suíça)
+    desenharFaixaPilaresPureza(ctx, CANVAS_WIDTH / 2, insideY, cardWidth - 80);
 
-    insideY += 45;
+    // Cartuchos de Telemetria Suíça (3 Caixas Nobres na Base do Card)
+    const boxMargin = 26;
+    const boxGap = 14;
+    const boxY = cardTop + cardHeight - 112;
+    const boxH = 88;
+    const totalBoxW = cardWidth - (boxMargin * 2);
+    const itemW = (totalBoxW - (boxGap * 2)) / 3;
 
-    // Mensagem / Detalhes da Fornada
-    const alertaTexto = (state.config && state.config.alerta_texto) || 'Pães de fermentação lenta de 36 horas, crosta dourada e miolo com alvéolos abertos.';
-    ctx.font = '400 26px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#D4CFC7';
-    insideY = quebrarTextoCentrado(ctx, alertaTexto, CANVAS_WIDTH / 2, insideY, cardWidth - 100, 36);
-
-    insideY += 35;
-
-    // Bloco de 3 Metadados / Telemetria
-    const boxY = cardTop + cardHeight - 110;
-    const colW = cardWidth / 3;
-
-    desenharColunaTelemetria(ctx, cardX, boxY, colW, 'FERMENTAÇÃO', '36h Levain Selvagem');
-    desenharColunaTelemetria(ctx, cardX + colW, boxY, colW, 'CERTIFICAÇÃO', 'Demeter Biodinâmica');
-    desenharColunaTelemetria(ctx, cardX + colW * 2, boxY, colW, 'MOAGEM', 'Farinha Demeter');
+    desenharCartuchoTelemetria(ctx, cardX + boxMargin, boxY, itemW, boxH, 'FERMENTAÇÃO', '36h Levain');
+    desenharCartuchoTelemetria(ctx, cardX + boxMargin + itemW + boxGap, boxY, itemW, boxH, 'CERTIFICAÇÃO', 'Demeter SPG');
+    desenharCartuchoTelemetria(ctx, cardX + boxMargin + (itemW + boxGap) * 2, boxY, itemW, boxH, 'FORNO', 'Lastro Refratário');
 
     // 8. Seção de Horário & Próxima Fornada
-    curY = cardTop + cardHeight + 45;
+    curY = cardTop + cardHeight + 46;
 
     const proxFornada = (state.config && state.config.proxima_fornada) || 'Hoje • Fornada Especial';
-    ctx.font = '600 22px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '600 20px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#C89B58';
+    ctx.letterSpacing = '2.5px';
     ctx.fillText('CRONOGRAMA DO DIA', CANVAS_WIDTH / 2, curY);
+    ctx.letterSpacing = '0px';
 
-    curY += 38;
+    curY += 40;
 
-    ctx.font = '700 40px "Oswald", sans-serif';
+    ctx.font = '700 46px "Oswald", sans-serif';
     ctx.fillStyle = '#FFFFFF';
     ctx.fillText(proxFornada.toUpperCase(), CANVAS_WIDTH / 2, curY);
 
-    curY += 70;
+    curY += 66;
 
     // 9. Call To Action Principal (Botão Dourado de Reserva)
     const btnWidth = cardWidth;
-    const btnHeight = 100;
+    const btnHeight = 98;
     const btnX = (CANVAS_WIDTH - btnWidth) / 2;
     const btnY = curY;
 
     // Sombra do botão
     ctx.save();
-    ctx.shadowColor = 'rgba(200, 155, 88, 0.4)';
-    ctx.shadowBlur = 30;
+    ctx.shadowColor = 'rgba(200, 155, 88, 0.42)';
+    ctx.shadowBlur = 28;
     ctx.shadowOffsetY = 8;
 
-    // Gradiente Dourado Latão
+    // Gradiente Dourado Latão Champanhe
     const btnGrad = ctx.createLinearGradient(btnX, btnY, btnX + btnWidth, btnY + btnHeight);
-    btnGrad.addColorStop(0, '#E0BA7E');
-    btnGrad.addColorStop(1, '#B88741');
+    btnGrad.addColorStop(0, '#E6C48B');
+    btnGrad.addColorStop(0.5, '#C89B58');
+    btnGrad.addColorStop(1, '#B07E35');
     ctx.fillStyle = btnGrad;
     desenharRetanguloArredondado(ctx, btnX, btnY, btnWidth, btnHeight, 18);
     ctx.fill();
     ctx.restore();
 
-    // Texto do Botão
-    ctx.font = '700 32px "Oswald", sans-serif';
-    ctx.fillStyle = '#141210';
-    ctx.fillText('RESERVAR NO WHATSAPP • (48) 99830-1122', CANVAS_WIDTH / 2, btnY + btnHeight / 2 - 2);
+    // Borda superior sutil de brilho no botão
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.lineWidth = 1;
+    desenharRetanguloArredondado(ctx, btnX + 1, btnY + 1, btnWidth - 2, btnHeight - 2, 17);
+    ctx.stroke();
 
-    curY = btnY + btnHeight + 50;
+    // Texto do Botão
+    ctx.font = '700 30px "Oswald", sans-serif';
+    ctx.fillStyle = '#14110E';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('RESERVAR NO WHATSAPP • (48) 99830-1122', CANVAS_WIDTH / 2, btnY + btnHeight / 2);
+    ctx.letterSpacing = '0px';
+
+    curY = btnY + btnHeight + 52;
 
     // 10. Rodapé Institucional
-    ctx.font = '500 22px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '500 21px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#A8A196';
-    ctx.fillText('📍 Servidão Elpídio da Rocha • Rio Tavares Central, Florianópolis', CANVAS_WIDTH / 2, curY);
+    ctx.fillText('📍 Servidão Elpídio da Rocha, 40 • Rio Tavares Central, Florianópolis', CANVAS_WIDTH / 2, curY);
 
     curY += 34;
 
-    ctx.font = '600 20px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '600 19px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#C89B58';
     ctx.fillText('Acesse o cardápio completo no link da bio: @engelke_cafe', CANVAS_WIDTH / 2, curY);
+
+    curY += 32;
+
+    ctx.font = '600 14px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = 'rgba(200, 155, 88, 0.55)';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('ORGANISMO CERTIFICADO SPG / OPAC ABDSUL • DEMETER BRASIL', CANVAS_WIDTH / 2, curY);
+    ctx.letterSpacing = '0px';
 
     return canvas;
   }
@@ -300,15 +333,103 @@ window.EngelkeStoryGenerator = (function() {
     return y + pillHeight;
   }
 
-  function desenharColunaTelemetria(ctx, x, y, width, kicker, valor) {
-    ctx.textAlign = 'center';
-    ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#C89B58';
-    ctx.fillText(kicker, x + width / 2, y);
+  function desenharDivisorJoalheria(ctx, cx, cy, width) {
+    const half = width / 2;
+    const gap = 14;
 
-    ctx.font = '600 20px "Plus Jakarta Sans", sans-serif';
+    ctx.save();
+    ctx.strokeStyle = 'rgba(200, 155, 88, 0.35)';
+    ctx.lineWidth = 1;
+
+    // Linha esquerda
+    ctx.beginPath();
+    ctx.moveTo(cx - half, cy);
+    ctx.lineTo(cx - gap, cy);
+    ctx.stroke();
+
+    // Linha direita
+    ctx.beginPath();
+    ctx.moveTo(cx + gap, cy);
+    ctx.lineTo(cx + half, cy);
+    ctx.stroke();
+
+    // Losango central de latão
+    ctx.fillStyle = '#C89B58';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 4.5);
+    ctx.lineTo(cx + 4.5, cy);
+    ctx.lineTo(cx, cy + 4.5);
+    ctx.lineTo(cx - 4.5, cy);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function desenharFaixaPilaresPureza(ctx, cx, cy, maxWidth) {
+    const boxH = 46;
+    const boxW = Math.min(maxWidth, 780);
+    const boxX = cx - (boxW / 2);
+    const boxY = cy - (boxH / 2);
+
+    ctx.save();
+    // Cápsula sutil de fundo
+    ctx.fillStyle = 'rgba(200, 155, 88, 0.04)';
+    desenharRetanguloArredondado(ctx, boxX, boxY, boxW, boxH, 10);
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(200, 155, 88, 0.18)';
+    ctx.lineWidth = 1;
+    desenharRetanguloArredondado(ctx, boxX, boxY, boxW, boxH, 10);
+    ctx.stroke();
+
+    // Texto dos pilares em tipografia suíça refinada
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '700 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = '#C89B58';
+    ctx.letterSpacing = '2px';
+
+    const textoCompleto = 'FARINHAS BIODINÂMICAS   •   LEVAIN SELVAGEM 36H   •   FORNO DE LASTRO';
+    ctx.fillText(textoCompleto, cx, cy);
+    ctx.letterSpacing = '0px';
+    ctx.restore();
+  }
+
+  function desenharCartuchoTelemetria(ctx, x, y, width, height, kicker, valor) {
+    ctx.save();
+    // Fundo do cartucho
+    ctx.fillStyle = 'rgba(200, 155, 88, 0.06)';
+    desenharRetanguloArredondado(ctx, x, y, width, height, 14);
+    ctx.fill();
+
+    // Borda de latão
+    ctx.strokeStyle = 'rgba(200, 155, 88, 0.28)';
+    ctx.lineWidth = 1;
+    desenharRetanguloArredondado(ctx, x, y, width, height, 14);
+    ctx.stroke();
+
+    // Top highlight tênue
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x + 14, y + 1);
+    ctx.lineTo(x + width - 14, y + 1);
+    ctx.stroke();
+
+    // Rótulo da Telemetria (Caixa Alta com Tracking)
+    ctx.textAlign = 'center';
+    ctx.font = '700 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = '#C89B58';
+    ctx.letterSpacing = '2px';
+    ctx.fillText(kicker, x + width / 2, y + 28);
+    ctx.letterSpacing = '0px';
+
+    // Valor da Telemetria (Firme e Límpido)
+    ctx.font = '600 19px "Plus Jakarta Sans", sans-serif';
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(valor, x + width / 2, y + 26);
+    ctx.fillText(valor, x + width / 2, y + 60);
+
+    ctx.restore();
   }
 
   function desenharCantosLatão(ctx, left, right, top, bottom) {

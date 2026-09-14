@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 250" width="420" height="250" role="img" aria-label="Selo SisOrg Produto Orgânico Brasil - Edição Nobre Editorial Brothaus Engelke">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap');
+      .sisorg-noble {
+        font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
+      }
+      .txt-noble-prod {
+        font-size: 20px;
+        font-weight: 800;
+        fill: #F7F5F0;
+        letter-spacing: 0.22em;
+      }
+      .txt-noble-org {
+        font-size: 38px;
+        font-weight: 900;
+        fill: #F7F5F0;
+        letter-spacing: 0.04em;
+      }
+      .txt-noble-br {
+        font-size: 29px;
+        font-weight: 900;
+        fill: #334436;
+        letter-spacing: 0.14em;
+      }
+      .txt-noble-part {
+        font-size: 14px;
+        font-weight: 800;
+        fill: #F7F5F0;
+        letter-spacing: 0.20em;
+        text-anchor: middle;
+      }
+      .txt-noble-legal {
+        font-size: 9px;
+        font-weight: 800;
+        fill: #334436;
+        letter-spacing: 0.16em;
+        text-anchor: middle;
+      }
+    </style>
+
+    <clipPath id="noble-clip">
+      <rect x="12" y="12" width="396" height="226" rx="60" ry="60" />
+    </clipPath>
+    <linearGradient id="brass-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C5A059" />
+      <stop offset="50%" stop-color="#9E7A3E" />
+      <stop offset="100%" stop-color="#8C5B28" />
+    </linearGradient>
+    <linearGradient id="demeter-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3F5543" />
+      <stop offset="100%" stop-color="#28362A" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo e Contorno Exterior em Bronze Envelhecido e Latão -->
+  <rect x="6" y="6" width="408" height="238" rx="66" ry="66" fill="#F7F5F0" stroke="#9E7A3E" stroke-width="5" />
+
+  <!-- Conteúdo Interno Mascarado -->
+  <g clip-path="url(#noble-clip)">
+    <!-- Campo Dourado Nobre / Pátina de Latão (Setor Direito / Brasil) -->
+    <rect x="12" y="12" width="396" height="226" fill="url(#brass-grad)" />
+
+    <!-- Campo Verde Demeter Noturno (Setor Esquerdo / Produto Orgânico) -->
+    <path d="M 12,12 L 310,12 C 280,50 255,95 220,130 C 175,172 105,185 12,176 Z" fill="url(#demeter-grad)" />
+
+    <!-- Filete de Separação Curvo em Latão Polido -->
+    <path d="M 310,12 C 280,50 255,95 220,130 C 175,172 105,185 12,176" fill="none" stroke="#F7F5F0" stroke-width="5.5" stroke-linecap="round" />
+
+    <!-- Textos da Marca Institucional em Paleta Editorial -->
+    <!-- PRODUTO -->
+    <text x="44" y="62" class="sisorg-noble txt-noble-prod">PRODUTO</text>
+
+    <!-- ORGÂNICO -->
+    <text x="42" y="106" class="sisorg-noble txt-noble-org">ORGÂNICO</text>
+
+    <!-- BRASIL -->
+    <text x="262" y="124" class="sisorg-noble txt-noble-br">BRASIL</text>
+
+    <!-- Tarja Inferior Editorial: SISTEMA PARTICIPATIVO -->
+    <rect x="24" y="172" width="372" height="38" rx="19" fill="#28362A" stroke="#C5A059" stroke-width="1.8" />
+    <text x="210" y="196" class="sisorg-noble txt-noble-part">SISTEMA PARTICIPATIVO</text>
+
+    <!-- Rodapé Regulatório: SisOrg / MAPA / OPAC ABDSul -->
+    <text x="210" y="226" class="sisorg-noble txt-noble-legal">SISORG • MAPA • OPAC ABDSUL CERTIFICADA</text>
+  </g>
+</svg>

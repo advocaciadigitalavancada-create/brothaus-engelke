@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizador STL Cisne</title>
+  <style>
+    body { margin: 0; background: #E8E6E3; overflow: hidden; }
+    #canvas { width: 100vw; height: 100vh; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <div id="canvas"></div>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(32, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // 3/4 heroic view
+    camera.position.set(-60, 20, 180);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(2);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.25;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.getElementById('canvas').appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 0, 0);
+
+    // PMREM Environment
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envScene = new THREE.Scene();
+    envScene.background = new THREE.Color(0x181512);
+    const pGeom = new THREE.PlaneGeometry(1, 1);
+    function addBox(col, int, w, h, p) {
+      const m = new THREE.Mesh(pGeom, new THREE.MeshBasicMaterial({ color: new THREE.Color(col).multiplyScalar(int), side: 2 }));
+      m.scale.set(w, h, 1); m.position.set(...p); m.lookAt(0,0,0); envScene.add(m);
+    }
+    addBox(0xFFF0D4, 4.5, 120, 240, [-120, 160, 120]);
+    addBox(0xDCEBFF, 3.2, 90, 240, [140, 120, -90]);
+    addBox(0xFFFFFF, 3.8, 240, 60, [0, 240, 60]);
+    addBox(0xC89F56, 2.0, 150, 150, [0, -150, 100]);
+    scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+    pmrem.dispose();
+
+    // Studio Lights
+    const key = new THREE.SpotLight(0xFFF2DB, 3.5, 500, Math.PI / 3.5, 0.4, 1.2);
+    key.position.set(100, 150, 120);
+    key.castShadow = true;
+    scene.add(key);
+
+    const rim = new THREE.DirectionalLight(0xDCEBFF, 2.0);
+    rim.position.set(-120, 100, -100);
+    scene.add(rim);
+
+    const fill = new THREE.DirectionalLight(0xD8A254, 1.4);
+    fill.position.set(0, -100, 100);
+    scene.add(fill);
+
+    const amb = new THREE.AmbientLight(0xFFF9F0, 0.7);
+    scene.add(amb);
+
+    const brassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0xD4AF37,
+      emissive: 0x1E1608,
+      metalness: 0.94,
+      roughness: 0.28,
+      clearcoat: 0.22,
+      clearcoatRoughness: 0.2,
+      reflectivity: 0.95,
+      envMapIntensity: 1.4,
+      side: THREE.DoubleSide
+    });
+
+    const loader = new THREE.STLLoader();
+    loader.load('f0870dcc-6fdc-473e-8d6b-5cfd534392d8_20260912_101301.p80.stl', function (geometry) {
+      geometry.center();
+      geometry.computeVertexNormals();
+
+      const mesh = new THREE.Mesh(geometry, brassMaterial);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+
+      // Rotate so Z is up -> Y is up
+      mesh.rotation.x = -Math.PI / 2;
+      scene.add(mesh);
+      console.log('STL Loaded!');
+      window.__ready = true;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
