@@ -301,54 +301,7 @@
     /* ==========================================================================
        VIEW MODE TOGGLE (3D ASTROLABE vs POLAROID REAL TOTEM)
        ========================================================================== */
-    .view-mode-toggle {
-      display: inline-flex;
-      align-items: center;
-      background: rgba(27, 25, 23, 0.06);
-      border: 1px solid var(--border-hairline);
-      border-radius: 999px;
-      padding: 3px;
-      gap: 2px;
-      backdrop-filter: blur(8px);
-      flex-shrink: 0;
-    }
-
-    .mode-toggle-btn {
-      background: none;
-      border: none;
-      padding: 0.30rem 0.72rem;
-      border-radius: 999px;
-      font-family: var(--font-sans);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--ink-tertiary);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.32rem;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    .mode-toggle-btn:hover {
-      color: var(--ink-primary);
-    }
-
-    .mode-toggle-btn.active {
-      background: var(--ink-primary);
-      color: #FFFFFF;
-      box-shadow: 0 2px 6px rgba(27, 25, 23, 0.18);
-    }
-
-    .mode-icon {
-      font-size: 0.72rem;
-      line-height: 1;
-    }
-
-    /* Polaroid Document Frame (Modo Foto Real) */
+    /* Polaroid Document Frame (Fotografia Editorial da Padaria) */
     .cap1-layout-container {
       display: flex;
       justify-content: space-between;
@@ -366,29 +319,18 @@
       width: 440px;
       max-width: 38vw;
       z-index: 25;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       margin: 0;
     }
 
-    body.view-polaroid .polaroid-wrapper {
-      opacity: 1;
-      pointer-events: auto;
+    #sculpture-canvas {
+      display: none !important;
     }
 
-    body.view-3d .polaroid-wrapper {
-      opacity: 0 !important;
-      pointer-events: none !important;
-      visibility: hidden;
-    }
-
-    body.view-polaroid #sculpture-canvas {
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-
-    body.view-polaroid .hud-compass {
+    .hud-compass {
       display: none !important;
     }
 
@@ -403,6 +345,7 @@
       transform: rotate(-1.4deg);
       transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease;
       position: relative;
+      opacity: 1 !important;
     }
 
     .polaroid-card:hover {
@@ -430,58 +373,9 @@
       width: 100%;
       height: 410px;
       overflow: hidden;
-      background: #E8E5DC;
+      background: #1A1816;
       position: relative;
       border-radius: 1px;
-    }
-
-    /* Recheio 3D Vivo: Viewport e Canvas do Astrolábio dentro da Polaróide (Cap. 02) */
-    .polaroid-3d-viewport {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-      background: radial-gradient(circle at center, #FAF7EE 0%, #E7E3D6 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      z-index: 5;
-    }
-
-    .polaroid-3d-viewport.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    #polaroid-canvas-3d {
-      width: 100% !important;
-      height: 100% !important;
-      display: block;
-    }
-
-    .polaroid-3d-badge {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      font-family: var(--font-mono);
-      font-size: 0.60rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      color: var(--brass-metal);
-      background: rgba(255, 255, 255, 0.90);
-      backdrop-filter: blur(4px);
-      padding: 0.25rem 0.65rem;
-      border-radius: 20px;
-      border: 1px solid rgba(158, 122, 62, 0.30);
-      box-shadow: 0 2px 8px rgba(27, 25, 23, 0.08);
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
     }
 
     .polaroid-photo {
@@ -492,14 +386,14 @@
       object-fit: cover;
       object-position: center 32%;
       opacity: 0;
-      transform: scale(1.06);
-      filter: contrast(1.02) brightness(0.99);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(1.04);
+      filter: contrast(1.08) brightness(1.0) saturate(1.06);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
     }
 
     .polaroid-photo.active {
-      opacity: 1;
+      opacity: 1 !important;
       transform: scale(1.0);
       pointer-events: auto;
     }
@@ -1438,19 +1332,6 @@
         <span class="status-badge-short">Orgânico SPG/OPAC ↗</span>
       </a>
 
-      <!-- SELETOR DE EXPERIÊNCIA: 3D vs POLARÓIDE REAL -->
-      <div class="view-mode-toggle" id="view-mode-toggle" role="group" aria-label="Modo de Visualização">
-        <button type="button" class="mode-toggle-btn active" data-mode="3d" id="btn-mode-3d" title="Experiência com Astrolábio 3D Interativo">
-          <span class="mode-icon">✦</span>
-          <span class="mode-label-desk">Totem 3D</span>
-          <span class="mode-label-mob">3D</span>
-        </button>
-        <button type="button" class="mode-toggle-btn" data-mode="polaroid" id="btn-mode-polaroid" title="Acompanhar com Fotografias Reais da Padaria">
-          <span class="mode-icon">📷</span>
-          <span class="mode-label-desk">Fotos Reais</span>
-          <span class="mode-label-mob">Fotos</span>
-        </button>
-      </div>
     </div>
 
     <div class="top-bar-actions">
@@ -1534,20 +1415,11 @@
           </div>
         </div>
 
-        <!-- MOLDURA POLARÓIDE DINÂMICA MULTI-CAPÍTULOS (Ativada no modo 'Fotos Reais') -->
+        <!-- MOLDURA POLARÓIDE DINÂMICA MULTI-CAPÍTULOS (Fotografia Editorial) -->
         <div class="polaroid-wrapper" id="polaroid-wrapper">
           <div class="polaroid-card" id="polaroid-card">
             <span class="polaroid-pin"></span>
             <div class="polaroid-image-box" id="polaroid-image-box">
-              <!-- Recheio 3D Vivo: O Astrolábio de Latão Interativo (Capítulo 02) -->
-              <div class="polaroid-3d-viewport" id="polaroid-3d-viewport">
-                <canvas id="polaroid-canvas-3d"></canvas>
-                <div class="polaroid-3d-badge">
-                  <span>✦</span>
-                  <span>ASTROLÁBIO 3D</span>
-                </div>
-              </div>
-
               <img src="assets/totem_real_foto_dusk.jpg" 
                    alt="Totem do Cisne em Latão & Fachada ao Entardecer no Rio Tavares" 
                    class="polaroid-photo active" 
@@ -2091,9 +1963,9 @@
         tilt: -1.4,
       },
       {
-        tag: "Cap. 02 • O Astrolábio Vivo",
-        title: "Astrolábio & Ciclos Demeter",
-        sub: "Escultura 3D em latão • Orientação cosmo-telúrica",
+        tag: "Cap. 02 • A Terra",
+        title: "Massa Madre & Solo Vivo",
+        sub: "Trigo biodinâmico certificado SPG/OPAC ABDSul • 36h",
         tilt: 0.9,
       },
       {
@@ -2124,22 +1996,11 @@
       const data = polaroidChapters[index];
       if (!data) return;
 
-      // Alterna entre o Recheio 3D Vivo (Cap 02) e as fotografias analógicas
-      const p3dViewport = document.getElementById('polaroid-3d-viewport');
-      if (p3dViewport) {
-        if (index === 1) {
-          p3dViewport.classList.add('active');
-          if (typeof window.resizePolaroid3D === 'function') window.resizePolaroid3D();
-        } else {
-          p3dViewport.classList.remove('active');
-        }
-      }
-
-      // 1. Alterna a foto ativa com fade suave e micro-scale (quando não for o Cap 02)
+      // 1. Alterna a foto ativa com fade suave e micro-scale (todas as fotos 100% nítidas)
       const photos = document.querySelectorAll('.polaroid-photo');
       photos.forEach(img => {
         const photoNum = parseInt(img.getAttribute('data-photo'), 10);
-        if (index !== 1 && photoNum === index + 1) {
+        if (photoNum === index + 1) {
           img.classList.add('active');
         } else {
           img.classList.remove('active');
@@ -2232,13 +2093,7 @@
       if (polaroidWrapper && window.innerWidth >= 901) {
         const floatDrift = (scrollProgress - 0.5) * 36;
         polaroidWrapper.style.transform = `translateY(calc(-50% + ${floatDrift.toFixed(1)}px))`;
-
-        // Atenuação suave no rodapé extremo para não colidir com dados cadastrais
-        if (scrollProgress > 0.95) {
-          polaroidWrapper.style.opacity = '0.30';
-        } else if (document.body.classList.contains('view-polaroid')) {
-          polaroidWrapper.style.opacity = '1';
-        }
+        polaroidWrapper.style.opacity = '1';
       }
     }
 
@@ -2764,77 +2619,22 @@
     });
 
     // =========================================================================
-    // SELETOR DE EXPERIÊNCIA: TOTEM 3D vs POLARÓIDE REAL (AO ENTARDECER)
+    // INICIALIZAÇÃO DA EXPERIÊNCIA EDITORIAL COM FOTOGRAFIAS REAIS
     // =========================================================================
     (function() {
-      const btn3D = document.getElementById('btn-mode-3d');
-      const btnPolaroid = document.getElementById('btn-mode-polaroid');
+      document.body.classList.add('view-polaroid');
+      document.body.classList.remove('view-3d');
       const canvasEl = document.getElementById('sculpture-canvas');
-      const polaroidWrapper = document.getElementById('polaroid-wrapper');
-      const hudCompass = document.querySelector('.hud-compass');
-
-      function setViewMode(mode, save = true) {
-        if (mode === 'polaroid') {
-          document.body.classList.add('view-polaroid');
-          document.body.classList.remove('view-3d');
-          if (btnPolaroid) btnPolaroid.classList.add('active');
-          if (btn3D) btn3D.classList.remove('active');
-          if (canvasEl) {
-            canvasEl.style.opacity = '0';
-            canvasEl.style.pointerEvents = 'none';
-          }
-          if (polaroidWrapper) {
-            polaroidWrapper.style.pointerEvents = 'auto';
-            if (window.innerWidth >= 901) {
-              const floatDrift = (scrollProgress - 0.5) * 36;
-              polaroidWrapper.style.transform = `translateY(calc(-50% + ${floatDrift.toFixed(1)}px))`;
-            }
-          }
-          if (hudCompass) hudCompass.style.display = 'none';
-          if (typeof updatePolaroidChapter === 'function') {
-            updatePolaroidChapter(currentPolaroidChapter, true);
-          }
-        } else {
-          document.body.classList.add('view-3d');
-          document.body.classList.remove('view-polaroid');
-          if (btn3D) btn3D.classList.add('active');
-          if (btnPolaroid) btnPolaroid.classList.remove('active');
-          if (polaroidWrapper) {
-            polaroidWrapper.style.pointerEvents = 'none';
-          }
-          if (canvasEl) {
-            canvasEl.style.pointerEvents = 'none';
-            const isMob = window.innerWidth < 900;
-            if (isMob) {
-              const scrollFade = Math.min(1.0, Math.max(0.0, currentScroll / 180));
-              canvasEl.style.opacity = (0.85 - scrollFade * 0.57).toFixed(3);
-            } else {
-              canvasEl.style.opacity = '1';
-            }
-          }
-          if (hudCompass && window.innerWidth >= 900) hudCompass.style.display = 'flex';
-          if (typeof updatePolaroidChapter === 'function') {
-            updatePolaroidChapter(currentPolaroidChapter, true);
-          }
-        }
-        if (save) {
-          try { localStorage.setItem('brothaus_view_mode', mode); } catch(e) {}
-        }
+      if (canvasEl) {
+        canvasEl.style.display = 'none';
+        canvasEl.style.opacity = '0';
+        canvasEl.style.pointerEvents = 'none';
       }
+      const hudCompass = document.querySelector('.hud-compass');
+      if (hudCompass) hudCompass.style.display = 'none';
 
-      if (btn3D) btn3D.addEventListener('click', () => setViewMode('3d'));
-      if (btnPolaroid) btnPolaroid.addEventListener('click', () => setViewMode('polaroid'));
-
-      // Restaurar preferência do usuário ou padrão 3D
-      try {
-        const saved = localStorage.getItem('brothaus_view_mode');
-        if (saved === 'polaroid') {
-          setViewMode('polaroid', false);
-        } else {
-          setViewMode('3d', false);
-        }
-      } catch(e) {
-        setViewMode('3d', false);
+      if (typeof updatePolaroidChapter === 'function') {
+        updatePolaroidChapter(0, true);
       }
     })();
   </script>
