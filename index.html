@@ -409,6 +409,24 @@
       display: none !important;
     }
 
+    /* Adaptação do Capítulo 3 no Modo Polaróide (Desktop): evita colisão com a foto flutuante à direita */
+    @media (min-width: 901px) {
+      body.view-polaroid .chapter-poster-berlin .poster-content-layout {
+        display: block;
+        width: 48%;
+        max-width: 540px;
+      }
+      body.view-polaroid .chapter-poster-berlin .poster-bread-stage {
+        display: none;
+      }
+      body.view-polaroid .chapter-poster-berlin .poster-editorial-side {
+        width: 100%;
+      }
+      body.view-polaroid .poster-headline-berlin {
+        max-width: 620px;
+      }
+    }
+
     .polaroid-card {
       background: #FFFFFF;
       padding: 1.15rem 1.15rem 1.75rem 1.15rem;
@@ -2129,25 +2147,25 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr data-day="qua">
               <td class="table-day">Quarta</td>
               <td class="table-time">07h30 • 15h30</td>
               <td class="table-breads">Sourdough Demeter & Ciabattas</td>
               <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20p%C3%A3es%20de%20quarta." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
             </tr>
-            <tr>
+            <tr data-day="qui">
               <td class="table-day">Quinta</td>
               <td class="table-time">07h30 • 15h30</td>
               <td class="table-breads">100% Centeio Roggenbrot & Grãos</td>
               <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20o%20p%C3%A3o%20de%20centeio." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
             </tr>
-            <tr>
+            <tr data-day="sex">
               <td class="table-day">Sexta</td>
               <td class="table-time">07h30 • 15h30</td>
               <td class="table-breads">Pão de Nozes com Figos & Baguetes</td>
               <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20p%C3%A3es%20de%20sexta." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
             </tr>
-            <tr>
+            <tr data-day="fim">
               <td class="table-day">Sáb / Dom</td>
               <td class="table-time">08h00 Especial</td>
               <td class="table-breads">Sachertorte, Cestas & Cinnamon Rolls</td>
@@ -3252,6 +3270,20 @@
           } else {
             ticker.style.display = 'none';
           }
+        }
+
+        // 2. Agenda Semanal Dinâmica (Capítulo 5)
+        if (data.cronograma && Array.isArray(data.cronograma)) {
+          data.cronograma.forEach(item => {
+            if (!item || !item.id) return;
+            const row = document.querySelector(`tr[data-day="${item.id}"]`);
+            if (row) {
+              const timeEl = row.querySelector('.table-time');
+              const breadsEl = row.querySelector('.table-breads');
+              if (timeEl && item.horarios) timeEl.textContent = item.horarios;
+              if (breadsEl && item.paes) breadsEl.textContent = item.paes;
+            }
+          });
         }
       }
 
