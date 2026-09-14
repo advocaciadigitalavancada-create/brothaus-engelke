@@ -6,33 +6,36 @@
   <title>Brothaus Engelke • Boutique de Pães Vivos & Confeitaria Vienense</title>
   <link rel="icon" type="image/png" href="assets/cisne_totem_dourado.png">
 
-  <!-- SEO & Standard Meta Fallbacks (Essencial para WhatsApp Web / Desktop) -->
+  <!-- SEO & Standard Meta Fallbacks (WhatsApp Web, Desktop, Crawlers) -->
   <meta name="title" content="Brothaus Engelke • Boutique de Pães Vivos">
   <meta name="description" content="Ateliê artesanal de pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Certificação Biodinâmica Demeter. Rio Tavares, Florianópolis.">
-  <link rel="image_src" href="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg">
+  <link rel="canonical" href="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/">
+  <link rel="image_src" href="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg?v=2">
 
   <!-- Schema.org Microdata para Crawlers e Mensageiros -->
   <meta itemprop="name" content="Brothaus Engelke • Boutique de Pães Vivos">
   <meta itemprop="description" content="Ateliê artesanal de pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Certificação Biodinâmica Demeter. Rio Tavares, Florianópolis.">
-  <meta itemprop="image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg">
+  <meta itemprop="image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg?v=2">
 
   <!-- WhatsApp, Facebook & Open Graph Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Brothaus Engelke">
+  <meta property="og:url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/">
   <meta property="og:title" content="Brothaus Engelke • Boutique de Pães Vivos">
   <meta property="og:description" content="Ateliê artesanal de pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Certificação Biodinâmica Demeter. Rio Tavares, Florianópolis.">
-  <meta property="og:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg">
-  <meta property="og:image:secure_url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg">
+  <meta property="og:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg?v=2">
+  <meta property="og:image:secure_url" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg?v=2">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="800">
   <meta property="og:image:height" content="800">
   <meta property="og:image:alt" content="Brothaus Engelke — Selo Nobre do Cisne e Pães Vivos">
+  <meta property="og:locale" content="pt_BR">
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Brothaus Engelke • Boutique de Pães Vivos">
   <meta name="twitter:description" content="Pães de fermentação natural de 36 horas e confeitaria clássica vienense (1832). Rio Tavares, Florianópolis.">
-  <meta name="twitter:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg">
+  <meta name="twitter:image" content="https://advocaciadigitalavancada-create.github.io/brothaus-engelke/assets/og_capa.jpg?v=2">
 
   <!-- LLMs.txt Machine-Readable Context for AI Agents & Search Engines -->
   <link rel="alternate" type="text/markdown" href="llms.txt" title="Brothaus Engelke LLMs Context">
@@ -1119,52 +1122,94 @@
       transform: scale(1.04);
     }
 
-    /* Table for Fornadas */
-    .calendar-table {
+    /* Astrolábio Miniatura Rotativo no Canto Superior Direito (Indicador de Download & Selo Nobre) */
+    .mini-astrolabe-corner {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      margin-left: 0.15rem;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mini-astrolabe-corner .astrolabe-mini-svg {
+      width: 25px;
+      height: 25px;
+      animation: spinAstrolabe 1.8s linear infinite;
+      filter: drop-shadow(0 1px 4px rgba(158, 122, 62, 0.45));
+      transform-origin: center center;
+    }
+    @keyframes spinAstrolabe {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .mini-astrolabe-corner.loaded .astrolabe-mini-svg {
+      animation: spinAstrolabeSlow 18s linear infinite;
+      opacity: 0.92;
+    }
+    @keyframes spinAstrolabeSlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Cards Editoriais da Seção de Reservas (100% Responsivo, Sem Tabelas) */
+    .reservation-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.75rem 0 2.25rem 0;
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 2rem;
-      margin-bottom: 3rem;
     }
-
-    .calendar-table th,
-    .calendar-table td {
-      padding: 1.2rem 1rem;
-      border-bottom: 1px solid var(--border-hairline);
-      text-align: left;
+    .reservation-card-editorial {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-left: 3px solid var(--brass-metal);
+      padding: 1.15rem 1.35rem;
+      border-radius: 2px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
-    .calendar-table th {
-      font-family: var(--font-sans);
-      font-size: 0.68rem;
+    .reservation-card-editorial:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(27, 25, 23, 0.06);
+    }
+    .res-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .res-card-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      color: var(--brass-metal);
       font-weight: 600;
-      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--ink-tertiary);
-      border-top: 1px solid var(--border-hairline);
     }
-
-    .table-day {
+    .res-card-schedule {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: var(--ink-tertiary);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .res-card-name {
       font-family: var(--font-serif);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 600;
       color: var(--ink-primary);
-      letter-spacing: -0.01em;
+      margin: 0 0 0.35rem 0;
+      line-height: 1.28;
     }
-
-    .table-time {
-      font-family: var(--font-sans);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--brass-metal);
-      font-variant-numeric: tabular-nums lining-nums;
-      letter-spacing: 0.04em;
-    }
-
-    .table-breads {
-      font-family: var(--font-sans);
-      font-size: 0.92rem;
+    .res-card-text {
+      font-size: 0.86rem;
       color: var(--ink-secondary);
+      line-height: 1.5;
+      margin: 0;
     }
 
     /* Minimal WhatsApp Direct Box */
@@ -1496,6 +1541,13 @@
     }
 
     @media (max-width: 900px) {
+      /* Remoção do astrolábio de fundo no mobile para total legibilidade do texto */
+      #sculpture-canvas {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
       .top-bar {
         padding: 0.65rem 1.15rem !important;
         gap: 0.5rem !important;
@@ -1643,6 +1695,17 @@
       .top-bar-actions {
         order: 2;
         gap: 0.35rem !important;
+        display: flex !important;
+        align-items: center !important;
+      }
+      .mini-astrolabe-corner {
+        width: 24px !important;
+        height: 24px !important;
+        margin-left: 0.15rem !important;
+      }
+      .mini-astrolabe-corner .astrolabe-mini-svg {
+        width: 22px !important;
+        height: 22px !important;
       }
       .btn-menu-trigger {
         padding: 0.30rem 0.45rem !important;
@@ -1800,7 +1863,7 @@
 </head>
 <body>
 
-  <!-- Three.js Canvas: O Astrolábio Escultural de Latão -->
+  <!-- Three.js Canvas: O Astrolábio Escultural de Latão (Desktop) -->
   <canvas id="sculpture-canvas"></canvas>
 
   <!-- Top Bar -->
@@ -1835,6 +1898,32 @@
         <span class="btn-text-mobile">Reservar</span>
         <i data-lucide="arrow-up-right" style="width:14px;height:14px;"></i>
       </a>
+
+      <!-- Astrolábio Miniatura Rotativo no Canto Superior Direito -->
+      <div id="mini-astrolabe-corner" class="mini-astrolabe-corner" aria-label="Brothaus Engelke" title="Brothaus Engelke • Tradição Artesanal">
+        <svg class="astrolabe-mini-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="brassGradCorner" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#E5C77A"/>
+              <stop offset="45%" stop-color="#9E7A3E"/>
+              <stop offset="75%" stop-color="#BD934A"/>
+              <stop offset="100%" stop-color="#735222"/>
+            </linearGradient>
+          </defs>
+          <!-- Anel Externo do Astrolábio -->
+          <circle cx="50" cy="50" r="44" stroke="url(#brassGradCorner)" stroke-width="4.5" fill="none" />
+          <circle cx="50" cy="50" r="40.5" stroke="rgba(158,122,62,0.4)" stroke-width="1.2" fill="none" />
+          <!-- Pinos de Fixação dos Eixos -->
+          <circle cx="50" cy="6" r="2.5" fill="#4A453E" />
+          <circle cx="50" cy="94" r="2.5" fill="#4A453E" />
+          <!-- Anel Interno -->
+          <circle cx="50" cy="50" r="31.5" stroke="url(#brassGradCorner)" stroke-width="3" fill="none" />
+          <!-- Cisne Central 2D de Alta Precisão -->
+          <g transform="translate(50, 49) scale(-22, -22)">
+            <path fill="url(#brassGradCorner)" d="M -0.324 0.762 L -0.268 0.754 L -0.237 0.744 L -0.198 0.726 L -0.147 0.692 L -0.095 0.641 L -0.057 0.582 L -0.033 0.523 L -0.021 0.456 L -0.021 0.402 L -0.023 0.399 L -0.023 0.381 L -0.028 0.355 L -0.051 0.288 L -0.098 0.198 L -0.098 0.193 L -0.106 0.183 L -0.106 0.178 L -0.134 0.131 L -0.149 0.098 L -0.250 -0.070 L -0.355 -0.229 L -0.407 -0.301 L -0.425 -0.335 L -0.435 -0.384 L -0.432 -0.422 L -0.422 -0.458 L -0.402 -0.494 L -0.360 -0.538 L -0.335 -0.556 L -0.296 -0.577 L -0.234 -0.595 L -0.193 -0.602 L -0.175 -0.602 L -0.172 -0.605 L -0.149 -0.605 L -0.147 -0.607 L -0.054 -0.607 L -0.051 -0.605 L -0.015 -0.602 L -0.003 -0.597 L -0.059 -0.582 L -0.152 -0.548 L -0.162 -0.538 L -0.165 -0.530 L -0.162 -0.520 L -0.152 -0.510 L -0.126 -0.512 L -0.075 -0.530 L -0.044 -0.535 L -0.010 -0.546 L 0.057 -0.556 L 0.059 -0.559 L 0.095 -0.561 L 0.098 -0.564 L 0.111 -0.564 L 0.165 -0.535 L 0.188 -0.517 L 0.203 -0.512 L 0.211 -0.515 L 0.219 -0.523 L 0.221 -0.533 L 0.216 -0.546 L 0.190 -0.574 L 0.193 -0.577 L 0.252 -0.579 L 0.255 -0.582 L 0.381 -0.582 L 0.384 -0.579 L 0.438 -0.577 L 0.530 -0.559 L 0.582 -0.538 L 0.605 -0.515 L 0.605 -0.502 L 0.600 -0.489 L 0.574 -0.466 L 0.515 -0.438 L 0.409 -0.409 L 0.345 -0.399 L 0.329 -0.394 L 0.270 -0.386 L 0.268 -0.384 L 0.250 -0.384 L 0.227 -0.378 L 0.198 -0.378 L 0.196 -0.376 L 0.152 -0.376 L 0.149 -0.373 L 0.075 -0.373 L 0.062 -0.368 L 0.051 -0.353 L 0.051 -0.340 L 0.059 -0.327 L 0.075 -0.317 L 0.093 -0.311 L 0.142 -0.309 L 0.144 -0.306 L 0.167 -0.306 L 0.170 -0.304 L 0.201 -0.304 L 0.203 -0.301 L 0.232 -0.301 L 0.234 -0.299 L 0.263 -0.299 L 0.265 -0.296 L 0.291 -0.296 L 0.293 -0.293 L 0.319 -0.293 L 0.322 -0.291 L 0.347 -0.291 L 0.350 -0.288 L 0.391 -0.286 L 0.394 -0.283 L 0.412 -0.283 L 0.466 -0.273 L 0.481 -0.273 L 0.530 -0.263 L 0.561 -0.252 L 0.579 -0.239 L 0.574 -0.232 L 0.551 -0.216 L 0.494 -0.190 L 0.414 -0.167 L 0.391 -0.165 L 0.366 -0.157 L 0.332 -0.154 L 0.329 -0.152 L 0.286 -0.149 L 0.283 -0.147 L 0.239 -0.147 L 0.237 -0.144 L 0.162 -0.147 L 0.160 -0.149 L 0.139 -0.149 L 0.136 -0.152 L 0.121 -0.152 L 0.118 -0.154 L 0.103 -0.154 L 0.064 -0.162 L -0.013 -0.185 L -0.051 -0.203 L -0.067 -0.203 L -0.077 -0.196 L -0.080 -0.172 L -0.070 -0.160 L -0.028 -0.139 L 0.036 -0.118 L 0.088 -0.108 L 0.152 -0.103 L 0.154 -0.100 L 0.193 -0.100 L 0.196 -0.098 L 0.304 -0.100 L 0.306 -0.103 L 0.358 -0.106 L 0.360 -0.108 L 0.417 -0.116 L 0.517 -0.144 L 0.538 -0.154 L 0.546 -0.154 L 0.592 -0.178 L 0.620 -0.198 L 0.638 -0.219 L 0.644 -0.232 L 0.641 -0.260 L 0.615 -0.286 L 0.589 -0.299 L 0.546 -0.314 L 0.489 -0.327 L 0.474 -0.327 L 0.407 -0.340 L 0.409 -0.345 L 0.422 -0.345 L 0.489 -0.360 L 0.559 -0.384 L 0.620 -0.414 L 0.662 -0.450 L 0.672 -0.466 L 0.674 -0.481 L 0.607 -0.564 L 0.553 -0.615 L 0.515 -0.623 L 0.481 -0.625 L 0.479 -0.628 L 0.435 -0.631 L 0.432 -0.633 L 0.391 -0.633 L 0.389 -0.636 L 0.301 -0.636 L 0.299 -0.633 L 0.232 -0.631 L 0.229 -0.628 L 0.208 -0.628 L 0.206 -0.625 L 0.185 -0.625 L 0.183 -0.623 L 0.111 -0.615 L 0.070 -0.636 L 0.013 -0.651 L -0.003 -0.651 L -0.041 -0.659 L -0.070 -0.659 L -0.072 -0.662 L -0.136 -0.662 L -0.139 -0.659 L -0.170 -0.659 L -0.172 -0.656 L -0.214 -0.654 L -0.268 -0.644 L -0.296 -0.636 L -0.304 -0.631 L -0.311 -0.631 L -0.355 -0.613 L -0.391 -0.592 L -0.432 -0.561 L -0.474 -0.515 L -0.505 -0.458 L -0.517 -0.399 L -0.515 -0.342 L -0.499 -0.291 L -0.474 -0.247 L -0.322 -0.031 L -0.224 0.124 L -0.201 0.167 L -0.180 0.198 L -0.149 0.255 L -0.121 0.311 L -0.121 0.317 L -0.116 0.322 L -0.095 0.376 L -0.090 0.402 L -0.090 0.474 L -0.093 0.476 L -0.093 0.489 L -0.106 0.530 L -0.131 0.582 L -0.147 0.602 L -0.188 0.644 L -0.208 0.659 L -0.252 0.685 L -0.296 0.700 L -0.324 0.700 L -0.337 0.690 L -0.337 0.685 L -0.314 0.649 L -0.309 0.628 L -0.317 0.589 L -0.335 0.553 L -0.360 0.520 L -0.378 0.502 L -0.394 0.494 L -0.402 0.494 L -0.412 0.502 L -0.414 0.512 L -0.384 0.569 L -0.378 0.602 L -0.386 0.618 L -0.409 0.641 L -0.417 0.656 L -0.422 0.677 L -0.355 0.713 L -0.353 0.716 L -0.353 0.749 Z" />
+          </g>
+        </svg>
+      </div>
     </div>
   </header>
 
@@ -1857,8 +1946,8 @@
           <span class="live-banner-sep">•</span>
           <span id="ticker-text" class="live-banner-text">Fornada fresca de Sourdough Demeter saindo agora do forno!</span>
         </div>
-        <a href="#cap-4" class="live-banner-cta">
-          <span>Ver Fornadas da Semana</span>
+        <a href="#cap-5" class="live-banner-cta">
+          <span>Fazer Reserva</span>
           <i data-lucide="arrow-down" style="width:13px;height:13px;"></i>
         </a>
       </div>
@@ -1901,8 +1990,8 @@
               <span>Reservar no WhatsApp</span>
               <i data-lucide="arrow-up-right" style="width:15px;height:15px;"></i>
             </a>
-            <a href="#cap-4" style="font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.1em; color:var(--ink-secondary); text-decoration:none; border:1px solid var(--border-hairline); padding:0.85rem 1.5rem;">
-              Ver Fornadas da Semana ↓
+            <a href="#cap-5" style="font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.1em; color:var(--ink-secondary); text-decoration:none; border:1px solid var(--border-hairline); padding:0.85rem 1.5rem;">
+              Fazer Reserva ↓
             </a>
           </div>
         </div>
@@ -2135,53 +2224,52 @@
       </div>
     </section>
 
-    <!-- CHAPTER 05: O SINETE FINAL & O LIVRO DE FORNADAS -->
+    <!-- CHAPTER 05: RESERVAS & DIRETAMENTE AO FORNO -->
     <section class="section-block" id="cap-5" data-chapter="5">
       <div class="half-layout">
-        <div class="section-kicker">05 / O Livro de Fornadas</div>
-        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; color:var(--ink-primary);">
-          Fornadas & Reservas
+        <div class="section-kicker">05 / Reservas no Ateliê</div>
+        <h2 style="font-family:var(--font-serif); font-size:2.4rem; font-weight:600; color:var(--ink-primary); line-height:1.2; margin-bottom:0.75rem;">
+          Reservas.
         </h2>
-        <p style="font-size:0.92rem; color:var(--ink-secondary); margin-top:0.5rem;">
-          Como os pães têm fermentação de 36 horas, as fornadas são pontuais e limitadas. Reserve sua fornada antes que esgote.
+        <p style="font-size:0.95rem; color:var(--ink-secondary); line-height:1.6; margin-bottom:1.5rem;">
+          Como nossos pães têm fermentação de 36 horas e produção estritamente artesanal, atendemos sob reserva antecipada. Garanta suas fornadas frescas e encomendas diretamente com os mestres padeiros.
         </p>
 
-        <table class="calendar-table">
-          <thead>
-            <tr>
-              <th>Dia</th>
-              <th>Horários</th>
-              <th>Fornada</th>
-              <th style="text-align:right;">Reserva</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-day="qua">
-              <td class="table-day">Quarta</td>
-              <td class="table-time">07h30 • 15h30</td>
-              <td class="table-breads">Sourdough Demeter & Ciabattas</td>
-              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20p%C3%A3es%20de%20quarta." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
-            </tr>
-            <tr data-day="qui">
-              <td class="table-day">Quinta</td>
-              <td class="table-time">07h30 • 15h30</td>
-              <td class="table-breads">100% Centeio Roggenbrot & Grãos</td>
-              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20o%20p%C3%A3o%20de%20centeio." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
-            </tr>
-            <tr data-day="sex">
-              <td class="table-day">Sexta</td>
-              <td class="table-time">07h30 • 15h30</td>
-              <td class="table-breads">Pão de Nozes com Figos & Baguetes</td>
-              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20p%C3%A3es%20de%20sexta." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
-            </tr>
-            <tr data-day="fim">
-              <td class="table-day">Sáb / Dom</td>
-              <td class="table-time">08h00 Especial</td>
-              <td class="table-breads">Sachertorte, Cestas & Cinnamon Rolls</td>
-              <td style="text-align:right;"><a href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1!%20Gostaria%20de%20reservar%20o%20caf%C3%A9%20do%20fim%20de%20semana." target="_blank" style="font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-primary);">Reservar ↗</a></td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Grade Editorial de Reservas (100% Responsiva sem Tabelas Quebradas) -->
+        <div class="reservation-options-list">
+          <div class="reservation-card-editorial">
+            <div class="res-card-head">
+              <span class="res-card-badge">FORNADAS DA SEMANA</span>
+              <span class="res-card-schedule">Qua a Dom • 07h30 às 19h30</span>
+            </div>
+            <h4 class="res-card-name">Pães de Fermentação Natural (36h)</h4>
+            <p class="res-card-text">
+              Sourdough Tradicional Demeter, 100% Centeio Roggenbrot, Pão Alemão, Baguetes Francesas e Ciabattas de Oliva.
+            </p>
+          </div>
+
+          <div class="reservation-card-editorial">
+            <div class="res-card-head">
+              <span class="res-card-badge">CONFEITARIA IMPERIAL</span>
+              <span class="res-card-schedule">Fim de Semana & Encomendas</span>
+            </div>
+            <h4 class="res-card-name">Sachertorte Vienense de 1832</h4>
+            <p class="res-card-text">
+              Torta inteira (1,6kg) com cacau puro 70%, compota artesanal de damasco fresco e ganache espelhada.
+            </p>
+          </div>
+
+          <div class="reservation-card-editorial">
+            <div class="res-card-head">
+              <span class="res-card-badge">CESTAS ESPECIAIS</span>
+              <span class="res-card-schedule">Sob Consulta Antecipada</span>
+            </div>
+            <h4 class="res-card-name">Café da Manhã & Ocasiões Especiais</h4>
+            <p class="res-card-text">
+              Cestas sob medida com pães vivos recém-saídos do forno, cinnamon rolls, geleias artesanais e café biodinâmico.
+            </p>
+          </div>
+        </div>
 
         <!-- Direct Dialogue with Baker -->
         <div class="order-box">
@@ -2190,28 +2278,37 @@
             Falar com Engelke & Gustavo
           </h3>
           <p style="font-size:0.88rem; color:var(--ink-secondary); margin-bottom:1.5rem;">
-            Selecione o item abaixo para abrir a conversa no WhatsApp já com seu pedido formulado:
+            Selecione o item abaixo para abrir a conversa no WhatsApp já com sua mensagem formulada:
           </p>
 
-          <div class="preset-chip active" data-msg="Olá Engelke e Gustavo! Gostaria de encomendar 1 Sachertorte inteira para o fim de semana.">
+          <div class="preset-chip active" data-msg="Olá Engelke e Gustavo! Gostaria de reservar pães da fornada de fermentação natural.">
+            <span>🥖 Reserva de Pães da Fornada</span>
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">Demeter</span>
+          </div>
+          <div class="preset-chip" data-msg="Olá Engelke e Gustavo! Gostaria de encomendar 1 Sachertorte inteira para o fim de semana.">
             <span>🎂 1 Sachertorte Inteira (1,6kg)</span>
             <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">R$ 145</span>
-          </div>
-          <div class="preset-chip" data-msg="Olá! Gostaria de reservar 2 Pães de Fermentação Natural Demeter da fornada de hoje.">
-            <span>🥖 2 Pães Fermentação Natural Demeter</span>
-            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">R$ 52</span>
           </div>
           <div class="preset-chip" data-msg="Olá! Gostaria de encomendar 1 Cesta de Café da Manhã especial para presente.">
             <span>🧺 1 Cesta Especial de Café da Manhã</span>
             <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">R$ 185</span>
           </div>
+          <div class="preset-chip" data-msg="Olá Engelke e Gustavo! Gostaria de consultar a disponibilidade para reserva de hoje.">
+            <span>💬 Dúvidas & Pedido Personalizado</span>
+            <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">WhatsApp</span>
+          </div>
 
           <a id="order-link-dynamic" 
-             href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke%20e%20Gustavo!%20Gostaria%20de%20encomendar%201%20Sachertorte%20inteira%20para%20o%20fim%20de%20semana." 
-             target="_blank" rel="noopener noreferrer" class="btn-primary-dark" style="margin-top:1.25rem; width:100%; justify-content:center; padding:0.9rem;">
+             href="https://api.whatsapp.com/send?phone=5548998301122&text=Ol%C3%A1%20Engelke%20e%20Gustavo!%20Gostaria%20de%20reservar%20p%C3%A3es%20da%20fornada%20de%20fermenta%C3%A7%C3%A3o%20natural." 
+             target="_blank" rel="noopener noreferrer" class="btn-primary-dark" style="margin-top:1.25rem; width:100%; justify-content:center; padding:0.95rem; font-size:0.85rem;">
             <span>Falar no WhatsApp (48) 99830-1122</span>
             <i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i>
           </a>
+
+          <div style="margin-top:1.25rem; padding-top:1rem; border-top:1px dashed var(--border-hairline); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; font-size:0.75rem; color:var(--ink-tertiary);">
+            <span>📍 Retirada no Rio Tavares Central</span>
+            <span>⏱️ 07h30 às 19h30</span>
+          </div>
         </div>
       </div>
     </section>
@@ -2526,9 +2623,9 @@
         tilt: 1.2,
       },
       {
-        tag: "Cap. 05 • O Forno",
-        title: "O Forno de Lastro & As Fornadas",
-        sub: "Produção artesanal diária • 07h30 às 19h30",
+        tag: "Cap. 05 • Reservas",
+        title: "O Ateliê & Reservas",
+        sub: "Produção artesanal sob encomenda • Rio Tavares",
         tilt: -0.4,
       }
     ];
@@ -2607,7 +2704,7 @@
         else if (scrollProgress < 0.44) hudLabel.innerText = "Cap. 02 / A Terra Demeter";
         else if (scrollProgress < 0.68) hudLabel.innerText = "Cap. 03 / O Tempo & Ofício";
         else if (scrollProgress < 0.88) hudLabel.innerText = "Cap. 04 / Sachertorte 1832";
-        else hudLabel.innerText = "Cap. 05 / O Sinete Final";
+        else hudLabel.innerText = "Cap. 05 / Reservas";
       }
 
       // Detectar capítulo ativo para a Polaróide dinâmica
@@ -3083,17 +3180,16 @@
       // Micro levitação do astrolábio (mantendo o palco superior áureo no mobile)
       astrolabeGroup.position.y = (isMob ? 1.80 : 0) + Math.sin(time * 1.5) * 0.04;
 
-      // Atenuação dinâmica de opacidade no mobile para leitura cristalina
+      // Atenuação e desativação no mobile (zero astrolábio de fundo no mobile)
       if (isMob) {
-        // No topo absoluto (hero), presença escultural nítida (0.85).
-        // Assim que começa a rolar para baixo (0 a 160px), o texto sobe sobre o astrolábio;
-        // atenua suavemente para 0.18 (marca d'água etérea), garantindo legibilidade e contraste impecáveis.
-        const scrollFade = Math.min(1.0, Math.max(0.0, currentScroll / 160));
-        const targetCanvasOpacity = 0.85 - (scrollFade * 0.67); // 0.85 -> 0.18
-        const currentCanvasOpacity = parseFloat(canvas.style.opacity) || 0.85;
-        canvas.style.opacity = THREE.MathUtils.lerp(currentCanvasOpacity, targetCanvasOpacity, 0.15).toFixed(3);
+        if (canvas.style.display !== 'none') canvas.style.display = 'none';
+        requestAnimationFrame(animate);
+        return; // não gasta CPU nem sobrepõe o texto no mobile
       } else {
-        if (canvas.style.opacity !== '1') canvas.style.opacity = '1';
+        if (!document.body.classList.contains('view-polaroid')) {
+          if (canvas.style.display !== 'block') canvas.style.display = 'block';
+          if (canvas.style.opacity !== '1') canvas.style.opacity = '1';
+        }
       }
 
       // Partículas de farinha orgânica flutuando
@@ -3264,6 +3360,44 @@
             })
             .catch(err => console.log('Modo offline de fornadas ativo:', err));
         }
+      }
+    })();
+
+    // =========================================================================
+    // ASTROLÁBIO MINIATURA ROTATIVO NO CANTO SUPERIOR DIREITO
+    // (Gira continuamente enquanto o site baixa/carrega, e desaparece com fade suave)
+    // =========================================================================
+    (function() {
+      const miniCorner = document.getElementById('mini-astrolabe-corner');
+      if (!miniCorner) return;
+
+      let hasFinished = false;
+      const startTime = Date.now();
+      const minDisplayMs = 1400; // Tempo de giro mínimo para visualização elegante
+
+      function finishLoading() {
+        if (hasFinished) return;
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, minDisplayMs - elapsed);
+
+        setTimeout(() => {
+          hasFinished = true;
+          miniCorner.classList.add('loaded');
+        }, remaining);
+      }
+
+      // Interatividade: ao clicar/tocar no astrolábio, ele faz um giro elegante
+      miniCorner.addEventListener('click', () => {
+        miniCorner.classList.remove('loaded');
+        setTimeout(() => miniCorner.classList.add('loaded'), 1800);
+      });
+
+      if (document.readyState === 'complete') {
+        finishLoading();
+      } else {
+        window.addEventListener('load', finishLoading);
+        // Fallback garantido após 3.5s caso recursos externos demorem
+        setTimeout(finishLoading, 3500);
       }
     })();
 
